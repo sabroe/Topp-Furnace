@@ -1,2 +1,2 @@
 # Topp Execution
-Java library addressing selected aspects of concurrency, nonblocking I/O, asynchronous operation, reactive programming and virtual threads.
+Java library addressing selected aspects of concurrency, asynchronous operation, reactive programming, virtual threads and nonblocking I/O.
