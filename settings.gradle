@@ -1,0 +1,4 @@
+rootProject.name = 'Yelstream Topp Execution Project'
+
+include 'Topp-Execution-Core-Library'
+include 'Topp-Execution-Furnace-Library'
