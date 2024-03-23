@@ -7,8 +7,8 @@ plugins {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
     implementation 'org.slf4j:slf4j-api:2.0.11'
     implementation 'org.slf4j:slf4j-ext:2.0.11'

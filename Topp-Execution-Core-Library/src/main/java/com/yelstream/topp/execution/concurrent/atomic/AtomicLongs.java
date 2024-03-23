@@ -1,26 +1,26 @@
-package com.yelstream.topp.execution.util.concurrent.atomic;
+package com.yelstream.topp.execution.concurrent.atomic;
 
 import lombok.experimental.UtilityClass;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Utility addressing instances of {@link AtomicInteger}.
+ * Utility addressing instances of {@link AtomicLong}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-02-04
  */
 @UtilityClass
-public class AtomicIntegers {
+public class AtomicLongs {
     /**
      * Updates a holder of a minimum value.
      * @param minValue Holder of minimum value.
      * @param currentValue Current value.
      * @return Resulting minimum value.
      */
-    public static int updateMin(AtomicInteger minValue,
-                                int currentValue) {
+    public static long updateMin(AtomicLong minValue,
+                                 long currentValue) {
         return minValue.updateAndGet(currentMin->Math.min(currentMin,currentValue));
     }
 
@@ -30,8 +30,8 @@ public class AtomicIntegers {
      * @param currentValue Current value.
      * @return Resulting minimum value.
      */
-    public static int updateMin(AtomicInteger minValue,
-                                AtomicInteger currentValue) {
+    public static long updateMin(AtomicLong minValue,
+                                 AtomicLong currentValue) {
         return updateMin(minValue,currentValue.get());
     }
 
@@ -41,8 +41,8 @@ public class AtomicIntegers {
      * @param currentValue Current value.
      * @return Resulting maximum value.
      */
-    public static int updateMax(AtomicInteger maxValue,
-                                int currentValue) {
+    public static long updateMax(AtomicLong maxValue,
+                                 long currentValue) {
         return maxValue.updateAndGet(currentMax->Math.max(currentMax,currentValue));
     }
 
@@ -52,8 +52,8 @@ public class AtomicIntegers {
      * @param currentValue Current value.
      * @return Resulting maximum value.
      */
-    public static int updateMax(AtomicInteger maxValue,
-                                AtomicInteger currentValue) {
+    public static long updateMax(AtomicLong maxValue,
+                                 AtomicLong currentValue) {
         return updateMax(maxValue,currentValue.get());
     }
 }

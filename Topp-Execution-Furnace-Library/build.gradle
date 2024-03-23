@@ -7,8 +7,8 @@ plugins {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
     implementation 'org.slf4j:slf4j-api:2.0.11'
     implementation 'org.slf4j:slf4j-ext:2.0.11'
@@ -16,12 +16,8 @@ dependencies {
     implementation 'io.smallrye.reactive:mutiny:2.5.8'
 
     implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1'
-//    implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
-
-//    implementation 'io.smallrye:jandex:3.1.6'
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.11'
 
-//    testImplementation 'org.jboss.weld.se:weld-se-core:5.1.2.Final'
     testImplementation 'org.jboss.weld.se:weld-se-core:6.0.0.Alpha1'
 }
