@@ -1,5 +1,5 @@
 /**
- * Topp Execution core module.
+ * Topp Execution core addressing basics related to threads, concurrency, basic asynchronous computation.
  */
 module com.yelstream.topp.execution.core {
     requires static lombok;

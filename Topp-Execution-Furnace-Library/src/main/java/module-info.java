@@ -1,6 +1,5 @@
 /**
- * Topp Execution furnace module.
- * This is specific for reactive programming.
+ * Topp Execution Furnace addressing interaction with traditional Reactive Programming frameworks.
  */
 module com.yelstream.topp.execution.furnace {
     requires static lombok;

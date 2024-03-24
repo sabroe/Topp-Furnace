@@ -22,6 +22,6 @@ dependencies {
 
 //    testImplementation 'org.slf4j:slf4j-simple:2.0.11'
 
-//    testImplementation 'org.jboss.weld.se:weld-se-core:5.1.2.Final'
-//    testImplementation 'org.jboss.weld.se:weld-se-core:6.0.0.Alpha1'
+    testImplementation 'org.jboss.weld.se:weld-se-core:5.1.2.Final'
+    testImplementation 'org.jboss.weld.se:weld-se-core:6.0.0.Alpha1'
 }

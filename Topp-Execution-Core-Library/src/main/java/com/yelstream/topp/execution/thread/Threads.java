@@ -1,9 +1,6 @@
 package com.yelstream.topp.execution.thread;
 
-import com.yelstream.topp.execution.thread.operation.SleepOperation;
 import lombok.experimental.UtilityClass;
-
-import java.time.Duration;
 
 /**
  * Addresses instances of {@link Thread}.
@@ -24,7 +21,7 @@ public class Threads {
      */
     public static boolean isInState(Thread thread,
                                     Thread.State state) {
-        return thread.getState()==Thread.State.TERMINATED;
+        return thread.getState()==state;
     }
 
     /**
