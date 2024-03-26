@@ -1,5 +1,5 @@
-# <span style="font-size:larger;">Topp Execution</span> <span style="font-size:smaller;">// Yelstream v/Morten Sabroe Mortensen</span>
-Java libraries addressing selected aspects of concurrency, asynchronous operation, reactive programming, virtual threads and nonblocking I/O.
+# Topp Execution // Yelstream v/Morten Sabroe Mortensen
+Selected aspects of concurrency, asynchronous operation, reactive programming, virtual threads and nonblocking I/O.
 
 ## Introduction
 
