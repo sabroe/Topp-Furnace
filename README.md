@@ -1,4 +1,4 @@
-# Topp Execution // Yelstream v/Morten Sabroe Mortensen
+# <span style="font-size:larger;">Topp Execution</span> <span style="font-size:smaller;">// Yelstream v/Morten Sabroe Mortensen</span>
 Java libraries addressing selected aspects of concurrency, asynchronous operation, reactive programming, virtual threads and nonblocking I/O.
 
 ## Introduction
@@ -6,10 +6,13 @@ Java libraries addressing selected aspects of concurrency, asynchronous operatio
 I do software development for a living.
 My interests include all things Java related
 as well as all skills needed to produce great software.
+
 Maintainable software implies that loose coupling and high cohesion is of interest leading to 
 the collection of useful utilities to examine if coherent libraries can be manifested.
 
-The scope of the functionalities here address Java SE 21:
+### Scope
+
+The functionalities address Java SE 21:
 
 * Concurrency
 * Asynchronous operation
