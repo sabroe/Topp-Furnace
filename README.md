@@ -30,6 +30,7 @@ TODO:
 * JavaDoc
 * Test
 * Code coverage
+* Gradle
 * Artifacts on Maven Central 
 
 ## Releases
