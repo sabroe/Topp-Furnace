@@ -9,4 +9,5 @@ module com.yelstream.topp.execution.core {
     exports com.yelstream.topp.execution.thread;
     exports com.yelstream.topp.execution.thread.operation;
     exports com.yelstream.topp.execution.thread.holder;
+    exports com.yelstream.topp.execution.concurrent.tool;
 }
