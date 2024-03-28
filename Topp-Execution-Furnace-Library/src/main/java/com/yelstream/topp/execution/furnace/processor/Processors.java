@@ -7,26 +7,47 @@ import lombok.experimental.UtilityClass;
 
 import java.util.concurrent.Flow;
 
+/**
+ * Utilities addressing instances of {@link Flow.Processor}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-03-13
+ */
 @UtilityClass
 public class Processors {
 
-    public static <R,T,P extends Flow.Publisher<R>,S extends Flow.Subscriber<T>,H> TypedProcessor<R,T,P,S,H> createProcessor(H tie,
-                                                                                                                             P publisher,
-                                                                                                                             S subscriber) {
-        return TypedProcessor.of(tie,publisher,subscriber);
+
+    public static <T,R> Flow.Processor<T,R> createProcessor(Flow.Subscriber<T> subscriber,
+                                                            Flow.Publisher<R> publisher) {
+        return SealedProcessor.of(subscriber,publisher);
     }
 
-    public static <R,P extends Flow.Publisher<R>> TypedProcessor<R,R,P,BroadcastProcessor<R>,Multi<R>> createProcessor(P publisher) {
-        BroadcastProcessor<R> processor=BroadcastProcessor.create();
+    public static <C,T,R,S extends Flow.Subscriber<T>,P extends Flow.Publisher<R>> TypedProcessor<C,T,R,S,P> createTypedProcessor(C context,
+                                                                                                                                  S subscriber,
+                                                                                                                                  P publisher) {
+        return TypedProcessor.of(context,subscriber,publisher);
+    }
+
+    public static <C extends AutoCloseable,T,R,S extends Flow.Subscriber<T>,P extends Flow.Publisher<R>> TypedProcessor<C,T,R,S,P> createProcessor(C context,
+                                                                                                                                                   S subscriber,
+                                                                                                                                                   P publisher) {
+        TypedProcessor.Builder<C,T,R,S,P> builder=TypedProcessor.builder();
+        builder.context(context).close(context).subscriber(subscriber).publisher(publisher);
+        return builder.build();
+    }
+
+    public static <R,P extends Flow.Publisher<R>> TypedProcessor<Multi<R>,R,R,BroadcastProcessor<R>,P> createProcessor(P publisher) {
+        BroadcastProcessor<R> subscriber=BroadcastProcessor.create();
         Multi<R> multi=Multi
             .createFrom().publisher(publisher)
-            .subscribe().withSubscriber(processor)
+            .subscribe().withSubscriber(subscriber)
             .toHotStream();
-        return TypedProcessor.of(multi,publisher,processor);
+        return TypedProcessor.of(multi,subscriber,publisher);
     }
 
 
-    public static <R> TypedProcessor<R,R,Flow.Publisher<R>,UnicastProcessor<R>,Multi<R>> createProcessor() {
+    public static <R> TypedProcessor<Multi<R>,R,R,UnicastProcessor<R>,Flow.Publisher<R>> createProcessor() {
         UnicastProcessor<R> processor=UnicastProcessor.create();
         BroadcastProcessor<R> broadcastProcessor=BroadcastProcessor.create();
         Multi<R> multi=processor
@@ -34,7 +55,7 @@ public class Processors {
 //            .toHotStream()
             .subscribe().withSubscriber(broadcastProcessor)
 ;//            .toHotStream();
-        return TypedProcessor.of(multi,broadcastProcessor,processor);
+        return TypedProcessor.of(multi,processor,broadcastProcessor);
     }
 
 /*
