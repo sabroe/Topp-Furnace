@@ -3,6 +3,7 @@
  */
 module com.yelstream.topp.execution.injection {
     requires static lombok;
+    requires java.base;
     requires org.slf4j;
     requires jakarta.cdi;
     requires com.yelstream.topp.execution.core;

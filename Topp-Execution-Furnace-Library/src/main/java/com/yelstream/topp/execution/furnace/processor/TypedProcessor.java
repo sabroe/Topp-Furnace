@@ -1,6 +1,6 @@
 package com.yelstream.topp.execution.furnace.processor;
 
-import com.yelstream.topp.execution.lang.Runnables;
+import com.yelstream.topp.standard.lang.Runnables;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.concurrent.Flow;
 
 /**
- * Reactive processor composed of a preconfigured subscriber and publisher and open of for introspection.
+ * Reactive processor composed of a preconfigured subscriber and publisher and open for introspection.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -29,6 +29,8 @@ public class TypedProcessor<C,T,R,S extends Flow.Subscriber<T>,P extends Flow.Pu
 
     @Getter  //Open for introspection
     private final P publisher;
+
+    private volatile boolean closed;
 
     @Override
     public void subscribe(Flow.Subscriber<? super R> subscriber) {
@@ -55,13 +57,18 @@ public class TypedProcessor<C,T,R,S extends Flow.Subscriber<T>,P extends Flow.Pu
         subscriber.onComplete();
     }
 
+    @SuppressWarnings({"java:S2583","ConstantValue"})
     @Override
     public void close() {
-        if (close!=null) {
-            close.run();
+        if (!closed) {
+            if (close!=null) {
+                close.run();
+            }
+            closed=true;
         }
     }
 
+    @SuppressWarnings({"java:S1068","UnusedDeclaration"})
     public static class Builder<C,T,R,S extends Flow.Subscriber<T>,P extends Flow.Publisher<R>> {
         private Runnable close=null;
 

@@ -1,4 +1,4 @@
-package com.yelstream.topp.execution.concurrent.tool;
+package com.yelstream.topp.execution.tool;
 
 import com.yelstream.topp.execution.concurrent.atomic.AtomicIntegers;
 import lombok.Getter;

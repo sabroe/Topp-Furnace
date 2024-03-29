@@ -1,6 +1,6 @@
 package com.yelstream.topp.execution.inject.util;
 
-import com.yelstream.topp.execution.concurrent.tool.InvocationCountTracker;
+import com.yelstream.topp.execution.tool.InvocationCountTracker;
 import com.yelstream.topp.execution.inject.se.SeContainers;
 import com.yelstream.topp.execution.inject.spi.CDIs;
 import com.yelstream.topp.execution.inject.util.sniper.ConcurrencySniperInterceptor;
