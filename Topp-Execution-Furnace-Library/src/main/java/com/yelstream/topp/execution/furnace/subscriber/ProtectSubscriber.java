@@ -20,7 +20,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @param <S> Type of subscriber.
  */
 @Slf4j
-@lombok.Builder(builderClassName="Builder")
 @RequiredArgsConstructor(staticName="of")
 public class ProtectSubscriber<T,S extends Flow.Subscriber<T>> implements Flow.Subscriber<T> {
 
@@ -29,7 +28,6 @@ public class ProtectSubscriber<T,S extends Flow.Subscriber<T>> implements Flow.S
     private final S subscriber;
 
     private ProtectSubscription<Flow.Subscription> subscription;
-
 
     @SuppressWarnings("java:S1066")
     @Override

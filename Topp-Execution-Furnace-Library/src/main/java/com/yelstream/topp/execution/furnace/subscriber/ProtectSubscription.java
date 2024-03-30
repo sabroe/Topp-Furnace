@@ -22,10 +22,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 @RequiredArgsConstructor(staticName="of")
 public class ProtectSubscription<P extends Flow.Subscription> implements Flow.Subscription {
+    private final AtomicBoolean active=new AtomicBoolean(true);
+
     @Getter
     private final P subscription;
-
-    private final AtomicBoolean active=new AtomicBoolean(true);
 
     @Override
     public void request(long n) {

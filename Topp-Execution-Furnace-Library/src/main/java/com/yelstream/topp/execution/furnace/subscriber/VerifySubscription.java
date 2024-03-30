@@ -1,8 +1,8 @@
 package com.yelstream.topp.execution.furnace.subscriber;
 
-import lombok.Builder;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Flow;
@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Slf4j
 @lombok.Builder(builderClassName="Builder")
-@RequiredArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of",access=AccessLevel.PRIVATE)
 public class VerifySubscription<P extends Flow.Subscription> implements Flow.Subscription {
 
     private final AtomicBoolean active=new AtomicBoolean(true);
@@ -35,11 +35,13 @@ public class VerifySubscription<P extends Flow.Subscription> implements Flow.Sub
 
     private final AtomicLong remainingInvocationCount=new AtomicLong();
 
-    @lombok.Builder.Default
-    private final Runnable requestActiveViolationAction=()->{ throw new IllegalStateException("Failure to request; subscription has been cancelled!"); };
+    private final Runnable requestActiveViolationAction;
 
-    @lombok.Builder.Default
-    private final Runnable cancelActiveViolationAction=()->{ throw new IllegalStateException("Failure to cancel; subscription has been cancelled!"); };
+    private final Runnable cancelActiveViolationAction;
+
+    public static final Runnable REQUEST_ACTIVE_VIOLATION_ACTION=()->{ throw new IllegalStateException("Failure to request; subscription has been cancelled!"); };
+
+    public static final Runnable CANCEL_ACTIVE_VIOLATION_ACTION=()->{ throw new IllegalStateException("Failure to cancel; subscription has been cancelled!"); };
 
     public boolean isActive() {
         return active.get();
@@ -75,5 +77,24 @@ public class VerifySubscription<P extends Flow.Subscription> implements Flow.Sub
         } else {
             subscription.cancel();
         }
+    }
+
+    public static void run(Runnable runnable) {  //TODO: Use version in Standard Runnables!
+        if (runnable!=null) {
+            runnable.run();
+        }
+    }
+
+    @SuppressWarnings({"unused","FieldMayBeFinal"})
+    public static class Builder<P extends Flow.Subscription> {
+        private Runnable requestActiveViolationAction=REQUEST_ACTIVE_VIOLATION_ACTION;
+
+        private Runnable cancelActiveViolationAction=CANCEL_ACTIVE_VIOLATION_ACTION;
+    }
+
+    public static <P extends Flow.Subscription> VerifySubscription<P> of(P subscription) {
+        Builder<P> builder=builder();
+        builder.subscription(subscription);
+        return builder.build();
     }
 }

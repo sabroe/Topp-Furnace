@@ -22,10 +22,10 @@ public class SimpleProcessor<T,R> implements Flow.Subscriber<T>, Flow.Publisher<
     @Override
     public void onNext(T item) {
         // Perform computation on the item, for example, multiply it by 2
-        int result = item * 2;
+//        int result = item * 2;
 
         // Pass the computed result downstream
-        subscriber.onNext(result);
+//        subscriber.onNext(result);
 
         // Request the next element
         subscription.request(1);

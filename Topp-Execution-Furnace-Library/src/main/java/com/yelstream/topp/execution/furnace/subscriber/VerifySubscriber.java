@@ -1,11 +1,11 @@
 package com.yelstream.topp.execution.furnace.subscriber;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Flow;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BiConsumer;
 
 /**
  * Actively verifying subscriber.
@@ -22,7 +22,7 @@ import java.util.function.BiConsumer;
  */
 @Slf4j
 @lombok.Builder(builderClassName="Builder")
-@RequiredArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of",access= AccessLevel.PRIVATE)
 public class VerifySubscriber<T,S extends Flow.Subscriber<T>> implements Flow.Subscriber<T> {
 
     private final AtomicBoolean active=new AtomicBoolean(true);
@@ -31,33 +31,37 @@ public class VerifySubscriber<T,S extends Flow.Subscriber<T>> implements Flow.Su
 
     private VerifySubscription<Flow.Subscription> subscription;
 
-    @lombok.Builder.Default
-    private final Runnable subscribeActiveViolationAction=()->{ throw new IllegalStateException("Failure to subscribe; subscriber has been completed!"); };
+    private final Runnable subscribeActiveViolationAction;
 
-    @lombok.Builder.Default
-    private final Runnable resubscribeViolationAction=()->{ throw new IllegalStateException("Failure to resubscribe; subscription is already set!"); };
+    private final Runnable resubscribeViolationAction;
 
-    @lombok.Builder.Default
-    private final Runnable nextActiveViolationAction=()->{ throw new IllegalStateException("Failure to process next item; subscriber has been completed!"); };
+    private final Runnable nextActiveViolationAction;
 
-    @lombok.Builder.Default
-    private final Runnable errorActiveViolationAction=()->{ throw new IllegalStateException("Failure to register error; subscriber has been completed!"); };
+    private final Runnable errorActiveViolationAction;
 
-    @lombok.Builder.Default
-    private final Runnable completeActiveViolationAction=()->{ throw new IllegalStateException("Failure to complete; subscriber has been completed!"); };
+    private final Runnable completeActiveViolationAction;
 
-    @lombok.Builder.Default
-    @SuppressWarnings("java:S1117")
-    private final BiConsumer<VerifySubscription<Flow.Subscription>,T> invalidInvocationCountAction=
-        (subscription,item)->{ throw new IllegalStateException("Failure to process next item; item not requested!"); };
+    private final Runnable invalidInvocationCountAction;
+
+    public static final Runnable SUBSCRIBE_ACTIVE_VIOLATION_ACTION=()->{ throw new IllegalStateException("Failure to subscribe; subscriber has been completed!"); };
+
+    public static final Runnable RESUBSCRIBE_VIOLATION_ACTION=()->{ throw new IllegalStateException("Failure to resubscribe; subscription is already set!"); };
+
+    public static final Runnable NEXT_ACTIVE_VIOLATION_ACTION=()->{ throw new IllegalStateException("Failure to process next item; subscriber has been completed!"); };
+
+    public static final Runnable ERROR_ACTIVE_VIOLATION_ACTION=()->{ throw new IllegalStateException("Failure to register error; subscriber has been completed!"); };
+
+    public static final Runnable COMPLETE_ACTIVE_VIOLATION_ACTION=()->{ throw new IllegalStateException("Failure to complete; subscriber has been completed!"); };
+
+    public static final Runnable INVALID_INVOCATION_COUNT_ACTION=()->{ throw new IllegalStateException("Failure to process next item; item not requested!"); };
 
     @Override
     public void onSubscribe(Flow.Subscription subscription) {
         if (!active.get()) {
-            subscribeActiveViolationAction.run();
+            run(subscribeActiveViolationAction);
         } else {
             if (this.subscription!=null) {
-                resubscribeViolationAction.run();
+                run(resubscribeViolationAction);
             } else {
                 this.subscription=VerifySubscription.of(subscription);
                 subscriber.onSubscribe(subscription);
@@ -68,10 +72,10 @@ public class VerifySubscriber<T,S extends Flow.Subscriber<T>> implements Flow.Su
     @Override
     public void onNext(T item) {
         if (!active.get()) {
-            nextActiveViolationAction.run();
+            run(nextActiveViolationAction);
         } else {
             if (!subscription.registerInvocation()) {
-                invalidInvocationCountAction.accept(subscription,item);
+                run(invalidInvocationCountAction);
             }
             subscriber.onNext(item);
         }
@@ -80,7 +84,7 @@ public class VerifySubscriber<T,S extends Flow.Subscriber<T>> implements Flow.Su
     @Override
     public void onError(Throwable throwable) {
         if (!active.compareAndSet(true,false)) {
-            errorActiveViolationAction.run();
+            run(errorActiveViolationAction);
         } else {
             subscriber.onError(throwable);
         }
@@ -89,9 +93,36 @@ public class VerifySubscriber<T,S extends Flow.Subscriber<T>> implements Flow.Su
     @Override
     public void onComplete() {
         if (!active.compareAndSet(true,false)) {
-            completeActiveViolationAction.run();
+            run(completeActiveViolationAction);
         } else {
             subscriber.onComplete();
         }
+    }
+
+    public static void run(Runnable runnable) {  //TODO: Use version in Standard Runnables!
+        if (runnable!=null) {
+            runnable.run();
+        }
+    }
+
+    @SuppressWarnings({"unused","FieldMayBeFinal"})
+    public static class Builder<T,S extends Flow.Subscriber<T>> {
+        private Runnable subscribeActiveViolationAction=SUBSCRIBE_ACTIVE_VIOLATION_ACTION;
+
+        private Runnable resubscribeViolationAction=RESUBSCRIBE_VIOLATION_ACTION;
+
+        private Runnable nextActiveViolationAction=NEXT_ACTIVE_VIOLATION_ACTION;
+
+        private Runnable errorActiveViolationAction=ERROR_ACTIVE_VIOLATION_ACTION;
+
+        private Runnable completeActiveViolationAction=COMPLETE_ACTIVE_VIOLATION_ACTION;
+
+        private Runnable invalidInvocationCountAction=INVALID_INVOCATION_COUNT_ACTION;
+    }
+
+    public static <T,S extends Flow.Subscriber<T>> VerifySubscriber<T,S> of(S subscriber) {
+        VerifySubscriber.Builder<T,S> builder=builder();
+        builder.subscriber(subscriber);
+        return builder.build();
     }
 }
