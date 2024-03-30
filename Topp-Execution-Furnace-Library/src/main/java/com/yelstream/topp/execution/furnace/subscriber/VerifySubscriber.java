@@ -1,5 +1,6 @@
 package com.yelstream.topp.execution.furnace.subscriber;
 
+import com.yelstream.topp.standard.lang.Runnables;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,10 +59,10 @@ public class VerifySubscriber<T,S extends Flow.Subscriber<T>> implements Flow.Su
     @Override
     public void onSubscribe(Flow.Subscription subscription) {
         if (!active.get()) {
-            run(subscribeActiveViolationAction);
+            Runnables.run(subscribeActiveViolationAction);
         } else {
             if (this.subscription!=null) {
-                run(resubscribeViolationAction);
+                Runnables.run(resubscribeViolationAction);
             } else {
                 this.subscription=VerifySubscription.of(subscription);
                 subscriber.onSubscribe(subscription);
@@ -72,10 +73,10 @@ public class VerifySubscriber<T,S extends Flow.Subscriber<T>> implements Flow.Su
     @Override
     public void onNext(T item) {
         if (!active.get()) {
-            run(nextActiveViolationAction);
+            Runnables.run(nextActiveViolationAction);
         } else {
             if (!subscription.registerInvocation()) {
-                run(invalidInvocationCountAction);
+                Runnables.run(invalidInvocationCountAction);
             }
             subscriber.onNext(item);
         }
@@ -84,7 +85,7 @@ public class VerifySubscriber<T,S extends Flow.Subscriber<T>> implements Flow.Su
     @Override
     public void onError(Throwable throwable) {
         if (!active.compareAndSet(true,false)) {
-            run(errorActiveViolationAction);
+            Runnables.run(errorActiveViolationAction);
         } else {
             subscriber.onError(throwable);
         }
@@ -93,15 +94,9 @@ public class VerifySubscriber<T,S extends Flow.Subscriber<T>> implements Flow.Su
     @Override
     public void onComplete() {
         if (!active.compareAndSet(true,false)) {
-            run(completeActiveViolationAction);
+            Runnables.run(completeActiveViolationAction);
         } else {
             subscriber.onComplete();
-        }
-    }
-
-    public static void run(Runnable runnable) {  //TODO: Use version in Standard Runnables!
-        if (runnable!=null) {
-            runnable.run();
         }
     }
 

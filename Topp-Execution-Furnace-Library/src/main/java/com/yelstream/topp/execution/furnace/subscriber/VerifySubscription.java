@@ -1,5 +1,6 @@
 package com.yelstream.topp.execution.furnace.subscriber;
 
+import com.yelstream.topp.standard.lang.Runnables;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -62,7 +63,7 @@ public class VerifySubscription<P extends Flow.Subscription> implements Flow.Sub
     @Override
     public void request(long n) {
         if (!active.get()) {
-            requestActiveViolationAction.run();
+            Runnables.run(requestActiveViolationAction);
         } else {
             accumulatedRequestCount.addAndGet(n);
             remainingInvocationCount.addAndGet(n);
@@ -73,15 +74,9 @@ public class VerifySubscription<P extends Flow.Subscription> implements Flow.Sub
     @Override
     public void cancel() {
         if (!active.compareAndSet(true,false)) {
-            cancelActiveViolationAction.run();
+            Runnables.run(cancelActiveViolationAction);
         } else {
             subscription.cancel();
-        }
-    }
-
-    public static void run(Runnable runnable) {  //TODO: Use version in Standard Runnables!
-        if (runnable!=null) {
-            runnable.run();
         }
     }
 
