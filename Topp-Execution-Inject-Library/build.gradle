@@ -10,15 +10,11 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
-    implementation 'org.slf4j:slf4j-api:2.0.11'
-    implementation 'org.slf4j:slf4j-ext:2.0.11'
-
     api project(':Topp-Execution-Core-Library')
 
-//    implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1'
     implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.1.0.RC1'
 
-    testImplementation 'org.slf4j:slf4j-simple:2.0.11'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.12'
     testImplementation 'org.jboss.weld.se:weld-se-core:6.0.0.Beta1'  //Feb 26, 2024
 }
 
