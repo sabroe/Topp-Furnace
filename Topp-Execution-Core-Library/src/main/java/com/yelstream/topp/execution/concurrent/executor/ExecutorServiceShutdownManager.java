@@ -1,4 +1,4 @@
-package com.yelstream.topp.execution.concurrent;
+package com.yelstream.topp.execution.concurrent.executor;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Shutdown manager addressing an executor.
+ * Shutdown manager addressing an executor service.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
