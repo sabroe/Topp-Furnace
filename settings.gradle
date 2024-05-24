@@ -1,5 +1,7 @@
-rootProject.name = 'Yelstream Topp Execution Project'
+rootProject.name = 'Yelstream Topp Furnace Project'
 
-include 'Topp-Execution-Core-Library'
-include 'Topp-Execution-Furnace-Library'
-include 'Topp-Execution-Inject-Library'
+include 'Topp-Furnace-Execution-Library'
+include 'Topp-Furnace-Flow-Library'
+include 'Topp-Furnace-Mutiny-Library'
+include 'Topp-Furnace-Vertx-Core-Library'
+include 'Topp-Furnace-Inject-Library'
