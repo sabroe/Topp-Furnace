@@ -27,6 +27,10 @@ import java.util.function.Supplier;
 
 /**
  * Associates the creation of a Verticle together with its deployment-options.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-30
  */
 @AllArgsConstructor
 public class VerticleDeploymentDescriptor {

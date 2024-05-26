@@ -27,6 +27,13 @@ import io.vertx.core.buffer.Buffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Utility addressing {@link Buffer} instances.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-30
+ */
 @UtilityClass
 public class Buffers {
 

@@ -25,6 +25,13 @@ import lombok.Getter;
 
 import java.nio.charset.Charset;
 
+/**
+ * Indexed buffer.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-30
+ */
 @Getter
 @AllArgsConstructor
 public class BufferIndex {

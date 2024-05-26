@@ -24,6 +24,13 @@ import io.vertx.core.eventbus.MessageCodec;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Static proxy for eventbus message codecs.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-30
+ */
 @Slf4j
 @AllArgsConstructor//(staticName="of")
 public class ProxyMessageCodec<S,R> implements MessageCodec<S,R> {

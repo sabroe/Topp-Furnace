@@ -28,6 +28,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Supplier;
 
+/**
+ * Utility addressing instances of {@link Promise}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-30
+ */
 @UtilityClass
 public class Promises {
 

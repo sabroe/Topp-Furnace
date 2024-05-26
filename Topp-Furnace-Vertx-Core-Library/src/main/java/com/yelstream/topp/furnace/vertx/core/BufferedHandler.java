@@ -26,13 +26,29 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.function.ToIntFunction;
 
-
+/**
+ * Buffered handler recognizing message limits.
+ * <p>
+ *     This is not thread-safe, does not need to be thread-safe.
+ * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-30
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class BufferedHandler implements Handler<Buffer> {
-
+    /**
+     * Indicates, if a buffer contains one or more messages.
+     * A positive indication is given by a non-null result indicating the number of bytes within recognized messages.
+     */
     private final ToIntFunction<Buffer> processBuffer;
 
+    /**
+     * Buffer accumulating received data.
+     * This is used for message recognition.
+     */
     private Buffer buffer=Buffer.buffer();
 
     @Override

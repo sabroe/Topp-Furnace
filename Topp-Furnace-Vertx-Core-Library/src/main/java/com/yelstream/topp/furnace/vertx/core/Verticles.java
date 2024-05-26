@@ -19,5 +19,14 @@
 
 package com.yelstream.topp.furnace.vertx.core;
 
+import io.vertx.core.Verticle;
+
+/**
+ * Utility addressing instances of {@link Verticle}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-30
+ */
 public class Verticles {
 }

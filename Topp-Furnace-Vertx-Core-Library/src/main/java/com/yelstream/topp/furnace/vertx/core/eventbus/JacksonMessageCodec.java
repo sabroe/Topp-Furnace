@@ -32,6 +32,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.function.Function;
 
+/**
+ * Eventbus message codec for messages in JSON and implemented with Jackson.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-30
+ */
 @Slf4j
 @AllArgsConstructor(staticName="of",access=AccessLevel.PRIVATE)
 @lombok.Builder(builderClassName="Builder",toBuilder=true)

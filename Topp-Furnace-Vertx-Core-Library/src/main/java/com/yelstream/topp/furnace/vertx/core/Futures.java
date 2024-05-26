@@ -28,6 +28,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Supplier;
 
+/**
+ * Utility addressing instances of Vert.x {@link Future}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-30
+ */
 @UtilityClass
 public class Futures {
     public static <X> List<CompletableFuture<X>> toCompletableFuture(List<Future<X>> futures) {
