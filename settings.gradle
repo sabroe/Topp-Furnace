@@ -19,10 +19,10 @@
 
 rootProject.name = 'Yelstream Topp Furnace Project'
 
-include 'Topp-Furnace-Execution-Library'
-include 'Topp-Furnace-Flow-Library'
-include 'Topp-Furnace-Mutiny-Library'
-include 'Topp-Furnace-Vertx-Core-Library'
-include 'Topp-Furnace-Vertx-Addressing-Library'
-include 'Topp-Furnace-Vertx-Health-Library'
-include 'Topp-Furnace-Inject-Library'
+include 'module:Topp-Furnace-Execution-Library'
+include 'module:Topp-Furnace-Flow-Library'
+include 'module:Topp-Furnace-Mutiny-Library'
+include 'module:Topp-Furnace-Vertx-Core-Library'
+include 'module:Topp-Furnace-Vertx-Addressing-Library'
+include 'module:Topp-Furnace-Vertx-Health-Library'
+include 'module:Topp-Furnace-Inject-Library'
