@@ -17,12 +17,13 @@
  * limitations under the License.
  */
 
-rootProject.name = 'Yelstream Topp Furnace Project'
-
-include 'Topp-Furnace-Execution-Library'
-include 'Topp-Furnace-Flow-Library'
-include 'Topp-Furnace-Mutiny-Library'
-include 'Topp-Furnace-Vertx-Core-Library'
-include 'Topp-Furnace-Vertx-Addressing-Library'
-include 'Topp-Furnace-Vertx-Health-Library'
-include 'Topp-Furnace-Inject-Library'
+/**
+ * Topp Furnace Vert.x Addressing provides higher level addressing schemes.
+ */
+module com.yelstream.topp.furnace.vertx.addressing {
+    requires static lombok;
+    requires java.base;
+    requires org.slf4j;
+    requires io.vertx.core;
+    exports com.yelstream.topp.furnace.vertx.address;
+}
