@@ -95,4 +95,20 @@ public class Futures {
             result.completeExceptionally(ex.getCause());
         }
     }
+
+    public static <T> Future<T> fromCompletionStage(CompletionStage<T> completionStage) {
+        if (completionStage instanceof CompletableFuture) {
+            return (CompletableFuture<T>)completionStage;
+        } else {
+            CompletableFuture<T> completableFuture=new CompletableFuture<>();
+            completionStage.whenComplete((result,error) -> {
+                if (error!=null) {
+                    completableFuture.completeExceptionally(error);
+                } else {
+                    completableFuture.complete(result);
+                }
+            });
+            return completableFuture;
+        }
+    }
 }
