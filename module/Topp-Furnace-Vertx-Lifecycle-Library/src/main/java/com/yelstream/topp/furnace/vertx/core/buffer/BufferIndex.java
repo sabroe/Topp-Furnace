@@ -17,19 +17,27 @@
  * limitations under the License.
  */
 
-rootProject.name = 'Yelstream Topp Furnace Project'
+package com.yelstream.topp.furnace.vertx.core.buffer;
 
-include 'module:Topp-Furnace-Execution-Library'
+import io.vertx.core.buffer.Buffer;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-include 'module:Topp-Furnace-Flow-Library'
+import java.nio.charset.Charset;
 
-include 'module:Topp-Furnace-Mutiny-Library'
+/**
+ * Indexed buffer.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-30
+ */
+@Getter
+@AllArgsConstructor
+public class BufferIndex {
+    private final Buffer buffer;
+    private final Charset charset;
+    private int index;
 
-include 'module:Topp-Furnace-Vertx-Core-Library'
-include 'module:Topp-Furnace-Vertx-Addressing-Library'
-include 'module:Topp-Furnace-Vertx-Lifecycle-Library'
-include 'module:Topp-Furnace-Vertx-Health-Library'
-
-include 'module:Topp-Furnace-Reactive-Unification-Library'
-
-include 'module:Topp-Furnace-Inject-Library'
+    ;
+}

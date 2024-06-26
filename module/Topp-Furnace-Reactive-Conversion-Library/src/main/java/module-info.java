@@ -17,19 +17,13 @@
  * limitations under the License.
  */
 
-rootProject.name = 'Yelstream Topp Furnace Project'
-
-include 'module:Topp-Furnace-Execution-Library'
-
-include 'module:Topp-Furnace-Flow-Library'
-
-include 'module:Topp-Furnace-Mutiny-Library'
-
-include 'module:Topp-Furnace-Vertx-Core-Library'
-include 'module:Topp-Furnace-Vertx-Addressing-Library'
-include 'module:Topp-Furnace-Vertx-Lifecycle-Library'
-include 'module:Topp-Furnace-Vertx-Health-Library'
-
-include 'module:Topp-Furnace-Reactive-Unification-Library'
-
-include 'module:Topp-Furnace-Inject-Library'
+/**
+ * Topp Furnace Reactive Unification provides interactions between selected reactive frameworks.
+ */
+module com.yelstream.topp.furnace.reactive.unification {
+    requires static lombok;
+    requires java.base;
+    requires org.slf4j;
+    requires io.vertx.core;
+    exports com.yelstream.topp.furnace.reactive.uni;
+}

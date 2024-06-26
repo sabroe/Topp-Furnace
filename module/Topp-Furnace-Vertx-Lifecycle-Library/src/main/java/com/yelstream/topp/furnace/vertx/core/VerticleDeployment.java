@@ -17,19 +17,17 @@
  * limitations under the License.
  */
 
-rootProject.name = 'Yelstream Topp Furnace Project'
+package com.yelstream.topp.furnace.vertx.core;
 
-include 'module:Topp-Furnace-Execution-Library'
+import io.vertx.core.Promise;
 
-include 'module:Topp-Furnace-Flow-Library'
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-30
+ */
+public class VerticleDeployment {
 
-include 'module:Topp-Furnace-Mutiny-Library'
-
-include 'module:Topp-Furnace-Vertx-Core-Library'
-include 'module:Topp-Furnace-Vertx-Addressing-Library'
-include 'module:Topp-Furnace-Vertx-Lifecycle-Library'
-include 'module:Topp-Furnace-Vertx-Health-Library'
-
-include 'module:Topp-Furnace-Reactive-Unification-Library'
-
-include 'module:Topp-Furnace-Inject-Library'
+}

@@ -17,19 +17,22 @@
  * limitations under the License.
  */
 
-rootProject.name = 'Yelstream Topp Furnace Project'
-
-include 'module:Topp-Furnace-Execution-Library'
-
-include 'module:Topp-Furnace-Flow-Library'
-
-include 'module:Topp-Furnace-Mutiny-Library'
-
-include 'module:Topp-Furnace-Vertx-Core-Library'
-include 'module:Topp-Furnace-Vertx-Addressing-Library'
-include 'module:Topp-Furnace-Vertx-Lifecycle-Library'
-include 'module:Topp-Furnace-Vertx-Health-Library'
-
-include 'module:Topp-Furnace-Reactive-Unification-Library'
-
-include 'module:Topp-Furnace-Inject-Library'
+/**
+ * Topp Furnace Vert.x Core contains support for interacting with the lifecycle of components.
+ */
+module com.yelstream.topp.furnace.vertx.lifecycle {
+    requires static lombok;
+    requires java.base;
+    requires org.slf4j;
+    requires io.vertx.core;
+    requires com.yelstream.topp.standard.core;
+    requires com.yelstream.topp.furnace.execution;
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
+    requires com.google.common;
+/*
+    exports com.yelstream.topp.furnace.vertx.core;
+    exports com.yelstream.topp.furnace.vertx.core.buffer;
+    exports com.yelstream.topp.furnace.vertx.core.eventbus;
+*/
+}
