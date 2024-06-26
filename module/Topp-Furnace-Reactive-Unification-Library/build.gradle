@@ -17,13 +17,28 @@
  * limitations under the License.
  */
 
-/**
- * Topp Furnace Reactive Unification provides interactions between selected reactive frameworks.
- */
-module com.yelstream.topp.furnace.reactive.unification {
-    requires static lombok;
-    requires java.base;
-    requires org.slf4j;
-    requires io.vertx.core;
-    exports com.yelstream.topp.furnace.reactive.uni;
+plugins {
+    id 'java'
+    id 'java-library-distribution'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    api 'org.slf4j:slf4j-api:2.0.13'
+    api 'org.slf4j:slf4j-ext:2.0.13'
+
+    api project(':module:Topp-Furnace-Execution-Library')
+
+    api 'io.vertx:vertx-core:4.5.8'
+    api 'io.smallrye.reactive:mutiny:2.6.1'
+    api 'io.projectreactor:reactor-core:3.6.7'
+    api 'org.reactivestreams:reactive-streams:1.0.4'
+
+    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+//    testImplementation 'org.springframework:spring-webflux:6.1.10'
 }
