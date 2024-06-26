@@ -25,8 +25,11 @@ module com.yelstream.topp.furnace.reactive.unification {
     requires java.base;
     requires org.slf4j;
     requires io.vertx.core;
+    requires io.vertx.codegen;
     requires reactor.core;
     requires io.smallrye.mutiny;
     requires org.reactivestreams;
+    requires io.reactivex.rxjava3;
+    requires vertx.rx.java3.gen;
     exports com.yelstream.topp.furnace.reactive.uni;
 }

@@ -35,9 +35,13 @@ dependencies {
     api project(':module:Topp-Furnace-Execution-Library')
 
     api 'io.vertx:vertx-core:4.5.8'
+//    api 'io.vertx:vertx-codegen:4.5.8'  //??
+    api 'io.vertx:vertx-rx-java3:4.5.8'
+//    api 'io.vertx:vertx-rx-java3-gen:4.5.8'
     api 'io.smallrye.reactive:mutiny:2.6.1'
     api 'io.projectreactor:reactor-core:3.6.7'
     api 'org.reactivestreams:reactive-streams:1.0.4'
+//    api 'io.reactivex.rxjava3:rxjava:3.1.8'
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.13'
 //    testImplementation 'org.springframework:spring-webflux:6.1.10'
