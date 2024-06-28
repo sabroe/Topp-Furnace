@@ -32,8 +32,6 @@ dependencies {
     api 'org.slf4j:slf4j-api:2.0.13'
     api 'org.slf4j:slf4j-ext:2.0.13'
 
-    api project(':module:Topp-Furnace-Execution-Library')
-    api project(':module:Topp-Furnace-Reactive-Integration-Library')
     api 'org.reactivestreams:reactive-streams:1.0.4'
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.13'

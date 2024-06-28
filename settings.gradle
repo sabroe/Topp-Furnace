@@ -35,5 +35,6 @@ include 'module:Topp-Furnace-Reactive-Integration-For-Reactive-Streams-Library'
 include 'module:Topp-Furnace-Reactive-Integration-For-Mutiny-Library'
 include 'module:Topp-Furnace-Reactive-Integration-For-Reactor-Core-Library'
 include 'module:Topp-Furnace-Reactive-Integration-For-Vertx-Library'
+include 'module:Topp-Furnace-Reactive-Integration-For-Reactive-X-Library'
 
 include 'module:Topp-Furnace-Inject-Library'

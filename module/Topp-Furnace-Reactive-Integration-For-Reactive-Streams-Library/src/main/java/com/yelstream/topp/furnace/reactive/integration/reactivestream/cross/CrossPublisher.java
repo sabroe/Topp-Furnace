@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.reactive.integration.cross;
+package com.yelstream.topp.furnace.reactive.integration.reactivestream.cross;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -48,7 +48,7 @@ public class CrossPublisher<T> {
 
     private final Capability capability;  //TO-DO: Consider adding this!
 */
-    
+
     /**
      * Flow publisher.
      */

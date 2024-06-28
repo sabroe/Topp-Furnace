@@ -33,8 +33,7 @@ dependencies {
     api 'org.slf4j:slf4j-ext:2.0.13'
 
     api project(':module:Topp-Furnace-Execution-Library')
-
-    api 'org.reactivestreams:reactive-streams:1.0.4'
+    api project(':module:Topp-Furnace-Reactive-Integration-For-Reactive-Streams-Library')
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.13'
 //    testImplementation 'org.springframework:spring-webflux:6.1.10'

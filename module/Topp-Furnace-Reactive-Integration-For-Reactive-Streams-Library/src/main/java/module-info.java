@@ -25,5 +25,5 @@ module com.yelstream.topp.furnace.reactive.integration.reactivestream {
     requires java.base;
     requires org.slf4j;
     requires org.reactivestreams;
-    exports com.yelstream.topp.furnace.reactive.integration.reactivestream;
+    exports com.yelstream.topp.furnace.reactive.integration.reactivestream.cross;
 }
