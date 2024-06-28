@@ -40,6 +40,15 @@ import java.util.concurrent.Flow;
  */
 @AllArgsConstructor(staticName="of",access=AccessLevel.PRIVATE)
 public class CrossPublisher<T> {
+/*
+    public enum Capability {
+        SINGLE_ITEM,
+        MULTI_ITEM
+    }
+
+    private final Capability capability;  //TO-DO: Consider adding this!
+*/
+    
     /**
      * Flow publisher.
      */

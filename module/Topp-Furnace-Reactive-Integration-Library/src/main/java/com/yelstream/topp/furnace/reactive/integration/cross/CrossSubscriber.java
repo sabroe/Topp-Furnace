@@ -40,6 +40,14 @@ import java.util.concurrent.Flow;
  */
 @AllArgsConstructor(staticName="of",access=AccessLevel.PRIVATE)
 public class CrossSubscriber<T> {
+/*
+    public enum BackPressureControl {
+        CONTROLS_BACK_PRESSURE,
+        DOES_NOT_CONTROL_BACK_PRESSURE
+    }
+    private final BackPressureControl backPressureControl;  //TO-DO: Consider adding this!
+*/
+
     /**
      * Flow subscriber.
      */
