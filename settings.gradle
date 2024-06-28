@@ -30,6 +30,10 @@ include 'module:Topp-Furnace-Vertx-Addressing-Library'
 include 'module:Topp-Furnace-Vertx-Lifecycle-Library'
 include 'module:Topp-Furnace-Vertx-Health-Library'
 
-include 'module:Topp-Furnace-Reactive-Unification-Library'
+include 'module:Topp-Furnace-Reactive-Integration-Library'
+include 'module:Topp-Furnace-Reactive-Integration-For-Reactive-Streams-Library'
+include 'module:Topp-Furnace-Reactive-Integration-For-Mutiny-Library'
+include 'module:Topp-Furnace-Reactive-Integration-For-Reactor-Core-Library'
+include 'module:Topp-Furnace-Reactive-Integration-For-Vertx-Library'
 
 include 'module:Topp-Furnace-Inject-Library'
