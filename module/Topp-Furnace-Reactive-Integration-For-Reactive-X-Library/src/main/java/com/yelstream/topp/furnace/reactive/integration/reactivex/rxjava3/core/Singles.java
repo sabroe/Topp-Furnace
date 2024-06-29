@@ -21,8 +21,10 @@ package com.yelstream.topp.furnace.reactive.integration.reactivex.rxjava3.core;
 
 import io.reactivex.rxjava3.core.Single;
 import lombok.experimental.UtilityClass;
+import org.reactivestreams.FlowAdapters;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
 
 /**
  * Utility addressing instances of {@link Single}.
@@ -54,5 +56,14 @@ public class Singles {
      */
     public static <T> CompletableFuture<T> toCompletableFuture(Single<T> single) {
         return single.toCompletionStage().toCompletableFuture();
+    }
+
+
+    public static <T> Single<T> fromPublisher(Flow.Publisher<T> publisher) {
+        return Singles.fromPublisher(publisher);
+    }
+
+    public static <T> Flow.Publisher<T> toPublisher(Single<T> single) {
+        return FlowAdapters.toFlowPublisher(single.toFlowable());
     }
 }

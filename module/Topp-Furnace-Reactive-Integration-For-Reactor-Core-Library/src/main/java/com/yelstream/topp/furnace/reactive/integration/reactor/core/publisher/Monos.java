@@ -20,9 +20,11 @@
 package com.yelstream.topp.furnace.reactive.integration.reactor.core.publisher;
 
 import lombok.experimental.UtilityClass;
+import org.reactivestreams.FlowAdapters;
 import reactor.core.publisher.Mono;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
 
 /**
  * Utility addressing instances of {@link Mono}.
@@ -54,5 +56,14 @@ public class Monos {
      */
     public static <T> CompletableFuture<T> toCompletableFuture(Mono<T> mono) {
         return mono.toFuture();
+    }
+
+
+    public static <T> Mono<T> fromPublisher(Flow.Publisher<T> publisher) {
+        return Mono.from(FlowAdapters.toPublisher(publisher));
+    }
+
+    public static <T> Flow.Publisher<T> toPublisher(Mono<T> mono) {
+        return FlowAdapters.toFlowPublisher(mono);
     }
 }

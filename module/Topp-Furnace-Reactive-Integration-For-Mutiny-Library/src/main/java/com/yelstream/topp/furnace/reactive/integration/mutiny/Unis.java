@@ -23,6 +23,7 @@ import io.smallrye.mutiny.Uni;
 import lombok.experimental.UtilityClass;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
 
 /**
  * Utility addressing instances of {@link Uni}.
@@ -54,5 +55,14 @@ public class Unis {
      */
     public static <T> CompletableFuture<T> toCompletableFuture(Uni<T> uni) {
         return uni.convert().toCompletableFuture();
+    }
+
+
+    public static <T> Uni<T> fromPublisher(Flow.Publisher<T> publisher) {
+        return Uni.createFrom().publisher(publisher);
+    }
+
+    public static <T> Flow.Publisher<T> toPublisher(Uni<T> uni) {
+        return uni.convert().toPublisher();
     }
 }

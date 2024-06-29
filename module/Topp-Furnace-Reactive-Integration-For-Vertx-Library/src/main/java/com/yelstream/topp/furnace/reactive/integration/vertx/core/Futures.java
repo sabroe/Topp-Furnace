@@ -19,10 +19,14 @@
 
 package com.yelstream.topp.furnace.reactive.integration.vertx.core;
 
+import io.vertx.core.Promise;
 import lombok.experimental.UtilityClass;
 
 import io.vertx.core.Future;
+import org.reactivestreams.FlowAdapters;
+
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
 
 /**
  * Utility addressing instances of {@link Future}.
@@ -54,5 +58,52 @@ public class Futures {
      */
     public static <T> CompletableFuture<T> toCompletableFuture(Future<T> future) {
         return future.toCompletionStage().toCompletableFuture();
+    }
+
+
+    public static <T> Future<T> fromPublisher(Flow.Publisher<T> publisher) {
+        Promise<T> promise = Promise.promise();
+        publisher.subscribe(new Flow.Subscriber<T>() {
+            private Flow.Subscription subscription;
+
+            @Override
+            public void onSubscribe(Flow.Subscription s) {
+                this.subscription = s;
+                s.request(1); // Request initial item
+            }
+
+            @Override
+            public void onNext(T item) {
+                promise.complete(item);
+                subscription.cancel(); // Cancel after completing the promise
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                promise.fail(t);
+            }
+
+            @Override
+            public void onComplete() {
+                // Do nothing here since we complete on onNext
+            }
+        });
+        return promise.future();
+    }
+
+    public static <T> Flow.Publisher<T> toPublisher(Future<T> future) {
+        return new Flow.Publisher<T>() {
+            @Override
+            public void subscribe(Flow.Subscriber<? super T> subscriber) {
+                future.onComplete(result -> {
+                    if (result.succeeded()) {
+                        subscriber.onNext(result.result());
+                        subscriber.onComplete();
+                    } else {
+                        subscriber.onError(result.cause());
+                    }
+                });
+            }
+        };
     }
 }

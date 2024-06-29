@@ -25,5 +25,6 @@ module com.yelstream.topp.furnace.reactive.integration.reactor {
     requires java.base;
     requires org.slf4j;
     requires reactor.core;
+    requires org.reactivestreams;
     exports com.yelstream.topp.furnace.reactive.integration.reactor.core.publisher;
 }
