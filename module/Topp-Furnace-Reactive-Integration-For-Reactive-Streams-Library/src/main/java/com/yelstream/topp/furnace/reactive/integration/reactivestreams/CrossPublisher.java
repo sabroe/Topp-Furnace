@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.reactive.integration.reactivestream.cross;
+package com.yelstream.topp.furnace.reactive.integration.reactivestreams;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,15 +40,6 @@ import java.util.concurrent.Flow;
  */
 @AllArgsConstructor(staticName="of",access=AccessLevel.PRIVATE)
 public class CrossPublisher<T> {
-/*
-    public enum Capability {
-        SINGLE_ITEM,
-        MULTI_ITEM
-    }
-
-    private final Capability capability;  //TO-DO: Consider adding this!
-*/
-
     /**
      * Flow publisher.
      */
@@ -138,4 +129,14 @@ public class CrossPublisher<T> {
     public static <T> CrossPublisher<T> of(Publisher<T> reactivePublisher) {
         return of(null,reactivePublisher);
     }
+
+/* TO-DO: Consider adding this!
+
+    public enum Capability {
+        SINGLE_ITEM,
+        MULTI_ITEM
+    }
+
+    private final Capability capability;
+*/
 }

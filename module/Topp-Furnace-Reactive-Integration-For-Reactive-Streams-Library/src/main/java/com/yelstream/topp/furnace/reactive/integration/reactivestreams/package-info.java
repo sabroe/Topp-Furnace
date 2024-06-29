@@ -18,12 +18,7 @@
  */
 
 /**
- * Topp Furnace Reactive Unification provides interactions between selected reactive frameworks.
+ * Offers a seamless integration between the two main expressions of the concept of publisher, processor and subscriber
+ * as expressed by {@link java.util.concurrent.Flow} in Java SE 9 and Reactive Streams before that.
  */
-module com.yelstream.topp.furnace.reactive.integration.reactivestream {
-    requires static lombok;
-    requires java.base;
-    requires org.slf4j;
-    requires org.reactivestreams;
-    exports com.yelstream.topp.furnace.reactive.integration.reactivestreams;
-}
+package com.yelstream.topp.furnace.reactive.integration.reactivestreams;

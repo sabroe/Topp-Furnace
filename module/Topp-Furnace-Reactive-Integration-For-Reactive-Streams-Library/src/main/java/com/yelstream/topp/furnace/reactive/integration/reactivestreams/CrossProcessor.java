@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.reactive.integration.reactivestream.cross;
+package com.yelstream.topp.furnace.reactive.integration.reactivestreams;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

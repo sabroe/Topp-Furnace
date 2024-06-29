@@ -20,10 +20,10 @@
 /**
  * Topp Furnace Reactive Integration For Reactor Core provides interactions between selected reactive frameworks and Reactor Core.
  */
-module com.yelstream.topp.furnace.reactive.unification {
+module com.yelstream.topp.furnace.reactive.integration.reactor {
     requires static lombok;
     requires java.base;
     requires org.slf4j;
     requires reactor.core;
-    exports com.yelstream.topp.furnace.reactive.integration.reactor;
+    exports com.yelstream.topp.furnace.reactive.integration.reactor.core.publisher;
 }

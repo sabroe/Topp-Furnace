@@ -26,4 +26,5 @@ module com.yelstream.topp.furnace.reactive.integration.vertx {
     requires org.slf4j;
     requires io.vertx.core;
     exports com.yelstream.topp.furnace.reactive.integration.vertx;
+    exports com.yelstream.topp.furnace.reactive.integration.vertx.core;
 }

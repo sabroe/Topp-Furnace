@@ -18,12 +18,6 @@
  */
 
 /**
- * Topp Furnace Reactive Unification provides interactions between selected reactive frameworks.
+ * Utility addressing {@link reactor.core.publisher}.
  */
-module com.yelstream.topp.furnace.reactive.integration.reactivestream {
-    requires static lombok;
-    requires java.base;
-    requires org.slf4j;
-    requires org.reactivestreams;
-    exports com.yelstream.topp.furnace.reactive.integration.reactivestreams;
-}
+package com.yelstream.topp.furnace.reactive.integration.reactor.core.publisher;

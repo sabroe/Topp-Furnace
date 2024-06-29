@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.reactive.integration.reactivestream.cross;
+package com.yelstream.topp.furnace.reactive.integration.reactivestreams;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,14 +40,6 @@ import java.util.concurrent.Flow;
  */
 @AllArgsConstructor(staticName="of",access=AccessLevel.PRIVATE)
 public class CrossSubscriber<T> {
-/*
-    public enum BackPressureControl {
-        CONTROLS_BACK_PRESSURE,
-        DOES_NOT_CONTROL_BACK_PRESSURE
-    }
-    private final BackPressureControl backPressureControl;  //TO-DO: Consider adding this!
-*/
-
     /**
      * Flow subscriber.
      */
@@ -137,4 +129,13 @@ public class CrossSubscriber<T> {
     public static <T> CrossSubscriber<T> of(Subscriber<T> reactiveSubscriber) {
         return of(null,reactiveSubscriber);
     }
+
+/* TO-DO: Consider adding this!
+
+    public enum BackPressureControl {
+        CONTROLS_BACK_PRESSURE,
+        DOES_NOT_CONTROL_BACK_PRESSURE
+    }
+    private final BackPressureControl backPressureControl;
+*/
 }

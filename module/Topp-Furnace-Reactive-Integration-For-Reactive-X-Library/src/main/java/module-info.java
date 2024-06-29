@@ -18,12 +18,12 @@
  */
 
 /**
- * Topp Furnace Reactive Unification provides interactions between selected reactive frameworks.
+ * Topp Furnace Reactive Integration For Reactive X provides interactions between selected reactive frameworks and Reactive X.
  */
-module com.yelstream.topp.furnace.reactive.integration.reactivestream {
+module com.yelstream.topp.furnace.reactive.integration.reactivex {
     requires static lombok;
     requires java.base;
     requires org.slf4j;
-    requires org.reactivestreams;
-    exports com.yelstream.topp.furnace.reactive.integration.reactivestreams;
+    requires io.reactivex.rxjava3;
+    exports com.yelstream.topp.furnace.reactive.integration.reactivex.rxjava3.core;
 }
