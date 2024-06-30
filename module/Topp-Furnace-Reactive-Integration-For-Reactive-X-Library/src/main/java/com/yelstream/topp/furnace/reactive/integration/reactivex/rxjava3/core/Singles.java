@@ -31,6 +31,9 @@ import java.util.concurrent.Flow;
  * <p>
  *     This contains conversions to and from {@link CompletableFuture} instances.
  * </p>
+ * <p>
+ *     This contains conversions to and from {@link Flow.Publisher} instances.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -58,11 +61,22 @@ public class Singles {
         return single.toCompletionStage().toCompletableFuture();
     }
 
-
+    /**
+     * Create a single from a publisher.
+     * @param publisher Publisher.
+     * @return Created single.
+     * @param <T> Type of item.
+     */
     public static <T> Single<T> fromPublisher(Flow.Publisher<T> publisher) {
         return Singles.fromPublisher(publisher);
     }
 
+    /**
+     * Create a publisher from a single.
+     * @param single Single.
+     * @return Created publisher.
+     * @param <T> Type of item.
+     */
     public static <T> Flow.Publisher<T> toPublisher(Single<T> single) {
         return FlowAdapters.toFlowPublisher(single.toFlowable());
     }

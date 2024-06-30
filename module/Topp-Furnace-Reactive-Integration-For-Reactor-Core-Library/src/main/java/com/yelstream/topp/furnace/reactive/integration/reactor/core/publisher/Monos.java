@@ -31,6 +31,9 @@ import java.util.concurrent.Flow;
  * <p>
  *     This contains conversions to and from {@link CompletableFuture} instances.
  * </p>
+ * <p>
+ *     This contains conversions to and from {@link Flow.Publisher} instances.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

@@ -19,11 +19,9 @@
 
 package com.yelstream.topp.furnace.reactive.integration.vertx.core;
 
+import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import lombok.experimental.UtilityClass;
-
-import io.vertx.core.Future;
-import org.reactivestreams.FlowAdapters;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
@@ -32,6 +30,9 @@ import java.util.concurrent.Flow;
  * Utility addressing instances of {@link Future}.
  * <p>
  *     This contains conversions to and from {@link CompletableFuture} instances.
+ * </p>
+ * <p>
+ *     This contains conversions to and from {@link Flow.Publisher} instances.
  * </p>
  *
  * @author Morten Sabroe Mortensen
@@ -60,7 +61,12 @@ public class Futures {
         return future.toCompletionStage().toCompletableFuture();
     }
 
-
+    /**
+     * Create a future from a publisher.
+     * @param publisher Publisher.
+     * @return Created future.
+     * @param <T> Type of item.
+     */
     public static <T> Future<T> fromPublisher(Flow.Publisher<T> publisher) {
         Promise<T> promise = Promise.promise();
         publisher.subscribe(new Flow.Subscriber<T>() {
@@ -91,7 +97,12 @@ public class Futures {
         return promise.future();
     }
 
-    public static <T> Flow.Publisher<T> toPublisher(Future<T> future) {
+    /**
+     * Create a publisher from a future.
+     * @param future Future.
+     * @return Created publisher.
+     * @param <T> Type of item.
+     */    public static <T> Flow.Publisher<T> toPublisher(Future<T> future) {
         return new Flow.Publisher<T>() {
             @Override
             public void subscribe(Flow.Subscriber<? super T> subscriber) {

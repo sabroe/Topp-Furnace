@@ -30,6 +30,9 @@ import java.util.concurrent.Flow;
  * <p>
  *     This contains conversions to and from {@link CompletableFuture} instances.
  * </p>
+ * <p>
+ *     This contains conversions to and from {@link Flow.Publisher} instances.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -57,11 +60,22 @@ public class Unis {
         return uni.convert().toCompletableFuture();
     }
 
-
+    /**
+     * Create a uni from a publisher.
+     * @param publisher Publisher.
+     * @return Created uni.
+     * @param <T> Type of item.
+     */
     public static <T> Uni<T> fromPublisher(Flow.Publisher<T> publisher) {
         return Uni.createFrom().publisher(publisher);
     }
 
+    /**
+     * Create a publisher from a uni.
+     * @param uni Uni.
+     * @return Created publisher.
+     * @param <T> Type of item.
+     */
     public static <T> Flow.Publisher<T> toPublisher(Uni<T> uni) {
         return uni.convert().toPublisher();
     }
