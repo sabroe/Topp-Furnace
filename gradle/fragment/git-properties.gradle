@@ -17,15 +17,27 @@
  * limitations under the License.
  */
 
-plugins.withType(JacocoPlugin) {
-    jacoco {
-        toolVersion = "0.8.11"
-//          reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
-    }
-    test {
-        finalizedBy jacocoTestReport // report is always generated after tests run
-    }
-    jacocoTestReport {
-        dependsOn test // tests are required to run before generating the report
+/*
+ * Note:
+ *     To inspect the content of build Java archives, consider this command for ad hoc inspection:
+ *     find . -name *.jar | grep -E "(.*)/build/libs/[^/]*-[0-9]+[.][0-9]+[.][0-9]+(-SNAPSHOT)?[.]jar" | while read r; do echo; echo $r; unzip -p $r git.properties; done
+ */
+
+tasks.withType(JavaCompile) {
+    apply plugin: "com.gorylenko.gradle-git-properties"  //https://github.com/n0mer/gradle-git-properties
+
+    gitProperties {
+        gitPropertiesName = "git.properties"
+
+        failOnNoGitDirectory = false
+
+/*
+        keys =
+        [
+            'git.branch',
+            'git.commit.id',
+            'git.commit.time'
+        ]
+*/
     }
 }
