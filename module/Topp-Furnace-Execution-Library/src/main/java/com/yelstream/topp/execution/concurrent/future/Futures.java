@@ -84,7 +84,7 @@ public class Futures {
     }
 
     private static <T> void completeResult(Future<T> future,
-                                          CompletableFuture<T> result) {
+                                           CompletableFuture<T> result) {
         try {
             T value=future.get();  //Yes, blocks!
             result.complete(value);
