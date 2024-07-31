@@ -34,7 +34,7 @@ public class Test {
         }
 
         try (VerticleLifecycleManager verticleManager = new VerticleLifecycleManager(vertx, verticle)) {
-            Verticle manager = verticleManager.start().join();
+            /*Verticle manager = */verticleManager.start().join();
             // Do something with the verticle
         } catch (Exception e) {
             e.printStackTrace();

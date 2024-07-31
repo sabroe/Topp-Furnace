@@ -35,4 +35,5 @@ dependencies {
     api 'com.yelstream.topp.standard:topp-standard-core:0.0.3'
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+    testImplementation 'io.vertx:vertx-core:4.5.9'
 }
