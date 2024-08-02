@@ -1,6 +1,6 @@
 package com.yelstream.topp.furnace.manage;
 
-import com.yelstream.topp.furnace.manage.impl.VerticleLifecycleManager;
+import com.yelstream.topp.furnace.manage.vertx.VerticleLifecycleManager;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import org.junit.jupiter.api.Test;

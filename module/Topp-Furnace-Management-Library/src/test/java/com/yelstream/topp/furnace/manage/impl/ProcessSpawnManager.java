@@ -40,7 +40,6 @@ public class ProcessSpawnManager implements SpawnManager<ProcessSpawnManager.Pro
         }
     }
 
-
     public static class ProcessManager implements Stoppable<Integer, IOException> {
 
         private final Process process;
