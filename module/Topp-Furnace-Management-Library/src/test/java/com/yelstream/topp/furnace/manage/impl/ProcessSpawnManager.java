@@ -6,9 +6,10 @@ import com.yelstream.topp.furnace.manage.Stoppable;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
-public class ProcessSpawnManager implements SpawnManager<ProcessManager, Integer, IOException> {
+public class ProcessSpawnManager implements SpawnManager<ProcessSpawnManager.ProcessManager, Integer, IOException> {
 
     private final ProcessBuilder processBuilder;
+
     private ProcessManager processManager;
 
     public ProcessSpawnManager(ProcessBuilder processBuilder) {
@@ -38,30 +39,32 @@ public class ProcessSpawnManager implements SpawnManager<ProcessManager, Integer
             }
         }
     }
-}
 
-class ProcessManager implements Stoppable<Integer, IOException> {
 
-    private final Process process;
+    public static class ProcessManager implements Stoppable<Integer, IOException> {
 
-    public ProcessManager(Process process) {
-        this.process = process;
-    }
+        private final Process process;
 
-    @Override
-    public CompletableFuture<Integer> stop() throws IOException {
-        CompletableFuture<Integer> future = new CompletableFuture<>();
-        if (process != null && process.isAlive()) {
-            process.destroy();
-            try {
-                int exitCode = process.waitFor();
-                future.complete(exitCode);
-            } catch (InterruptedException e) {
-                future.completeExceptionally(e);
-            }
-        } else {
-            future.complete(0); // Process already stopped or not started
+        public ProcessManager(Process process) {
+            this.process = process;
         }
-        return future;
+
+        @Override
+        public CompletableFuture<Integer> stop() throws IOException {
+            CompletableFuture<Integer> future = new CompletableFuture<>();
+            if (process != null && process.isAlive()) {
+                process.destroy();
+                try {
+                    int exitCode = process.waitFor();
+                    future.complete(exitCode);
+                } catch (InterruptedException e) {
+                    future.completeExceptionally(e);
+                }
+            } else {
+                future.complete(0); // Process already stopped or not started
+            }
+            return future;
+        }
     }
+
 }

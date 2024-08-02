@@ -19,10 +19,9 @@
 
 package com.yelstream.topp.furnace.manage;
 
-import java.util.concurrent.CompletableFuture;
-
 /**
- * Capable of initiating a stop of a runnable component.
+ * Spawns components.
+ * @param <S> Type of runnable.
  * @param <T> Type of result.
  * @param <E> Type of exception.
  *
@@ -30,12 +29,19 @@ import java.util.concurrent.CompletableFuture;
  * @version 1.0
  * @since 2024-07-29
  */
-@FunctionalInterface
-public interface Stoppable<T,E extends Exception> {
+public interface Spawnable<S extends Stoppable<T,E>,T,E extends Exception> extends AutoCloseable {
     /**
-     * Initiates a stop operation.
-     * @return Handle to the result of the start operation.
-     * @throws E Thrown in case of error.
+     * Gets the manager spawning components.
+     * @return Manager spawning components.
      */
-    CompletableFuture<T> stop() throws E;
+    SpawnManager<S,T,E> getManager();
+
+    @Override
+    default void close() {
+        try {
+            getManager().close();
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to close managed component!",ex);
+        }
+    }
 }
