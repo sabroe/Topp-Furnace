@@ -20,21 +20,21 @@
 package com.yelstream.topp.furnace.manage;
 
 /**
- * Component with a managed lifecycle.
+ * Component creating managed processes.
  * @param <S> Type of runnable.
  * @param <T> Type of result.
  * @param <E> Type of exception.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-07-29
+ * @since 2024-08-04
  */
-public interface Manageable<S,T,E extends Exception> extends AutoCloseable {
+public interface Processable<S extends Destroyable<T,E>,T,E extends Exception> extends AutoCloseable {
     /**
-     * Gets the manager of the component lifecycle.
-     * @return Manager of component lifecycle.
+     * Gets the manager creating components.
+     * @return Manager creating components.
      */
-    LifecycleManager<S,T,E> getManager();  //TO-DO: Further consider and evaluate the possible benefit of the return type being a generic 'M' -- in relation to actual implementations!
+    ProcessManager<S,T,E> getManager();  //TO-DO: Further consider and evaluate the possible benefit of the return type being a generic 'M' -- in relation to actual implementations!
 
     @Override
     default void close() throws E {

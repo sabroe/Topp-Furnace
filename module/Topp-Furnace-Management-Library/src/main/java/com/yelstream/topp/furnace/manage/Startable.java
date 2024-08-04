@@ -22,7 +22,7 @@ package com.yelstream.topp.furnace.manage;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Capable of initiating a start of a runnable component.
+ * Capable of initiating a start of a running component.
  * @param <S> Type of runnable.
  * @param <E> Type of exception.
  *
@@ -34,8 +34,8 @@ import java.util.concurrent.CompletableFuture;
 public interface Startable<S,E extends Exception> {
     /**
      * Initiates a start operation.
-     * @return Handle to the result of the start operation.
+     * @return Handle to the result of the operation.
      * @throws E Thrown in case of error.
      */
-    CompletableFuture<S> start() throws E;
+    CompletableFuture<S> start() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
 }

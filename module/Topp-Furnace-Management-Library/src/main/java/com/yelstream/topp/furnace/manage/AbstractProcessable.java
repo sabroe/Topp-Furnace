@@ -19,8 +19,11 @@
 
 package com.yelstream.topp.furnace.manage;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 /**
- * Spawns components.
+ * Abstract implementation of a processable component.
  * @param <S> Type of runnable.
  * @param <T> Type of result.
  * @param <E> Type of exception.
@@ -29,19 +32,11 @@ package com.yelstream.topp.furnace.manage;
  * @version 1.0
  * @since 2024-07-29
  */
-public interface Spawnable<S extends Stoppable<T,E>,T,E extends Exception> extends AutoCloseable {
+@RequiredArgsConstructor
+public abstract class AbstractProcessable<S extends Destroyable<T,E>,T,E extends Exception> implements Processable<S,T,E> {
     /**
-     * Gets the manager spawning components.
-     * @return Manager spawning components.
+     * Process manager.
      */
-    SpawnManager<S,T,E> getManager();
-
-    @Override
-    default void close() {
-        try {
-            getManager().close();
-        } catch (Exception ex) {
-            throw new IllegalStateException("Failed to close managed component!",ex);
-        }
-    }
+    @Getter
+    private final ProcessManager<S,T,E> manager;
 }

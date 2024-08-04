@@ -31,7 +31,7 @@ package com.yelstream.topp.furnace.manage;
  */
 public interface LifecycleManager<S,T,E extends Exception> extends Startable<S,E>, Stoppable<T,E>, AutoCloseable {
     @Override
-    default void close() throws E {
+    default void close() throws E {  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
         try {
             stop().join();
         } catch (Exception ex) {

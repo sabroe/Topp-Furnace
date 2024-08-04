@@ -11,7 +11,7 @@ import org.junit.platform.suite.api.Suite;
  * @since 2024-08-02
  */
 @Suite
-@SelectClasses({ProcessSpawnManagerTest.class,
-                VerticleLifecycleManagerTest.class})
+@SelectClasses({ProcessProcessableTest.class,
+                VerticleManageableTest.class})
 public class ManagementTestSuite {
 }

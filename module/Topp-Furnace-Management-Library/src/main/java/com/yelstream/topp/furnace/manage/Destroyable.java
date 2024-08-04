@@ -19,29 +19,23 @@
 
 package com.yelstream.topp.furnace.manage;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
- * Component with a managed lifecycle.
- * @param <S> Type of runnable.
+ * Capable of initiating the destruction of a running component.
  * @param <T> Type of result.
  * @param <E> Type of exception.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-07-29
+ * @since 2024-08-04
  */
-public interface Manageable<S,T,E extends Exception> extends AutoCloseable {
+@FunctionalInterface
+public interface Destroyable<T,E extends Exception> {
     /**
-     * Gets the manager of the component lifecycle.
-     * @return Manager of component lifecycle.
+     * Initiates a destroy operation.
+     * @return Handle to the result of the operation.
+     * @throws E Thrown in case of error.
      */
-    LifecycleManager<S,T,E> getManager();  //TO-DO: Further consider and evaluate the possible benefit of the return type being a generic 'M' -- in relation to actual implementations!
-
-    @Override
-    default void close() throws E {
-        try {
-            getManager().close();
-        } catch (Exception ex) {
-            throw new IllegalStateException("Failed to close managed component!",ex);
-        }
-    }
+    CompletableFuture<T> destroy() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
 }

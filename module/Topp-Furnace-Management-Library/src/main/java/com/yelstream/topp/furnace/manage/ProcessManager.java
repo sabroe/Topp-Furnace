@@ -20,16 +20,16 @@
 package com.yelstream.topp.furnace.manage;
 
 /**
- * Manages the spawning of a runnable component.
+ * Manages the creation of a runnable component.
  * @param <S> Type of runnable.
  * @param <T> Type of result.
  * @param <E> Type of exception.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-07-29
+ * @since 2024-08-04
  */
-public interface SpawnManager<S extends Stoppable<T,E>,T,E extends Exception> extends Startable<S,E>, AutoCloseable {
+public interface ProcessManager<S extends Destroyable<T,E>,T,E extends Exception> extends Creatable<S,E>, AutoCloseable {
     @Override
-    abstract void close() throws E;
+    abstract void close() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
 }
