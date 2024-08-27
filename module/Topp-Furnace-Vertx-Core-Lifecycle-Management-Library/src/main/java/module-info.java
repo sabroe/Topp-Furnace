@@ -17,26 +17,20 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
-    api 'org.slf4j:slf4j-api:2.0.13'
-    api 'org.slf4j:slf4j-ext:2.0.13'
-
-    api project(':module:Topp-Furnace-Execution-Library')
-
-    api 'io.vertx:vertx-core:4.5.9'
-    api 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
-    implementation 'com.google.guava:guava:33.2.0-jre'
-
-    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+/**
+ * Topp Furnace Vert.x Core contains support for interacting with the lifecycle of components.
+ */
+module com.yelstream.topp.furnace.vertx.core.lifecycle.management {
+    requires static lombok;
+    requires java.base;
+    requires org.slf4j;
+    requires io.vertx.core;
+    requires com.yelstream.topp.standard.core;
+    requires com.yelstream.topp.furnace.execution;
+    requires com.yelstream.topp.furnace.vertx.core;
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
+    requires com.google.common;
+    requires com.yelstream.topp.furnace.lifecycle.management;
+    exports com.yelstream.topp.furnace.vertx.core.manage;
 }

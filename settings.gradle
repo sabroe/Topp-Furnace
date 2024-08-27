@@ -21,7 +21,7 @@ rootProject.name = 'Yelstream Topp Furnace Project'
 
 include 'module:Topp-Furnace-Execution-Library'
 
-include 'module:Topp-Furnace-Management-Library'  //TO-DO: Consider "...-Lifecycle-Management-..."!
+include 'module:Topp-Furnace-Lifecycle-Management-Library'
 
 include 'module:Topp-Furnace-Flow-Library'
 
@@ -29,7 +29,7 @@ include 'module:Topp-Furnace-Mutiny-Library'
 
 include 'module:Topp-Furnace-Vertx-Core-Library'
 include 'module:Topp-Furnace-Vertx-Addressing-Library'
-include 'module:Topp-Furnace-Vertx-Lifecycle-Library'
+include 'module:Topp-Furnace-Vertx-Core-Lifecycle-Management-Library'
 include 'module:Topp-Furnace-Vertx-Health-Library'
 
 include 'module:Topp-Furnace-Reactive-Integration-Library'

@@ -17,26 +17,27 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.furnace.manage;
 
-dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+import com.yelstream.topp.furnace.manage.op.Destroyable;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-    api 'org.slf4j:slf4j-api:2.0.13'
-    api 'org.slf4j:slf4j-ext:2.0.13'
-
-    api project(':module:Topp-Furnace-Execution-Library')
-
-    api 'io.vertx:vertx-core:4.5.9'
-    api 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
-    implementation 'com.google.guava:guava:33.2.0-jre'
-
-    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+/**
+ * Abstract implementation of a processable component.
+ * @param <S> Type of runnable.
+ * @param <T> Type of result.
+ * @param <E> Type of exception.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-07-29
+ */
+@RequiredArgsConstructor
+public abstract class AbstractProcessable<S extends Destroyable<T,E>,T,E extends Exception> implements Processable<S,T,E> {
+    /**
+     * Process manager.
+     */
+    @Getter
+    private final ProcessManager<S,T,E> manager;
 }

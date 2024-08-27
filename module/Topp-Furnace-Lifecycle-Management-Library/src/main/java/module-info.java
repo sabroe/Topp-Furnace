@@ -17,26 +17,14 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
-    api 'org.slf4j:slf4j-api:2.0.13'
-    api 'org.slf4j:slf4j-ext:2.0.13'
-
-    api project(':module:Topp-Furnace-Execution-Library')
-
-    api 'io.vertx:vertx-core:4.5.9'
-    api 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
-    implementation 'com.google.guava:guava:33.2.0-jre'
-
-    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+/**
+ * Topp Furnace Management handles component lifecycle management.
+ */
+module com.yelstream.topp.furnace.lifecycle.management {
+    requires static lombok;
+    requires java.base;
+    requires org.slf4j;
+    requires com.yelstream.topp.standard.core;
+    exports com.yelstream.topp.furnace.manage;
+    exports com.yelstream.topp.furnace.manage.op;
 }

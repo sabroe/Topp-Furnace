@@ -38,6 +38,25 @@ import java.util.function.Supplier;
 @UtilityClass
 public class Promises {
 
+
+    public static <X> void tiePromiseToVoid(Promise<Void> promise,
+                                            CompletableFuture<X> future) {
+        if (promise!=null) {  //TO-DO: Consider this line!
+            if (future==null) {
+                promise.complete();
+            } else {
+                future.handle((result,throwable) -> {
+                    if (throwable!=null) {
+                        promise.fail(throwable);
+                    } else {
+                        promise.complete();
+                    }
+                    return result;
+                });
+            }
+        }
+    }
+
     public static <X> void tiePromise(Promise<X> promise,
                                       CompletableFuture<X> future) {
         if (promise!=null) {  //TO-DO: Consider this line!
@@ -48,7 +67,7 @@ public class Promises {
                     if (throwable!=null) {
                         promise.fail(throwable);
                     } else {
-                        promise.complete();
+                        promise.complete(result);
                     }
                     return result;
                 });

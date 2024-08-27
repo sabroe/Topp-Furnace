@@ -17,26 +17,25 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.furnace.manage.op;
 
-dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+import java.util.concurrent.CompletableFuture;
 
-    api 'org.slf4j:slf4j-api:2.0.13'
-    api 'org.slf4j:slf4j-ext:2.0.13'
-
-    api project(':module:Topp-Furnace-Execution-Library')
-
-    api 'io.vertx:vertx-core:4.5.9'
-    api 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
-    implementation 'com.google.guava:guava:33.2.0-jre'
-
-    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+/**
+ * Capable of initiating a stop of a running component.
+ * @param <T> Type of result.
+ * @param <E> Type of exception.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-07-29
+ */
+@FunctionalInterface
+public interface Stoppable<T,E extends Exception> {
+    /**
+     * Initiates a stop operation.
+     * @return Handle to the result of the operation.
+     * @throws E Thrown in case of error.
+     */
+    CompletableFuture<T> stop() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
 }
