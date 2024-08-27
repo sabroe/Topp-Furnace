@@ -19,28 +19,41 @@
 
 package com.yelstream.topp.furnace.manage;
 
-import lombok.Getter;
+import com.yelstream.topp.furnace.manage.op.Startable;
+import com.yelstream.topp.furnace.manage.op.Stoppable;
+import lombok.RequiredArgsConstructor;
 
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Abstract implementation of a manageable component.
+ * Abstract implementation of a lifecycle manager.
  * @param <S> Type of runnable.
  * @param <T> Type of result.
  * @param <E> Type of exception.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-07-29
+ * @since 2024-08-27
  */
-public abstract class AbstractManageable<S,T,E extends Exception> implements Manageable<S,T,E> {
+@RequiredArgsConstructor(staticName="of")
+public class ComposedLifecycleManager<S,T,E extends Exception> implements LifecycleManager<S,T,E> {
     /**
-     * Lifecycle manager.
+     *
      */
-    @Getter
-    private final LifecycleManager<S,T,E> manager=ComposedLifecycleManager.of(this::start,this::stop);
+    private final Startable<S,E> startable;
 
-    protected abstract CompletableFuture<S> start() throws E;
+    /**
+     *
+     */
+    private final Stoppable<T,E> stoppable;
 
-    protected abstract CompletableFuture<T> stop() throws E;
+    @Override
+    public CompletableFuture<S> start() throws E {
+        return startable.start();
+    }
+
+    @Override
+    public CompletableFuture<T> stop() throws E {
+        return stoppable.stop();
+    }
 }
