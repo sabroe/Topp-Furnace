@@ -17,20 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.manage;
-
-import org.junit.platform.suite.api.SelectClasses;
-import org.junit.platform.suite.api.Suite;
-
 /**
- * Test suite for {@code com.yelstream.topp.furnace.manage}.
  *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-08-02
  */
-@Suite
-@SelectClasses({ProcessProcessableTest.class,
-                VerticleManageableTest.class})
-public class ManagementTestSuite {
-}
+package com.yelstream.topp.furnace.vertx.core.manage;
