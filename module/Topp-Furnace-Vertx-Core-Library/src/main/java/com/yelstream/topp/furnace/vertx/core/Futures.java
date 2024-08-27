@@ -44,4 +44,8 @@ public class Futures {
     public static <X> List<Future<X>> toFuture(List<Supplier<Future<X>>> futureSuppliers) {
         return futureSuppliers==null?null:futureSuppliers.stream().filter(Objects::nonNull).map(Supplier::get).toList();
     }
+
+    public static <X> X join(Future<X> future) {
+        return future.toCompletionStage().toCompletableFuture().join();
+    }
 }
