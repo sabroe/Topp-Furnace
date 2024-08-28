@@ -20,6 +20,7 @@
 package com.yelstream.topp.furnace.manage;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -33,14 +34,16 @@ import java.util.concurrent.CompletableFuture;
  * @version 1.0
  * @since 2024-07-29
  */
-public abstract class AbstractManageable<S,T,E extends Exception> implements Manageable<S,T,E> {
+@RequiredArgsConstructor
+public abstract class AbstractManageable<S,T,E extends Exception,M extends LifecycleManager<S,T,E>> implements Manageable<S,T,E,M> {
     /**
      * Lifecycle manager.
      */
     @Getter
-    private final LifecycleManager<S,T,E> manager=ComposedLifecycleManager.of(this::start,this::stop);
+//    private final LifecycleManager<S,T,E> manager=ComposedLifecycleManager.of(this::start,this::stop);
+    private final M manager;
 
-    protected abstract CompletableFuture<S> start() throws E;
+//    protected abstract CompletableFuture<S> start() throws E;
 
-    protected abstract CompletableFuture<T> stop() throws E;
+//    protected abstract CompletableFuture<T> stop() throws E;
 }

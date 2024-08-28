@@ -32,13 +32,5 @@ import com.yelstream.topp.furnace.manage.op.Stoppable;
  * @version 1.0
  * @since 2024-07-29
  */
-public interface LifecycleManager<S,T,E extends Exception> extends Startable<S,E>, Stoppable<T,E>, AutoCloseable {
-    @Override
-    default void close() throws E {  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
-        try {
-            stop().join();
-        } catch (Exception ex) {
-            throw new IllegalStateException("Failed to close lifecycle manager!",ex);
-        }
-    }
+public interface LifecycleManager<S,T,E extends Exception> extends Startable<S,E>, Stoppable<T,E> {
 }
