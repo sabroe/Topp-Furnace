@@ -32,7 +32,7 @@ import lombok.Getter;
  * @version 1.0
  * @since 2024-07-29
  */
-public class VerticleManageable extends AbstractManageable<Verticle,String,Exception> {
+public class VerticleManageable extends AbstractManageable<Verticle,String,Exception,LifecycleManager<Verticle,String,Exception>> {
 
     @Getter
     private final Vertx vertx;
