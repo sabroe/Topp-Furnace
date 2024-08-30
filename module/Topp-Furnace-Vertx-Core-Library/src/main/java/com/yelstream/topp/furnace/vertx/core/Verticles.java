@@ -29,4 +29,44 @@ import io.vertx.core.Verticle;
  * @since 2024-04-30
  */
 public class Verticles {
+
+    /*
+     * TO-DO: Normal deployment!
+     */
+
+    /*
+     * TO-DO: Normal undeployment!
+     */
+
+    /*
+     * TO-DO: Normal deployment with undeployment-handle!
+     */
+
+    /*
+     * TO-DO: Normal undeployment with undeployment-handle!
+     */
+
+    /*
+     * TO-DO: Ab-normal deployment!
+     */
+
+    /*
+     * TO-DO: Ab-normal undeployment!
+     */
+
+    /*
+     * TO-DO: Ab-normal deployment with undeployment-handle!
+     */
+
+    /*
+     * TO-DO: Ab-normal undeployment with undeployment-handle!
+     */
+
+    //TO-DO: Sequential deployment, list!
+
+    //TO-DO: Sequential undeployment, list (possibly reverse of deployment?)
+
+    //TO-DO: Parallel deployment!
+
+    //TO-DO: Parallel undeployment!
 }
