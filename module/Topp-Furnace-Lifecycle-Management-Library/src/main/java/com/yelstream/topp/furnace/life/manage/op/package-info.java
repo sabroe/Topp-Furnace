@@ -17,25 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.manage.op;
-
-import java.util.concurrent.CompletableFuture;
-
 /**
- * Capable of initiating the creation of a running component.
- * @param <S> Type of runnable.
- * @param <E> Type of exception.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-08-04
+ * Operations participating in the management of the runnable state of components.
  */
-@FunctionalInterface
-public interface Creatable<S,E extends Exception> {
-    /**
-     * Initiates a create operation.
-     * @return Handle to the result of the operation.
-     * @throws E Thrown in case of error.
-     */
-    CompletableFuture<S> create() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
-}
+package com.yelstream.topp.furnace.life.manage.op;

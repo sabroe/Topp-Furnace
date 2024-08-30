@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.furnace.manage.impl;
 
-import com.yelstream.topp.furnace.manage.op.Destroyable;
+import com.yelstream.topp.furnace.life.manage.op.Destroyable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

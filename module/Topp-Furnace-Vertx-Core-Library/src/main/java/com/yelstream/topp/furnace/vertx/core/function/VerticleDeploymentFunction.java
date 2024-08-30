@@ -17,7 +17,23 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.furnace.vertx.core.function;
+
+import io.vertx.core.DeploymentOptions;
+import io.vertx.core.Future;
+import io.vertx.core.Verticle;
+import io.vertx.core.Vertx;
+
 /**
- * Management of the runnable state of components.
+ * Mapping equivalent to {@link Vertx#deployVerticle(Verticle,DeploymentOptions)}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-08-31
  */
-package com.yelstream.topp.furnace.manage;
+@FunctionalInterface
+public interface VerticleDeploymentFunction {
+    Future<String> deploy(Vertx vertx, Verticle verticle, DeploymentOptions deploymentOptions);
+
+    VerticleDeploymentFunction DEFAULT=Vertx::deployVerticle;
+}

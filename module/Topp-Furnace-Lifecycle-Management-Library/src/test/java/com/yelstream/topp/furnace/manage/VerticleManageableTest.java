@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.furnace.manage;
 
+import com.yelstream.topp.furnace.life.manage.LifecycleManager;
 import com.yelstream.topp.furnace.manage.vertx.VerticleManageable;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Verticle;

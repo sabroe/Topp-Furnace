@@ -1,7 +1,7 @@
-package com.yelstream.topp.furnace.manage;
+package com.yelstream.topp.furnace.life.manage;
 
-import com.yelstream.topp.furnace.manage.op.Startable;
-import com.yelstream.topp.furnace.manage.op.Stoppable;
+import com.yelstream.topp.furnace.life.manage.op.Startable;
+import com.yelstream.topp.furnace.life.manage.op.Stoppable;
 import lombok.experimental.UtilityClass;
 
 /**

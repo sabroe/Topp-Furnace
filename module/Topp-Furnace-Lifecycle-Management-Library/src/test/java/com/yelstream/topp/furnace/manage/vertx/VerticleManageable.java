@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.furnace.manage.vertx;
 
-import com.yelstream.topp.furnace.manage.AbstractManageable;
-import com.yelstream.topp.furnace.manage.LifecycleManager;
+import com.yelstream.topp.furnace.life.manage.AbstractManageable;
+import com.yelstream.topp.furnace.life.manage.LifecycleManager;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import lombok.AccessLevel;

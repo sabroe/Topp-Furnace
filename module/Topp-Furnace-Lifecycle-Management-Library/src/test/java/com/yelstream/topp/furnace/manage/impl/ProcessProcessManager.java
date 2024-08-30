@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.furnace.manage.impl;
 
-import com.yelstream.topp.furnace.manage.ProcessManager;
+import com.yelstream.topp.furnace.life.manage.ProcessManager;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -17,12 +17,13 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.manage.op;
+package com.yelstream.topp.furnace.life.manage;
 
-import java.util.concurrent.CompletableFuture;
+import com.yelstream.topp.furnace.life.manage.op.Destroyable;
 
 /**
- * Capable of initiating the destruction of a running component.
+ * Component creating managed processes.
+ * @param <S> Type of runnable.
  * @param <T> Type of result.
  * @param <E> Type of exception.
  *
@@ -30,12 +31,19 @@ import java.util.concurrent.CompletableFuture;
  * @version 1.0
  * @since 2024-08-04
  */
-@FunctionalInterface
-public interface Destroyable<T,E extends Exception> {
+public interface Processable<S extends Destroyable<T,E>,T,E extends Exception> extends AutoCloseable {
     /**
-     * Initiates a destroy operation.
-     * @return Handle to the result of the operation.
-     * @throws E Thrown in case of error.
+     * Gets the manager creating components.
+     * @return Manager creating components.
      */
-    CompletableFuture<T> destroy() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
+    ProcessManager<S,T,E> getManager();  //TO-DO: Further consider and evaluate the possible benefit of the return type being a generic 'M' -- in relation to actual implementations!
+
+    @Override
+    default void close() throws E {
+        try {
+            getManager().close();
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to close managed component!",ex);
+        }
+    }
 }

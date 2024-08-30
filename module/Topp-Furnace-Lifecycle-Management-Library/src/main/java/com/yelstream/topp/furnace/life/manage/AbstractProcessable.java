@@ -17,22 +17,27 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.manage;
+package com.yelstream.topp.furnace.life.manage;
 
-import com.yelstream.topp.furnace.manage.op.Creatable;
-import com.yelstream.topp.furnace.manage.op.Destroyable;
+import com.yelstream.topp.furnace.life.manage.op.Destroyable;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
- * Manages the creation of a runnable component.
+ * Abstract implementation of a processable component.
  * @param <S> Type of runnable.
  * @param <T> Type of result.
  * @param <E> Type of exception.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-08-04
+ * @since 2024-07-29
  */
-public interface ProcessManager<S extends Destroyable<T,E>,T,E extends Exception> extends Creatable<S,E>, AutoCloseable {
-    @Override
-    abstract void close() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
+@RequiredArgsConstructor
+public abstract class AbstractProcessable<S extends Destroyable<T,E>,T,E extends Exception> implements Processable<S,T,E> {
+    /**
+     * Process manager.
+     */
+    @Getter
+    private final ProcessManager<S,T,E> manager;
 }

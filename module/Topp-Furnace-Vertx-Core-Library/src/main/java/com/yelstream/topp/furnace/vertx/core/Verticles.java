@@ -19,7 +19,14 @@
 
 package com.yelstream.topp.furnace.vertx.core;
 
+import com.yelstream.topp.furnace.vertx.core.function.VerticleDeploymentFunction;
+import com.yelstream.topp.furnace.vertx.core.function.VerticleUndeploymentFunction;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Verticle;
+import io.vertx.core.Vertx;
+import lombok.experimental.UtilityClass;
+
+import java.util.function.Supplier;
 
 /**
  * Utility addressing instances of {@link Verticle}.
@@ -28,45 +35,26 @@ import io.vertx.core.Verticle;
  * @version 1.0
  * @since 2024-04-30
  */
+@UtilityClass
 public class Verticles {
 
-    /*
-     * TO-DO: Normal deployment!
-     */
+    public <V extends Verticle> VerticleDeploymentDescriptor<V> deploymentDescriptor(Vertx vertx,
+                                                                                     V verticle,
+                                                                                     DeploymentOptions deploymentOptions) {
+        VerticleDeploymentDescriptor.Builder<V> builder=VerticleDeploymentDescriptor.builder();
+        builder.vertx(vertx).verticle(verticle).deploymentOptions(deploymentOptions);
+        return builder.build();
+    }
 
-    /*
-     * TO-DO: Normal undeployment!
-     */
-
-    /*
-     * TO-DO: Normal deployment with undeployment-handle!
-     */
-
-    /*
-     * TO-DO: Normal undeployment with undeployment-handle!
-     */
-
-    /*
-     * TO-DO: Ab-normal deployment!
-     */
-
-    /*
-     * TO-DO: Ab-normal undeployment!
-     */
-
-    /*
-     * TO-DO: Ab-normal deployment with undeployment-handle!
-     */
-
-    /*
-     * TO-DO: Ab-normal undeployment with undeployment-handle!
-     */
-
-    //TO-DO: Sequential deployment, list!
-
-    //TO-DO: Sequential undeployment, list (possibly reverse of deployment?)
-
-    //TO-DO: Parallel deployment!
-
-    //TO-DO: Parallel undeployment!
+    public <V extends Verticle> VerticleDeploymentDescriptor<V> deploymentDescriptor(Vertx vertx,
+                                                                                     Supplier<V> verticleSupplier,
+                                                                                     DeploymentOptions deploymentOptions,
+                                                                                     VerticleDeploymentFunction deploymentFunction,
+                                                                                     VerticleUndeploymentFunction undeploymentFunction) {
+        VerticleDeploymentDescriptor.Builder<V> builder=VerticleDeploymentDescriptor.builder();
+        builder.vertx(vertx).verticleSupplier(verticleSupplier).deploymentOptions(deploymentOptions);
+        builder.deploymentFunction(deploymentFunction);
+        builder.undeploymentFunction(undeploymentFunction);
+        return builder.build();
+    }
 }

@@ -19,7 +19,8 @@
 
 package com.yelstream.topp.furnace.vertx.core.manage;
 
-import com.yelstream.topp.furnace.manage.Manageable;
+import com.yelstream.topp.furnace.life.manage.LifecycleManager;
+import com.yelstream.topp.furnace.life.manage.Manageable;
 import com.yelstream.topp.furnace.vertx.core.Promises;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -35,10 +36,10 @@ import java.util.concurrent.CompletableFuture;
  * @since 2024-08-27
  */
 @RequiredArgsConstructor(staticName="of")
-public class ManageableVerticle<S,T,E extends Exception> extends AbstractVerticle {
+public class ManageableVerticle<S,T,E extends Exception,M extends LifecycleManager<S,T,E>> extends AbstractVerticle {
 
     @Getter
-    private final Manageable<S,T,E> manageable;
+    private final Manageable<S,T,E,M> manageable;
 
     @Override
     public void start(Promise<Void> promise) throws Exception {

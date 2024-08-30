@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -47,5 +48,21 @@ public class Futures {
 
     public static <X> X join(Future<X> future) {
         return future.toCompletionStage().toCompletableFuture().join();
+    }
+
+    public static <X,Y> CompletableFuture<Y> toCompletableFuture(Future<X> future,
+                                                                 Function<X,Y> transformation) {
+
+        CompletableFuture<Y> completableFuture=new CompletableFuture<>();
+        future.onComplete(handler -> {
+            if (handler.failed()) {
+                completableFuture.completeExceptionally(handler.cause());
+            } else {
+                X result=handler.result();
+                Y transformedResult=transformation.apply(result);
+                completableFuture.complete(transformedResult);
+            }
+        });
+        return completableFuture;
     }
 }

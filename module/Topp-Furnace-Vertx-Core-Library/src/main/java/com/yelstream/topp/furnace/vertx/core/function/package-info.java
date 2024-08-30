@@ -18,15 +18,6 @@
  */
 
 /**
- * Topp Furnace Management handles component lifecycle management.
+ *
  */
-module com.yelstream.topp.furnace.lifecycle.management {
-    requires static lombok;
-    requires java.base;
-    requires org.slf4j;
-    requires com.yelstream.topp.standard.core;
-    exports com.yelstream.topp.furnace.life.manage;
-    exports com.yelstream.topp.furnace.life.manage.op;
-    exports com.yelstream.topp.furnace.life.deploy;
-    exports com.yelstream.topp.furnace.life.deploy.op;
-}
+package com.yelstream.topp.furnace.vertx.core.function;

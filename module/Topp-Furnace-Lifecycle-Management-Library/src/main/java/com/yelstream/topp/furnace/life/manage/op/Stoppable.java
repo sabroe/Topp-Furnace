@@ -17,16 +17,12 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.manage;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+package com.yelstream.topp.furnace.life.manage.op;
 
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Abstract implementation of a manageable component.
- * @param <S> Type of runnable.
+ * Capable of initiating a stop of a running component.
  * @param <T> Type of result.
  * @param <E> Type of exception.
  *
@@ -34,16 +30,12 @@ import java.util.concurrent.CompletableFuture;
  * @version 1.0
  * @since 2024-07-29
  */
-@RequiredArgsConstructor
-public abstract class AbstractManageable<S,T,E extends Exception,M extends LifecycleManager<S,T,E>> implements Manageable<S,T,E,M> {
+@FunctionalInterface
+public interface Stoppable<T,E extends Exception> {
     /**
-     * Lifecycle manager.
+     * Initiates a stop operation.
+     * @return Handle to the result of the operation.
+     * @throws E Thrown in case of error.
      */
-    @Getter
-//    private final LifecycleManager<S,T,E> manager=ComposedLifecycleManager.of(this::start,this::stop);
-    private final M manager;
-
-//    protected abstract CompletableFuture<S> start() throws E;
-
-//    protected abstract CompletableFuture<T> stop() throws E;
+    CompletableFuture<T> stop() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
 }

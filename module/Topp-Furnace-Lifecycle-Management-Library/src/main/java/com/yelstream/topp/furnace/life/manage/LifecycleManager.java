@@ -17,7 +17,20 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.furnace.life.manage;
+
+import com.yelstream.topp.furnace.life.manage.op.Startable;
+import com.yelstream.topp.furnace.life.manage.op.Stoppable;
+
 /**
- * Operations participating in the management of the runnable state of components.
+ * Manages the lifecycle of a runnable component.
+ * @param <S> Type of runnable.
+ * @param <T> Type of result.
+ * @param <E> Type of exception.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-07-29
  */
-package com.yelstream.topp.furnace.manage.op;
+public interface LifecycleManager<S,T,E extends Exception> extends Startable<S,E>, Stoppable<T,E> {
+}

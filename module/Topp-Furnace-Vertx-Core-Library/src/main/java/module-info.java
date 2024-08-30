@@ -27,10 +27,12 @@ module com.yelstream.topp.furnace.vertx.core {
     requires io.vertx.core;
     requires com.yelstream.topp.standard.core;
     requires com.yelstream.topp.furnace.execution;
+    requires com.yelstream.topp.furnace.lifecycle.management;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires com.google.common;
     exports com.yelstream.topp.furnace.vertx.core;
     exports com.yelstream.topp.furnace.vertx.core.buffer;
     exports com.yelstream.topp.furnace.vertx.core.eventbus;
+    exports com.yelstream.topp.furnace.vertx.core.function;
 }

@@ -1,4 +1,4 @@
-package com.yelstream.topp.furnace.manage;
+package com.yelstream.topp.furnace.life.manage;
 
 public enum LifecycleState {
 

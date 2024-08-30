@@ -17,20 +17,21 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.manage;
+package com.yelstream.topp.furnace.vertx.core.function;
 
-import com.yelstream.topp.furnace.manage.op.Startable;
-import com.yelstream.topp.furnace.manage.op.Stoppable;
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 
 /**
- * Manages the lifecycle of a runnable component.
- * @param <S> Type of runnable.
- * @param <T> Type of result.
- * @param <E> Type of exception.
+ * Mapping equivalent to {@link Vertx#undeploy(String)}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-07-29
+ * @since 2024-08-31
  */
-public interface LifecycleManager<S,T,E extends Exception> extends Startable<S,E>, Stoppable<T,E> {
+@FunctionalInterface
+public interface VerticleUndeploymentFunction {
+    Future<Void> deploy(Vertx vertx, String deploymentID);
+
+    VerticleUndeploymentFunction DEFAULT=Vertx::undeploy;
 }

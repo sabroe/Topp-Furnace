@@ -17,22 +17,25 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.manage;
+package com.yelstream.topp.furnace.life.manage.op;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
- * Component with a managed lifecycle.
+ * Capable of initiating a start of a running component.
  * @param <S> Type of runnable.
- * @param <T> Type of result.
  * @param <E> Type of exception.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-07-29
  */
-public interface Manageable<S,T,E extends Exception, M extends LifecycleManager<S,T,E>> {
+@FunctionalInterface
+public interface Startable<S,E extends Exception> {
     /**
-     * Gets the manager of the component lifecycle.
-     * @return Manager of component lifecycle.
+     * Initiates a start operation.
+     * @return Handle to the result of the operation.
+     * @throws E Thrown in case of error.
      */
-    M getManager();
+    CompletableFuture<S> start() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
 }

@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.furnace.manage;
 
+import com.yelstream.topp.furnace.life.manage.ProcessManager;
 import com.yelstream.topp.furnace.manage.impl.ProcessControl;
 import com.yelstream.topp.furnace.manage.impl.ProcessProcessable;
 import org.junit.jupiter.api.Test;

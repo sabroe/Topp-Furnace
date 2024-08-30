@@ -17,33 +17,22 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.manage;
-
-import com.yelstream.topp.furnace.manage.op.Destroyable;
+package com.yelstream.topp.furnace.life.manage;
 
 /**
- * Component creating managed processes.
+ * Component with a managed lifecycle.
  * @param <S> Type of runnable.
  * @param <T> Type of result.
  * @param <E> Type of exception.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-08-04
+ * @since 2024-07-29
  */
-public interface Processable<S extends Destroyable<T,E>,T,E extends Exception> extends AutoCloseable {
+public interface Manageable<S,T,E extends Exception, M extends LifecycleManager<S,T,E>> {
     /**
-     * Gets the manager creating components.
-     * @return Manager creating components.
+     * Gets the manager of the component lifecycle.
+     * @return Manager of component lifecycle.
      */
-    ProcessManager<S,T,E> getManager();  //TO-DO: Further consider and evaluate the possible benefit of the return type being a generic 'M' -- in relation to actual implementations!
-
-    @Override
-    default void close() throws E {
-        try {
-            getManager().close();
-        } catch (Exception ex) {
-            throw new IllegalStateException("Failed to close managed component!",ex);
-        }
-    }
+    M getManager();
 }
