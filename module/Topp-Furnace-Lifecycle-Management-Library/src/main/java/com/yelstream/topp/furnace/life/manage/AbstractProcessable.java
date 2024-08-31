@@ -34,10 +34,10 @@ import lombok.RequiredArgsConstructor;
  * @since 2024-07-29
  */
 @RequiredArgsConstructor
-public abstract class AbstractProcessable<S extends Destroyable<T,E>,T,E extends Exception> implements Processable<S,T,E> {
+public abstract class AbstractProcessable<S extends Destroyable<T,E>,T,E extends Exception,M extends ProcessManager<S,T,E>> implements Processable<S,T,E,M> {
     /**
      * Process manager.
      */
     @Getter
-    private final ProcessManager<S,T,E> manager;
+    private final M manager;
 }

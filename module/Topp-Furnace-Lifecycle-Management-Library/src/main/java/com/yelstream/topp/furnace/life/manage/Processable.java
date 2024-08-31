@@ -31,12 +31,12 @@ import com.yelstream.topp.furnace.life.manage.op.Destroyable;
  * @version 1.0
  * @since 2024-08-04
  */
-public interface Processable<S extends Destroyable<T,E>,T,E extends Exception> extends AutoCloseable {
+public interface Processable<S extends Destroyable<T,E>,T,E extends Exception,M extends ProcessManager<S,T,E>> extends AutoCloseable {
     /**
      * Gets the manager creating components.
      * @return Manager creating components.
      */
-    ProcessManager<S,T,E> getManager();  //TO-DO: Further consider and evaluate the possible benefit of the return type being a generic 'M' -- in relation to actual implementations!
+    M getManager();
 
     @Override
     default void close() throws E {

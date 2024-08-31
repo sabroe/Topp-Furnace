@@ -37,7 +37,8 @@ class VerticleManageableTest {
         Vertx vertx = Vertx.vertx();
         Verticle verticle = new TestVerticle();
 
-        try (VerticleManageable manageable=VerticleManageable.of(vertx,verticle)) {
+        try {
+            VerticleManageable manageable=VerticleManageable.of(vertx,verticle);
             LifecycleManager<Verticle,String,Exception> manager=manageable.getManager();
             CompletableFuture<Verticle> startFuture=manager.start();
             CompletableFuture<String> stopFuture=manager.stop();

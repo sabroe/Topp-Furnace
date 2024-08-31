@@ -26,7 +26,7 @@ import lombok.Getter;
 
 import java.io.IOException;
 
-public class ProcessProcessable extends AbstractProcessable<ProcessControl,Integer,IOException> {
+public class ProcessProcessable extends AbstractProcessable<ProcessControl,Integer,IOException,ProcessManager<ProcessControl,Integer,IOException>> {
 
     @Getter
     private final ProcessBuilder processBuilder;

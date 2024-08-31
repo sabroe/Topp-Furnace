@@ -29,7 +29,7 @@ package com.yelstream.topp.furnace.life.manage;
  * @version 1.0
  * @since 2024-07-29
  */
-public interface Manageable<S,T,E extends Exception, M extends LifecycleManager<S,T,E>> {
+public interface Manageable<S,T,E extends Exception,M extends LifecycleManager<S,T,E>> {
     /**
      * Gets the manager of the component lifecycle.
      * @return Manager of component lifecycle.
