@@ -17,25 +17,22 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.life.manage.op;
+package com.yelstream.topp.furnace.life.process;
 
-import java.util.concurrent.CompletableFuture;
+import com.yelstream.topp.furnace.life.process.op.Creatable;
+import com.yelstream.topp.furnace.life.process.op.Destroyable;
 
 /**
- * Capable of initiating the creation of a running component.
+ * Manages the creation of a runnable component.
  * @param <S> Type of runnable.
+ * @param <T> Type of result.
  * @param <E> Type of exception.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-08-04
  */
-@FunctionalInterface
-public interface Creatable<S,E extends Exception> {
-    /**
-     * Initiates a create operation.
-     * @return Handle to the result of the operation.
-     * @throws E Thrown in case of error.
-     */
-    CompletableFuture<S> create() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
+public interface ProcessManager<S extends Destroyable<T,E>,T,E extends Exception> extends Creatable<S,E>, AutoCloseable {
+    @Override
+    abstract void close() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
 }

@@ -17,27 +17,33 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.life.manage;
+package com.yelstream.topp.furnace.life.process;
 
-import com.yelstream.topp.furnace.life.manage.op.Destroyable;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import com.yelstream.topp.furnace.life.process.op.Destroyable;
 
 /**
- * Abstract implementation of a processable component.
+ * Component creating managed processes.
  * @param <S> Type of runnable.
  * @param <T> Type of result.
  * @param <E> Type of exception.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-07-29
+ * @since 2024-08-04
  */
-@RequiredArgsConstructor
-public abstract class AbstractProcessable<S extends Destroyable<T,E>,T,E extends Exception,M extends ProcessManager<S,T,E>> implements Processable<S,T,E,M> {
+public interface Processable<S extends Destroyable<T,E>,T,E extends Exception,M extends ProcessManager<S,T,E>> extends AutoCloseable {
     /**
-     * Process manager.
+     * Gets the manager creating components.
+     * @return Manager creating components.
      */
-    @Getter
-    private final M manager;
+    M getManager();
+
+    @Override
+    default void close() throws E {
+        try {
+            getManager().close();
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to close managed component!",ex);
+        }
+    }
 }

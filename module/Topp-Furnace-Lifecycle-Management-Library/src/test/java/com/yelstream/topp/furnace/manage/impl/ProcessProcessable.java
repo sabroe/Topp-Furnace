@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.furnace.manage.impl;
 
-import com.yelstream.topp.furnace.life.manage.AbstractProcessable;
-import com.yelstream.topp.furnace.life.manage.ProcessManager;
+import com.yelstream.topp.furnace.life.process.AbstractProcessable;
+import com.yelstream.topp.furnace.life.process.ProcessManager;
 import lombok.AccessLevel;
 import lombok.Getter;
 

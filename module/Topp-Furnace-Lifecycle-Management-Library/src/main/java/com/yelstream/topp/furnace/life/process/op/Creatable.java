@@ -17,33 +17,25 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.life.manage;
+package com.yelstream.topp.furnace.life.process.op;
 
-import com.yelstream.topp.furnace.life.manage.op.Destroyable;
+import java.util.concurrent.CompletableFuture;
 
 /**
- * Component creating managed processes.
+ * Capable of initiating the creation of a running component.
  * @param <S> Type of runnable.
- * @param <T> Type of result.
  * @param <E> Type of exception.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-08-04
  */
-public interface Processable<S extends Destroyable<T,E>,T,E extends Exception,M extends ProcessManager<S,T,E>> extends AutoCloseable {
+@FunctionalInterface
+public interface Creatable<S,E extends Exception> {
     /**
-     * Gets the manager creating components.
-     * @return Manager creating components.
+     * Initiates a create operation.
+     * @return Handle to the result of the operation.
+     * @throws E Thrown in case of error.
      */
-    M getManager();
-
-    @Override
-    default void close() throws E {
-        try {
-            getManager().close();
-        } catch (Exception ex) {
-            throw new IllegalStateException("Failed to close managed component!",ex);
-        }
-    }
+    CompletableFuture<S> create() throws E;
 }

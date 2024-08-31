@@ -37,5 +37,5 @@ public interface Stoppable<T,E extends Exception> {
      * @return Handle to the result of the operation.
      * @throws E Thrown in case of error.
      */
-    CompletableFuture<T> stop() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
+    CompletableFuture<T> stop() throws E;
 }

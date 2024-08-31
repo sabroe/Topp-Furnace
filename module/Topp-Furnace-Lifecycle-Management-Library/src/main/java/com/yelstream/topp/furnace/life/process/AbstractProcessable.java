@@ -17,25 +17,27 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.life.manage.op;
+package com.yelstream.topp.furnace.life.process;
 
-import java.util.concurrent.CompletableFuture;
+import com.yelstream.topp.furnace.life.process.op.Destroyable;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
- * Capable of initiating the destruction of a running component.
+ * Abstract implementation of a processable component.
+ * @param <S> Type of runnable.
  * @param <T> Type of result.
  * @param <E> Type of exception.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-08-04
+ * @since 2024-07-29
  */
-@FunctionalInterface
-public interface Destroyable<T,E extends Exception> {
+@RequiredArgsConstructor
+public abstract class AbstractProcessable<S extends Destroyable<T,E>,T,E extends Exception,M extends ProcessManager<S,T,E>> implements Processable<S,T,E,M> {
     /**
-     * Initiates a destroy operation.
-     * @return Handle to the result of the operation.
-     * @throws E Thrown in case of error.
+     * Process manager.
      */
-    CompletableFuture<T> destroy() throws E;  //TO-DO: Further consider and evaluate the need and sanity of a checked exception -- in relation to actual implementations!
+    @Getter
+    private final M manager;
 }
