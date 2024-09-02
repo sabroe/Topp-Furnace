@@ -1,16 +1,8 @@
 package com.yelstream.topp.furnace.life.manage;
 
 public enum LifecycleState {
-
-    UNDEFINED,
-    STOPPED,
+    NOT_RUNNING,
     STARTING,
-    STARTED,
+    RUNNING,
     STOPPING
-
-/*
-    READY,
-    NON_READY
-*/
-
 }
