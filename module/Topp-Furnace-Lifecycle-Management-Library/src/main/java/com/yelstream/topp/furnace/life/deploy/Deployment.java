@@ -19,11 +19,17 @@
 
 package com.yelstream.topp.furnace.life.deploy;
 
-import com.yelstream.topp.furnace.life.deploy.op.Deployable;
 import com.yelstream.topp.furnace.life.deploy.op.Undeployable;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 
+/**
+ *
+ * @param <S> Type of component.
+ * @param <E> Type of exception.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-08-31
+ */
 public interface Deployment<S,E extends Exception> extends Undeployable<S,E> {
 
 

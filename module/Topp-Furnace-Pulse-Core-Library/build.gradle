@@ -17,28 +17,23 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.life.deploy;
+plugins {
+    id 'java'
+    id 'java-library-distribution'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+}
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
-import java.util.concurrent.CompletableFuture;
+    api 'org.slf4j:slf4j-api:2.0.13'
+    api 'org.slf4j:slf4j-ext:2.0.13'
 
-/**
- *
- * @param <S> Type of component.
- * @param <E> Type of exception.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-08-31
- */
-@AllArgsConstructor(access= AccessLevel.PRIVATE)
-@lombok.Builder(builderClassName="Builder",toBuilder=true)
-public class DefaultDeploymentDescriptor<S,D extends Deployment<S,E>,E extends Exception> implements DeploymentDescriptor<S,D,E> {
+    api 'com.yelstream.topp.standard:topp-standard-core:0.1.2'
 
-    @Override
-    public CompletableFuture<D> deploy() throws E {
-        return null;
-    }
+    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+    testImplementation 'io.vertx:vertx-core:4.5.9'
 }

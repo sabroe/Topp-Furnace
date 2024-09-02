@@ -20,8 +20,8 @@
 rootProject.name = 'Yelstream Topp Furnace Project'
 
 include 'module:Topp-Furnace-Execution-Library'
-
 include 'module:Topp-Furnace-Lifecycle-Management-Library'
+include 'module:Topp-Furnace-Pulse-Core-Library'
 
 include 'module:Topp-Furnace-Flow-Library'
 

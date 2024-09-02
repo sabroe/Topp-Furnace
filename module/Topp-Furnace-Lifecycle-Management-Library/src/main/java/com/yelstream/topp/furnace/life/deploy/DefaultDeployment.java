@@ -24,6 +24,15 @@ import lombok.AllArgsConstructor;
 
 import java.util.concurrent.CompletableFuture;
 
+/**
+ *
+ * @param <S> Type of component.
+ * @param <E> Type of exception.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-08-31
+ */
 @AllArgsConstructor(access= AccessLevel.PRIVATE)
 @lombok.Builder(builderClassName="Builder",toBuilder=true)
 public class DefaultDeployment<S,E extends Exception> implements Deployment<S,E> {

@@ -17,28 +17,15 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.life.deploy;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-
-import java.util.concurrent.CompletableFuture;
-
 /**
- *
- * @param <S> Type of component.
- * @param <E> Type of exception.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-08-31
+ * Topp Furnace Pulse Core handles the transmission of signals.
  */
-@AllArgsConstructor(access= AccessLevel.PRIVATE)
-@lombok.Builder(builderClassName="Builder",toBuilder=true)
-public class DefaultDeploymentDescriptor<S,D extends Deployment<S,E>,E extends Exception> implements DeploymentDescriptor<S,D,E> {
-
-    @Override
-    public CompletableFuture<D> deploy() throws E {
-        return null;
-    }
+module com.yelstream.topp.furnace.pulse.core {
+    requires static lombok;
+    requires java.base;
+    requires org.slf4j;
+    requires com.yelstream.topp.standard.core;
+    exports com.yelstream.topp.furnace.pulse.beacon;
+    exports com.yelstream.topp.furnace.pulse.signal;
+    exports com.yelstream.topp.furnace.pulse.signal.codec;
 }

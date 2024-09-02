@@ -21,5 +21,14 @@ package com.yelstream.topp.furnace.life.deploy;
 
 import com.yelstream.topp.furnace.life.deploy.op.Deployable;
 
+/**
+ *
+ * @param <S> Type of component.
+ * @param <E> Type of exception.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-08-31
+ */
 public interface DeploymentDescriptor<S,D extends Deployment<S,E>,E extends Exception> extends Deployable<D,E> {
 }

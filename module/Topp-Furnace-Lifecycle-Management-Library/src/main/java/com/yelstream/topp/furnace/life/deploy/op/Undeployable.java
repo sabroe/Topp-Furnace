@@ -21,6 +21,15 @@ package com.yelstream.topp.furnace.life.deploy.op;
 
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Capable of undeploying a running component.
+ * @param <S> Type of component.
+ * @param <E> Type of exception.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-08-31
+ */
 public interface Undeployable<S,E extends Exception> {
     CompletableFuture<S> undeploy() throws E;
 }
