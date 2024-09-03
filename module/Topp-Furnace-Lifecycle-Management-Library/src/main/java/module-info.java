@@ -31,4 +31,5 @@ module com.yelstream.topp.furnace.lifecycle.management {
     exports com.yelstream.topp.furnace.life.deploy.op;
     exports com.yelstream.topp.furnace.life.process.op;
     exports com.yelstream.topp.furnace.life.process;
+    exports com.yelstream.topp.furnace.life.manage.state;
 }

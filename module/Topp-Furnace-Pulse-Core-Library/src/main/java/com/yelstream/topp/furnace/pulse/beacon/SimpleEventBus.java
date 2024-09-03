@@ -61,6 +61,7 @@ public class SimpleEventBus {
     }
 
     // Example of a handler for request-reply
+    @SuppressWarnings("java:S4144")
     public <T> void registerRequestHandler(String address, Function<Object, T> handler) {
         register(address, msg -> {
             RequestMessage<T> requestMessage = (RequestMessage<T>) msg;
