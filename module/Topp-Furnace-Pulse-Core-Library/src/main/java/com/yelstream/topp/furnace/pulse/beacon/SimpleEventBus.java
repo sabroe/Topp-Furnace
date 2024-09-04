@@ -7,39 +7,47 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class SimpleEventBus {
-    // Maps to store handlers for each address
-    private final ConcurrentHashMap<String, CopyOnWriteArrayList<Consumer<Object>>> subscribers = new ConcurrentHashMap<>();
+    // Maps to store handlers for each address with type safety
+    private final ConcurrentHashMap<String, CopyOnWriteArrayList<Consumer<?>>> subscribers = new ConcurrentHashMap<>();
 
     // Send message to a specific address (Send/Receive pattern)
-    public void send(String address, Object message) {
+    public <T> void send(String address, T message) {
         var handlers = subscribers.get(address);
         if (handlers != null) {
-            handlers.forEach(handler -> CompletableFuture.runAsync(() -> handler.accept(message)));
+            for (Consumer<?> handler : handlers) {
+                @SuppressWarnings("unchecked")
+                Consumer<T> castedHandler = (Consumer<T>) handler;
+                CompletableFuture.runAsync(() -> castedHandler.accept(message));
+            }
         }
     }
 
     // Request-reply pattern
-    public <T> CompletableFuture<T> request(String address, Object message) {
-        CompletableFuture<T> future = new CompletableFuture<>();
+    public <T, R> CompletableFuture<R> request(String address, T message) {
+        CompletableFuture<R> future = new CompletableFuture<>();
         send(address, new RequestMessage<>(message, future));
         return future;
     }
 
     // Publish message to all subscribers of an address (Publish-Subscribe pattern)
-    public void publish(String address, Object message) {
+    public <T> void publish(String address, T message) {
         var handlers = subscribers.get(address);
         if (handlers != null) {
-            handlers.forEach(handler -> CompletableFuture.runAsync(() -> handler.accept(message)));
+            for (Consumer<?> handler : handlers) {
+                @SuppressWarnings("unchecked")
+                Consumer<T> castedHandler = (Consumer<T>) handler;
+                CompletableFuture.runAsync(() -> castedHandler.accept(message));
+            }
         }
     }
 
     // Register a handler to a specific address
-    public void register(String address, Consumer<Object> handler) {
+    public <T> void register(String address, Consumer<T> handler) {
         subscribers.computeIfAbsent(address, k -> new CopyOnWriteArrayList<>()).add(handler);
     }
 
     // Unregister a handler from a specific address
-    public void unregister(String address, Consumer<Object> handler) {
+    public <T> void unregister(String address, Consumer<T> handler) {
         var handlers = subscribers.get(address);
         if (handlers != null) {
             handlers.remove(handler);
@@ -50,49 +58,44 @@ public class SimpleEventBus {
     }
 
     // Internal class for request message with future
-    private static class RequestMessage<T> {
-        final Object message;
-        final CompletableFuture<T> future;
+    private static class RequestMessage<T, R> {
+        final T message;
+        final CompletableFuture<R> future;
 
-        RequestMessage(Object message, CompletableFuture<T> future) {
+        RequestMessage(T message, CompletableFuture<R> future) {
             this.message = message;
             this.future = future;
         }
     }
 
-    // Example of a handler for request-reply
-    @SuppressWarnings("java:S4144")
-    public <T> void registerRequestHandler(String address, Function<Object, T> handler) {
+    // Register a handler for request-reply with type safety
+    public <T, R> void registerRequestHandler(String address, Function<T, R> handler) {
         register(address, msg -> {
-            RequestMessage<T> requestMessage = (RequestMessage<T>) msg;
-            T result = handler.apply(requestMessage.message);
+            @SuppressWarnings("unchecked")
+            RequestMessage<T, R> requestMessage = (RequestMessage<T, R>) msg;
+            R result = handler.apply(requestMessage.message);
             requestMessage.future.complete(result);
         });
     }
-
-
 
     public static void main(String[] args) {
         SimpleEventBus eventBus = new SimpleEventBus();
 
         // Example: Register a handler for simple send/receive
-        eventBus.register("print", message -> System.out.println("Received: " + message));
+        eventBus.register("print", (String message) -> System.out.println("Received: " + message));
 
         // Example: Send a message
         eventBus.send("print", "Hello, World!");
 
         // Example: Register a handler for request-reply
-        eventBus.registerRequestHandler("square", message -> {
-            int number = (Integer) message;
-            return number * number;
-        });
+        eventBus.registerRequestHandler("square", (Integer number) -> number * number);
 
         // Example: Request a reply
         eventBus.request("square", 4).thenAccept(result -> System.out.println("Result: " + result));
 
         // Example: Register a handler for publish-subscribe
-        eventBus.register("news", message -> System.out.println("Subscriber 1 received news: " + message));
-        eventBus.register("news", message -> System.out.println("Subscriber 2 received news: " + message));
+        eventBus.register("news", (String message) -> System.out.println("Subscriber 1 received news: " + message));
+        eventBus.register("news", (String message) -> System.out.println("Subscriber 2 received news: " + message));
 
         // Example: Publish a message
         eventBus.publish("news", "Breaking News!");

@@ -42,8 +42,11 @@ public class Manageables {
 
     public static <S,T,E extends Exception> Manageable<S,T,E,LifecycleManager<S,T,E>> createManageable(Startable<S,E> startable,
                                                                                                        Stoppable<T,E> stoppable) {
+return null;
+/*
         LifecycleManager<S,T,E> manager=ComposedLifecycleManager.of(startable,stoppable);
         return ()->manager;
+*/
     }
 
     public static <S,T,E extends Exception,M extends LifecycleManager<S,T,E>> void close(Manageable<S,T,E,M> manageable) {

@@ -20,6 +20,7 @@
 package com.yelstream.topp.furnace.manage;
 
 import com.yelstream.topp.furnace.life.manage.LifecycleManager;
+import com.yelstream.topp.furnace.manage.vertx.VerticleLifecycleManager;
 import com.yelstream.topp.furnace.manage.vertx.VerticleManageable;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Verticle;
@@ -39,9 +40,9 @@ class VerticleManageableTest {
 
         try {
             VerticleManageable manageable=VerticleManageable.of(vertx,verticle);
-            LifecycleManager<Verticle,String,Exception> manager=manageable.getManager();
-            CompletableFuture<Verticle> startFuture=manager.start();
-            CompletableFuture<String> stopFuture=manager.stop();
+            VerticleLifecycleManager manager=manageable.getManager();
+            CompletableFuture<String> startFuture=manager.start();
+            CompletableFuture<Void> stopFuture=manager.stop();
             // Do something with the verticle
         } catch (Exception e) {
             e.printStackTrace();

@@ -32,18 +32,18 @@ import lombok.Getter;
  * @version 1.0
  * @since 2024-07-29
  */
-public class VerticleManageable extends AbstractManageable<Verticle,String,Exception,LifecycleManager<Verticle,String,Exception>> {
+public class VerticleManageable extends AbstractManageable<String,Void,RuntimeException,VerticleLifecycleManager> {
 
     @Getter
-    private final Vertx vertx;
+    private final Vertx vertx;  //TO-DO: Keep in manageable, right?
 
     @Getter
-    private final Verticle verticle;
+    private final Verticle verticle;  //TO-DO: Keep in manageable, right?
 
     @lombok.Builder(builderClassName="Builder",access=AccessLevel.PRIVATE)
     private VerticleManageable(Vertx vertx,
                                Verticle verticle,
-                               LifecycleManager<Verticle,String,Exception> manager) {
+                               VerticleLifecycleManager manager) {
         super(manager);
         this.vertx=vertx;
         this.verticle=verticle;

@@ -25,8 +25,7 @@ import com.yelstream.topp.furnace.life.manage.op.StateSafeStoppable;
 import com.yelstream.topp.furnace.life.manage.op.Stoppable;
 import com.yelstream.topp.furnace.life.manage.state.LifecycleState;
 import com.yelstream.topp.furnace.life.manage.state.LifecycleStateControl;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -37,7 +36,7 @@ import java.util.concurrent.CompletableFuture;
  * @version 1.0
  * @since 2024-09-03
  */
-public class StateSafeLifecycleManager<S,T,E extends Exception> implements LifecycleManager<S,T,E> {
+public abstract class AbstractLifecycleManager<S,T,E extends Exception> implements LifecycleManager<S,T,E> {
     /**
      *
      */
@@ -46,12 +45,14 @@ public class StateSafeLifecycleManager<S,T,E extends Exception> implements Lifec
     /**
      *
      */
-    private final Startable<S,E> startable;
+    @Getter(lazy=true)
+    private final Startable<S,E> startable=StateSafeStartable.of(stateControl,this::startImpl);
 
     /**
      *
      */
-    private final Stoppable<T,E> stoppable;
+    @Getter(lazy=true)
+    private final Stoppable<T,E> stoppable=StateSafeStoppable.of(stateControl,this::stopImpl,LifecycleState.NOT_RUNNING);
 
 
     @Override
@@ -61,24 +62,20 @@ public class StateSafeLifecycleManager<S,T,E extends Exception> implements Lifec
 
     @Override
     public final CompletableFuture<S> start() throws E {
-        return startable.start();
+        return getStartable().start();
     }
 
     @Override
     public final CompletableFuture<T> stop() throws E {
-        return stoppable.stop();
+        return getStoppable().stop();
     }
 
-    public StateSafeLifecycleManager(LifecycleStateControl stateControl,
-                                     Startable<S,E> startable,
-                                     Stoppable<T,E> stoppable) {
-        this.stateControl=stateControl;
-        this.startable=StateSafeStartable.of(stateControl,startable);
-        this.stoppable=StateSafeStoppable.of(stateControl,stoppable,LifecycleState.NOT_RUNNING);
-    }
+    protected abstract CompletableFuture<S> startImpl();
 
-    public StateSafeLifecycleManager(Startable<S,E> startable,
-                                     Stoppable<T,E> stoppable) {
-        this(new LifecycleStateControl(LifecycleState.NOT_RUNNING),startable,stoppable);
+
+    protected abstract CompletableFuture<T> stopImpl();
+
+    protected AbstractLifecycleManager() {
+        this.stateControl=new LifecycleStateControl(LifecycleState.NOT_RUNNING);
     }
 }

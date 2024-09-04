@@ -33,7 +33,7 @@ public class LifecycleStateControl {  //TO-DO: Consider generalization, "StateCo
     /**
      *
      */
-    private final AtomicReference<LifecycleState> stateReference=new AtomicReference();
+    private final AtomicReference<LifecycleState> stateReference=new AtomicReference<>();
 
     /**
      *

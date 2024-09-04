@@ -10,7 +10,7 @@ import java.time.Instant;
  *
  * @param <S> Type of signal.
  */
-public interface Carrier<S> {
+public interface Carrier<S,T> {
 
     Instant produceTimestamp();
 
@@ -18,7 +18,7 @@ public interface Carrier<S> {
 
     String correlationId();
 
-    Codec codeec();  //Or codec name!
+    Codec<S,T> codeec();  //Or codec name!
 
     Address source();
 

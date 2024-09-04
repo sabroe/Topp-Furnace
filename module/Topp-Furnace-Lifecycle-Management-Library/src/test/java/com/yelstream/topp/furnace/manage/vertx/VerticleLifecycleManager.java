@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.furnace.manage.vertx;
 
-import com.yelstream.topp.furnace.life.manage.LifecycleManager;
+import com.yelstream.topp.furnace.life.manage.AbstractLifecycleManager;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import lombok.AccessLevel;
@@ -27,16 +27,16 @@ import lombok.Getter;
 
 import java.util.concurrent.CompletableFuture;
 
-public class VerticleLifecycleManager implements LifecycleManager<Verticle,String,Exception> {
+public class VerticleLifecycleManager extends AbstractLifecycleManager<String,Void,RuntimeException> {
 
     @Getter
-    private final Vertx vertx;
+    private final Vertx vertx;  //TO-DO: Delete, right?
 
     @Getter
-    private final Verticle verticle;
+    private final Verticle verticle;  //TO-DO: Delete, right?
 
     @Getter
-    private String deploymentId;
+    private String deploymentId;  //TO-DO: Keep in manageable, right?
 
     @lombok.Builder(builderClassName="Builder",access=AccessLevel.PRIVATE)
     private VerticleLifecycleManager(Vertx vertx,
@@ -46,19 +46,19 @@ public class VerticleLifecycleManager implements LifecycleManager<Verticle,Strin
     }
 
     @Override
-    public CompletableFuture<Verticle> start() throws Exception {
-        CompletableFuture<Verticle> future=new CompletableFuture<>();
+    protected CompletableFuture<String> startImpl() {  //TO-DO: Consider moving this implementing code from the manager to the manageable!!
+        CompletableFuture<String> future=new CompletableFuture<>();
         if (deploymentId!=null) {
             IllegalStateException ex=
-                new IllegalStateException(String.format("Failure to start; Verticle is already deployed, previous deployment has id %s!",deploymentId));
+                new IllegalStateException(String.format("Failure to start; Verticle is already deployed, previous deployment has id %s!", deploymentId));
             future.completeExceptionally(ex);
         } else {
-            vertx.deployVerticle(verticle,res -> {
+            vertx.deployVerticle(verticle, res -> {
                 if (res.failed()) {
                     future.completeExceptionally(res.cause());
                 } else {
                     deploymentId=res.result();
-                    future.complete(verticle);
+                    future.complete(deploymentId);
                 }
             });
         }
@@ -66,8 +66,8 @@ public class VerticleLifecycleManager implements LifecycleManager<Verticle,Strin
     }
 
     @Override
-    public CompletableFuture<String> stop() throws Exception {
-        CompletableFuture<String> future=new CompletableFuture<>();
+    protected CompletableFuture<Void> stopImpl() {  //TO-DO: Consider moving this implementing code from the manager to the manageable!!
+        CompletableFuture<Void> future=new CompletableFuture<>();
         if (deploymentId==null) {
             future.complete(null);
         } else {
@@ -75,7 +75,8 @@ public class VerticleLifecycleManager implements LifecycleManager<Verticle,Strin
                 if (res.failed()) {
                     future.completeExceptionally(res.cause());
                 } else {
-                    future.complete(deploymentId);
+                    deploymentId=null;
+                    future.complete(null);
                 }
             });
         }
