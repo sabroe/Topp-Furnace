@@ -28,6 +28,7 @@ import com.yelstream.topp.furnace.life.manage.state.LifecycleStateControl;
 import lombok.Getter;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 /**
  *
@@ -45,15 +46,15 @@ public abstract class AbstractLifecycleManager<S,T,E extends Exception> implemen
     /**
      *
      */
-    @Getter(lazy=true)
-    private final Startable<S,E> startable=StateSafeStartable.of(stateControl,this::startImpl);
+    private final Startable<S,E> startable;
 
     /**
      *
      */
-    @Getter(lazy=true)
-    private final Stoppable<T,E> stoppable=StateSafeStoppable.of(stateControl,this::stopImpl,LifecycleState.NOT_RUNNING);
+    private final Stoppable<T,E> stoppable;
 
+    @Getter
+    private S deployment;  //TO-DO: What is good naming? Runnable-reference, a handle, not the runnable itself!?
 
     @Override
     public final LifecycleState getState() {
@@ -62,20 +63,18 @@ public abstract class AbstractLifecycleManager<S,T,E extends Exception> implemen
 
     @Override
     public final CompletableFuture<S> start() throws E {
-        return getStartable().start();
+        return startable.start().thenApply(res->deployment=res);
     }
 
     @Override
     public final CompletableFuture<T> stop() throws E {
-        return getStoppable().stop();
+        return stoppable.stop().thenApply(res->{ deployment=null; return res; });
     }
 
-    protected abstract CompletableFuture<S> startImpl();
-
-
-    protected abstract CompletableFuture<T> stopImpl();
-
-    protected AbstractLifecycleManager() {
+    protected AbstractLifecycleManager(Startable<S,E> startable,
+                                       Stoppable<T,E> stoppable) {
         this.stateControl=new LifecycleStateControl(LifecycleState.NOT_RUNNING);
+        this.startable=StateSafeStartable.of(stateControl,startable);
+        this.stoppable=StateSafeStoppable.of(stateControl,stoppable,LifecycleState.NOT_RUNNING);
     }
 }

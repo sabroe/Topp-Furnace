@@ -20,84 +20,20 @@
 package com.yelstream.topp.furnace.manage.vertx;
 
 import com.yelstream.topp.furnace.life.manage.AbstractLifecycleManager;
-import io.vertx.core.Verticle;
-import io.vertx.core.Vertx;
-import lombok.AccessLevel;
+import com.yelstream.topp.furnace.life.manage.op.Startable;
+import com.yelstream.topp.furnace.life.manage.op.Stoppable;
 import lombok.Getter;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 public class VerticleLifecycleManager extends AbstractLifecycleManager<String,Void,RuntimeException> {
 
     @Getter
-    private final Vertx vertx;  //TO-DO: Delete, right?
-
-    @Getter
-    private final Verticle verticle;  //TO-DO: Delete, right?
-
-    @Getter
     private String deploymentId;  //TO-DO: Keep in manageable, right?
 
-    @lombok.Builder(builderClassName="Builder",access=AccessLevel.PRIVATE)
-    private VerticleLifecycleManager(Vertx vertx,
-                                     Verticle verticle) {
-        this.vertx=vertx;
-        this.verticle=verticle;
-    }
-
-    @Override
-    protected CompletableFuture<String> startImpl() {  //TO-DO: Consider moving this implementing code from the manager to the manageable!!
-        CompletableFuture<String> future=new CompletableFuture<>();
-        if (deploymentId!=null) {
-            IllegalStateException ex=
-                new IllegalStateException(String.format("Failure to start; Verticle is already deployed, previous deployment has id %s!", deploymentId));
-            future.completeExceptionally(ex);
-        } else {
-            vertx.deployVerticle(verticle, res -> {
-                if (res.failed()) {
-                    future.completeExceptionally(res.cause());
-                } else {
-                    deploymentId=res.result();
-                    future.complete(deploymentId);
-                }
-            });
-        }
-        return future;
-    }
-
-    @Override
-    protected CompletableFuture<Void> stopImpl() {  //TO-DO: Consider moving this implementing code from the manager to the manageable!!
-        CompletableFuture<Void> future=new CompletableFuture<>();
-        if (deploymentId==null) {
-            future.complete(null);
-        } else {
-            vertx.undeploy(deploymentId,res -> {
-                if (res.failed()) {
-                    future.completeExceptionally(res.cause());
-                } else {
-                    deploymentId=null;
-                    future.complete(null);
-                }
-            });
-        }
-        return future;
-    }
-
-    public static VerticleLifecycleManager of(Verticle verticle) {
-        return builder().verticle(verticle).build();
-    }
-
-    public static VerticleLifecycleManager of(Vertx vertx,
-                                              Verticle verticle) {
-        return builder().vertx(vertx).verticle(verticle).build();
-    }
-
-    private static class Builder {
-        public VerticleLifecycleManager build() {
-            if (vertx==null) {
-                vertx=verticle.getVertx();
-            }
-            return new VerticleLifecycleManager(vertx,verticle);
-        }
+//    @lombok.Builder(builderClassName="Builder",access=AccessLevel.PRIVATE)
+    /*private*/ VerticleLifecycleManager(Startable<String,RuntimeException> startable,
+                                     Stoppable<Void,RuntimeException> stoppable) {
+        super(startable,stoppable);
     }
 }

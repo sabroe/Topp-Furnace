@@ -20,11 +20,12 @@
 package com.yelstream.topp.furnace.manage.vertx;
 
 import com.yelstream.topp.furnace.life.manage.AbstractManageable;
-import com.yelstream.topp.furnace.life.manage.LifecycleManager;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import lombok.AccessLevel;
 import lombok.Getter;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Manageable implementation for a Vert.x Verticle.
@@ -35,18 +36,63 @@ import lombok.Getter;
 public class VerticleManageable extends AbstractManageable<String,Void,RuntimeException,VerticleLifecycleManager> {
 
     @Getter
-    private final Vertx vertx;  //TO-DO: Keep in manageable, right?
+    private final Vertx vertx;  //TO-DO: Consider Supplier<Vertx>!
 
     @Getter
-    private final Verticle verticle;  //TO-DO: Keep in manageable, right?
+    private final Verticle verticle;  //TO-DO: Consider Supplier<Verticle>!
+
+    @Getter
+    private String deploymentId;
 
     @lombok.Builder(builderClassName="Builder",access=AccessLevel.PRIVATE)
     private VerticleManageable(Vertx vertx,
-                               Verticle verticle,
-                               VerticleLifecycleManager manager) {
-        super(manager);
+                               Verticle verticle) {
+        if (vertx==null) {
+            vertx=verticle.getVertx();
+        }
         this.vertx=vertx;
         this.verticle=verticle;
+    }
+
+    @Override
+    protected VerticleLifecycleManager createManager() {
+        return new VerticleLifecycleManager(this::start,this::stop);
+    }
+
+    private CompletableFuture<String> start() {
+        CompletableFuture<String> future=new CompletableFuture<>();
+        if (deploymentId!=null) {
+            IllegalStateException ex=
+                new IllegalStateException(String.format("Failure to start; Verticle is already deployed, previous deployment has id %s!", deploymentId));
+            future.completeExceptionally(ex);
+        } else {
+            vertx.deployVerticle(verticle, res -> {
+                if (res.failed()) {
+                    future.completeExceptionally(res.cause());
+                } else {
+                    deploymentId=res.result();
+                    future.complete(deploymentId);
+                }
+            });
+        }
+        return future;
+    }
+
+    private CompletableFuture<Void> stop() {
+        CompletableFuture<Void> future=new CompletableFuture<>();
+        if (deploymentId==null) {
+            future.complete(null);
+        } else {
+            vertx.undeploy(deploymentId,res -> {
+                if (res.failed()) {
+                    future.completeExceptionally(res.cause());
+                } else {
+                    deploymentId=null;
+                    future.complete(null);
+                }
+            });
+        }
+        return future;
     }
 
     public static VerticleManageable of(Verticle verticle) {
@@ -56,17 +102,5 @@ public class VerticleManageable extends AbstractManageable<String,Void,RuntimeEx
     public static VerticleManageable of(Vertx vertx,
                                         Verticle verticle) {
         return builder().vertx(vertx).verticle(verticle).build();
-    }
-
-    private static class Builder {
-        public VerticleManageable build() {
-            if (vertx==null) {
-                vertx=verticle.getVertx();
-            }
-            if (manager==null) {
-                manager=VerticleLifecycleManager.of(vertx,verticle);
-            }
-            return new VerticleManageable(vertx,verticle,manager);
-        }
     }
 }
