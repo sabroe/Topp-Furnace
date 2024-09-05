@@ -61,7 +61,7 @@ public class VerticleManageable extends AbstractManageable<String,Void,RuntimeEx
 
     private CompletableFuture<String> start() {
         CompletableFuture<String> future=new CompletableFuture<>();
-        if (deploymentId!=null) {
+        if (deploymentId!=null) {  //TO-DO: Consider moving this test for "is already deployed" to the AbstractManager! --Will reduce these lines of code !
             IllegalStateException ex=
                 new IllegalStateException(String.format("Failure to start; Verticle is already deployed, previous deployment has id %s!", deploymentId));
             future.completeExceptionally(ex);
@@ -80,7 +80,7 @@ public class VerticleManageable extends AbstractManageable<String,Void,RuntimeEx
 
     private CompletableFuture<Void> stop() {
         CompletableFuture<Void> future=new CompletableFuture<>();
-        if (deploymentId==null) {
+        if (deploymentId==null) {  //TO-DO: Consider moving this test for "is already deployed" to the AbstractManager! --Will reduce these lines of code!
             future.complete(null);
         } else {
             vertx.undeploy(deploymentId,res -> {
