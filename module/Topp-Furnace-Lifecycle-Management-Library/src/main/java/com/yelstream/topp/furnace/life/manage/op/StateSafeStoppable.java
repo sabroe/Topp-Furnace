@@ -54,7 +54,7 @@ public class StateSafeStoppable<T,E extends Exception> implements Stoppable<T,E>
     private final LifecycleState failState=LifecycleState.NOT_RUNNING;
 
     @Override
-    public CompletableFuture<T> stop() throws E {  //TO-DO: Consider allowing for a 2. and 3. invocation, returning the same future as on the 1. invocation!
+    public CompletableFuture<T> stop() throws E {  //TO-DO: Consider allowing for a 2. and 3. invocation, possibly returning the same future as on the 1. invocation!
         LifecycleState initialState=LifecycleState.RUNNING;
         if (!stateControl.compareAndSet(initialState,LifecycleState.STOPPING)) {
             return CompletableFuture.failedFuture(new IllegalStateException(String.format("Failure to initiate stop; state must be %s!",initialState)));
@@ -69,5 +69,10 @@ public class StateSafeStoppable<T,E extends Exception> implements Stoppable<T,E>
                 stateControl.compareAndSet(LifecycleState.STOPPING,newState);
             });
         }
+    }
+
+    public static <T,E extends Exception> StateSafeStoppable<T,E> of(LifecycleStateControl stateControl,
+                                                                     Stoppable<T,E> stoppable) {
+        return StateSafeStoppable.<T,E>builder().stateControl(stateControl).stoppable(stoppable).build();
     }
 }

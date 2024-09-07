@@ -28,7 +28,6 @@ import com.yelstream.topp.furnace.life.manage.state.LifecycleStateControl;
 import lombok.Getter;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 
 /**
  *
@@ -53,12 +52,15 @@ public abstract class AbstractLifecycleManager<S,T,E extends Exception> implemen
      */
     private final Stoppable<T,E> stoppable;
 
+    /**
+     *
+     */
     @Getter
     private S deployment;  //TO-DO: What is good naming? Runnable-reference, a handle, not the runnable itself!?
 
     @Override
     public final LifecycleState getState() {
-        return stateControl.get();
+        return stateControl.getState();
     }
 
     @Override

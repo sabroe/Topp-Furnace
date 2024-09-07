@@ -50,6 +50,10 @@ public class LifecycleStateControl {  //TO-DO: Consider generalization, "StateCo
         this(state,null);
     }
 
+    public LifecycleStateControl() {
+        this(LifecycleState.NOT_RUNNING,null);
+    }
+
     public final boolean compareAndSet(LifecycleState expectedValue, LifecycleState newValue) {  //TO-DO: Consider synchronization!
         boolean b=stateReference.compareAndSet(expectedValue,newValue);
         if (b) {
@@ -60,11 +64,11 @@ public class LifecycleStateControl {  //TO-DO: Consider generalization, "StateCo
         return b;
     }
 
-    public void set(LifecycleState state) {
+    public void setState(LifecycleState state) {
         stateReference.set(state);
     }
 
-    public LifecycleState get() {
+    public LifecycleState getState() {
         return stateReference.get();
     }
 }
