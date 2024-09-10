@@ -72,8 +72,8 @@ public class SubmissionPublishers {
                                                                        int maxBufferCapacity,
                                                                        BiConsumer<? super Subscriber<? super T>, ? super Throwable> handler) {
         return new SubmissionPublisher<>(executor!=null?executor:getDefaultExecutor(),
-                maxBufferCapacity>0?maxBufferCapacity:getDefaultMaxBufferCapacity(),
-                handler);
+            maxBufferCapacity>0?maxBufferCapacity:getDefaultMaxBufferCapacity(),
+            handler);
     }
 
     /**
