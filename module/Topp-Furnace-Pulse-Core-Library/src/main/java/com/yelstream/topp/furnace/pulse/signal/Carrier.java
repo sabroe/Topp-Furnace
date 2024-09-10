@@ -1,6 +1,23 @@
-package com.yelstream.topp.furnace.pulse.signal;
+/*
+ * Project: Topp Furnace
+ * GitHub: https://github.com/sabroe/Topp-Furnace
+ *
+ * Copyright 2024 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import com.yelstream.topp.furnace.pulse.signal.codec.Codec;
+package com.yelstream.topp.furnace.pulse.signal;
 
 import java.time.Instant;
 
@@ -10,20 +27,17 @@ import java.time.Instant;
  *
  * @param <S> Type of signal.
  */
-public interface Carrier<S,T> {
+public interface Carrier<S> {
 
-    Instant produceTimestamp();
+    Instant getCreateTime();
 
-    Instant consumeTimestamp();
+    String getCorrelationId();
 
-    String correlationId();
+//    Codec<S,X,T> codec();  //Or codec name!
 
-    Codec<S,T> codeec();  //Or codec name!
+    Address getSourceAddress();
 
-    Address source();
+    Address getTargetAddress();
 
-    Address target();
-
-    S signal();
-
+    S getSignal();
 }

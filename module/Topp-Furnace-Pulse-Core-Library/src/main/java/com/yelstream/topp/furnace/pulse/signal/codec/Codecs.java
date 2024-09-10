@@ -17,31 +17,16 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.pulse.beacon;
+package com.yelstream.topp.furnace.pulse.signal.codec;
 
-public interface Beacon {
-    interface InterceptorManager {
-        void addInboundInterceptor();  //add,remove
-        void addOutboundInterceptor();  //add,remove
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
+public class Codecs {
+
+
+
+    public static <I> Codec<I,I,I> identity() {
+        return SimpleCodec.of("Identity",Encoder.identity(),Decoder.identity());
     }
-    interface CodecManager {}
-    interface EndpointManager {}
-    interface AddressManager {}
-
-
-
-
-
-
-    InterceptorManager getInterceptorManager();
-    CodecManager getCodecManager();
-    EndpointManager getEndpointManager();
-
-    AddressManager getAddressManager();
-
-    //publisher
-    //publish
-    //request
-    //send
-    //sender
 }
