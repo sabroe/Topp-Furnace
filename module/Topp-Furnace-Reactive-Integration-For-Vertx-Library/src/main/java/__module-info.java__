@@ -31,4 +31,5 @@ module com.yelstream.topp.furnace.reactive.integration.vertx {
     requires vertx.rx.java3.gen;
     exports com.yelstream.topp.furnace.reactive.integration.vertx;
     exports com.yelstream.topp.furnace.reactive.integration.vertx.core;
+    exports com.yelstream.topp.furnace.reactive.integration.vertx.core.streams;
 }
