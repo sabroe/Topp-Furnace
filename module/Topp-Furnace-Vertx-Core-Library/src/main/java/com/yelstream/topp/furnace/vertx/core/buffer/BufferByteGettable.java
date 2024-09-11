@@ -21,23 +21,33 @@ package com.yelstream.topp.furnace.vertx.core.buffer;
 
 import io.vertx.core.buffer.Buffer;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-import java.nio.charset.Charset;
 
 /**
- * Indexed buffer.
+ * Exposes the content of a Vert.x buffer for reading.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-04-30
+ * @since 2024-09-11
  */
-@Getter
 @AllArgsConstructor
-public class BufferIndex {
+public class BufferByteGettable implements ByteGettable {
+    /**
+     * Vert.x buffer.
+     */
     private final Buffer buffer;
-    private final Charset charset;
-    private int index;
 
-    ;
+    @Override
+    public int length() {
+        return buffer.length();
+    }
+
+    @Override
+    public byte get(int index) {
+        return buffer.getByte(index);
+    }
+
+    @Override
+    public void get(int index, byte[] dst, int offset, int length) {
+        buffer.getBytes(index,index+length,dst,offset);
+    }
 }
