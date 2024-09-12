@@ -21,6 +21,9 @@ package com.yelstream.topp.furnace.vertx.core.buffer;
 
 import com.google.common.io.CountingInputStream;
 import com.google.common.io.CountingOutputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.ByteGettableInputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.BytePuttableOutputStream;
+import com.yelstream.topp.standard.util.function.ex.ConsumerWithException;
 import io.vertx.core.buffer.Buffer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,7 +57,7 @@ public class BufferCursor {
     /**
      * Vert.x buffer.
      */
-    private final Buffer buffer;
+    private final Buffer buffer;  //TO-DO: Consider bufferReference=new AtomicReference<Buffer>(buffer)! For expansion, possibly slicing!
 
     /**
      * Character set to use, if doing textual parsing.
@@ -171,7 +174,7 @@ public class BufferCursor {
         }
     }
 
-    public BufferCursor dataInput(Consumer<DataInput> consumer) {
+    public BufferCursor dataInput(ConsumerWithException<DataInput,IOException> consumer) {
         try (InputStream inputStream=new ByteGettableInputStream(Buffers.createByteGettable(buffer),index);
              CountingInputStream countingInputStream=new CountingInputStream(inputStream);
              DataInputStream dataInputStream=new DataInputStream(countingInputStream)) {
@@ -183,7 +186,7 @@ public class BufferCursor {
         return this;
     }
 
-    public BufferCursor dataOutput(Consumer<DataOutput> consumer) {
+    public BufferCursor dataOutput(ConsumerWithException<DataOutput,IOException> consumer) {
         try (OutputStream outputStream=new BytePuttableOutputStream(Buffers.createBytePuttable(buffer),index);
              CountingOutputStream countingOutputStream=new CountingOutputStream(outputStream);
              DataOutputStream dataOutputStream=new DataOutputStream(countingOutputStream)) {

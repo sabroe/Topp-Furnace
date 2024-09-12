@@ -93,7 +93,7 @@ public class SealedProcessor<C,T,R> implements Flow.Processor<T,R>, AutoCloseabl
         }
 
         public SealedProcessor.Builder<C,T,R> close(AutoCloseable closeable) {
-            this.close=Runnables.createRunnable(closeable);
+            this.close=Runnables.of(closeable);
             return this;
         }
     }

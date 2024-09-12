@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.vertx.core.buffer;
+package com.yelstream.topp.furnace.vertx.core.buffer.excile;
 
 /**
  * Exposes the content of a byte buffer for writing.

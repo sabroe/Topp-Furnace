@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.furnace.vertx.core.buffer;
 
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.ByteGettable;
 import io.vertx.core.buffer.Buffer;
 import lombok.AllArgsConstructor;
 
@@ -34,7 +35,7 @@ public class BufferByteGettable implements ByteGettable {
     /**
      * Vert.x buffer.
      */
-    private final Buffer buffer;
+    private final Buffer buffer;  //TO-DO: Consider bufferReference=new AtomicReference<Buffer>(buffer)! For expansion, possibly slicing!
 
     @Override
     public int length() {

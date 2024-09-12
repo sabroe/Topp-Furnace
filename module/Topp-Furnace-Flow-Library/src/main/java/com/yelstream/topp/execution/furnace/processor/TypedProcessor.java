@@ -97,7 +97,7 @@ public class TypedProcessor<C,T,R,S extends Flow.Subscriber<T>,P extends Flow.Pu
         }
 
         public Builder<C,T,R,S,P> close(AutoCloseable closeable) {
-            this.close=Runnables.createRunnable(closeable);
+            this.close=Runnables.of(closeable);
             return this;
         }
     }

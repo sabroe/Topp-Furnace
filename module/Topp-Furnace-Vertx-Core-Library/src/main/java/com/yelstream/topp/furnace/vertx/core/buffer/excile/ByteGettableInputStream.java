@@ -17,7 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.vertx.core.buffer;
+package com.yelstream.topp.furnace.vertx.core.buffer.excile;
+
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.ByteGettable;
 
 import java.io.IOException;
 import java.io.InputStream;
