@@ -17,10 +17,14 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.vertx.core.buffer.excile;
+package com.yelstream.topp.furnace.vertx.core.buffer;
+
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.Puttable;
+import io.vertx.core.buffer.Buffer;
+import lombok.AllArgsConstructor;
 
 /**
- * Exposes the content of a byte buffer for reading.
+ * Exposes the content of a byte buffer for writing.
  * <p>
  *   This is a lower performant interface.
  * </p>
@@ -29,21 +33,25 @@ package com.yelstream.topp.furnace.vertx.core.buffer.excile;
  * @version 1.0
  * @since 2024-09-11
  */
-public interface ByteGettable {
+@AllArgsConstructor
+public class BufferPuttable implements Puttable {
+    /**
+     * Vert.x buffer.
+     */
+    private final Buffer buffer;  //TO-DO: Consider bufferReference=new AtomicReference<Buffer>(buffer)! For expansion, possibly slicing!
 
-    int length();
-
-    default byte[] get() {
-        byte[] dst=new byte[length()];
-        get(0,dst);
-        return dst;
+    @Override
+    public int length() {
+        return buffer.length();
     }
 
-    byte get(int index);
-
-    default void get(int index, byte[] dst) {
-        get(index,dst,0,dst.length);
+    @Override
+    public void put(int index, byte b) {
+        buffer.setByte(index,b);
     }
 
-    void get(int index, byte[] dst, int offset, int length);
+    @Override
+    public void put(int index, byte[] src, int offset, int length) {  //TO-DO: Consider making this auto-expandable!
+        buffer.setBytes(index,src,offset,length);
+    }
 }

@@ -20,28 +20,32 @@
 package com.yelstream.topp.furnace.vertx.core.buffer.excile;
 
 /**
- * Exposes the content of a byte buffer for writing.
+ * Exposes the content of a byte buffer for reading.
  * <p>
  *   This is a lower performant interface.
+ *   However, the signatures of the absolute,
+ *   indexed {@code get} methods are inspired by the method signatures found within {@link java.nio.ByteBuffer}.
  * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-09-11
  */
-public interface BytePuttable {
+public interface Gettable {
 
     int length();
 
-    default void put(byte[] src) {
-        put(0,src);
+    default byte[] get() {
+        byte[] dst=new byte[length()];
+        get(0,dst);
+        return dst;
     }
 
-    void put(int index, byte b);
+    byte get(int index);
 
-    default void put(int index, byte[] src) {
-        put(index,src,0,src.length);
+    default void get(int index, byte[] dst) {
+        get(index,dst,0,dst.length);
     }
 
-    void put(int index, byte[] src, int offset, int length);
+    void get(int index, byte[] dst, int offset, int length);
 }

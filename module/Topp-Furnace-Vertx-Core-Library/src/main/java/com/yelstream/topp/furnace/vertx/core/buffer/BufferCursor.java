@@ -21,8 +21,8 @@ package com.yelstream.topp.furnace.vertx.core.buffer;
 
 import com.google.common.io.CountingInputStream;
 import com.google.common.io.CountingOutputStream;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.ByteGettableInputStream;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.BytePuttableOutputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.GettableInputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.PuttableOutputStream;
 import com.yelstream.topp.standard.util.function.ex.ConsumerWithException;
 import io.vertx.core.buffer.Buffer;
 import lombok.AllArgsConstructor;
@@ -138,7 +138,7 @@ public class BufferCursor {
      * @return The BufferCursor instance, with the index updated to the end of the processed content.
      */
     public BufferCursor scanner(BiConsumer<Lookahead,Scanner> scannerConsumer) {
-        try (InputStream inputStream=new ByteGettableInputStream(Buffers.createByteGettable(buffer),index);
+        try (InputStream inputStream=new GettableInputStream(Buffers.createByteGettable(buffer),index);
              CountingInputStream countingInputStream=new CountingInputStream(inputStream);
              Scanner scanner=new Scanner(countingInputStream,charset)) {
 
@@ -175,7 +175,7 @@ public class BufferCursor {
     }
 
     public BufferCursor dataInput(ConsumerWithException<DataInput,IOException> consumer) {
-        try (InputStream inputStream=new ByteGettableInputStream(Buffers.createByteGettable(buffer),index);
+        try (InputStream inputStream=new GettableInputStream(Buffers.createByteGettable(buffer),index);
              CountingInputStream countingInputStream=new CountingInputStream(inputStream);
              DataInputStream dataInputStream=new DataInputStream(countingInputStream)) {
             consumer.accept(dataInputStream);
@@ -187,7 +187,7 @@ public class BufferCursor {
     }
 
     public BufferCursor dataOutput(ConsumerWithException<DataOutput,IOException> consumer) {
-        try (OutputStream outputStream=new BytePuttableOutputStream(Buffers.createBytePuttable(buffer),index);
+        try (OutputStream outputStream=new PuttableOutputStream(Buffers.createBytePuttable(buffer),index);
              CountingOutputStream countingOutputStream=new CountingOutputStream(outputStream);
              DataOutputStream dataOutputStream=new DataOutputStream(countingOutputStream)) {
             consumer.accept(dataOutputStream);

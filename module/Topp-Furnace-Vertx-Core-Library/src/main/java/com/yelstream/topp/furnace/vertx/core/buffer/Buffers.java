@@ -20,10 +20,10 @@
 package com.yelstream.topp.furnace.vertx.core.buffer;
 
 import com.google.common.primitives.Bytes;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.ByteGettable;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.ByteGettableInputStream;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.BytePuttable;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.BytePuttableOutputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.Gettable;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.GettableInputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.Puttable;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.PuttableOutputStream;
 import lombok.experimental.UtilityClass;
 
 import io.vertx.core.buffer.Buffer;
@@ -109,33 +109,33 @@ public class Buffers {
         }
     }
 
-    public static ByteGettable createByteGettable(Buffer buffer) {
-        return new BufferByteGettable(buffer);
+    public static Gettable createByteGettable(Buffer buffer) {
+        return new BufferGettable(buffer);
     }
 
-    public static BytePuttable createBytePuttable(Buffer buffer) {
-        return new BufferBytePuttable(buffer);
+    public static Puttable createBytePuttable(Buffer buffer) {
+        return new BufferPuttable(buffer);
     }
 
     public static InputStream createInputStream(Buffer buffer) {
-        ByteGettable gettable=createByteGettable(buffer);
-        return new ByteGettableInputStream(gettable);
+        Gettable gettable=createByteGettable(buffer);
+        return new GettableInputStream(gettable);
     }
 
     public static InputStream createInputStream(Buffer buffer,
                                                 int index) {
-        ByteGettable gettable=createByteGettable(buffer);
-        return new ByteGettableInputStream(gettable,index);
+        Gettable gettable=createByteGettable(buffer);
+        return new GettableInputStream(gettable,index);
     }
 
     public static OutputStream createOutputStream(Buffer buffer) {
-        BytePuttable puttable=createBytePuttable(buffer);
-        return new BytePuttableOutputStream(puttable);
+        Puttable puttable=createBytePuttable(buffer);
+        return new PuttableOutputStream(puttable);
     }
 
     public static OutputStream createOutputStream(Buffer buffer,
                                                   int index) {
-        BytePuttable puttable=createBytePuttable(buffer);
-        return new BytePuttableOutputStream(puttable,index);
+        Puttable puttable=createBytePuttable(buffer);
+        return new PuttableOutputStream(puttable,index);
     }
 }

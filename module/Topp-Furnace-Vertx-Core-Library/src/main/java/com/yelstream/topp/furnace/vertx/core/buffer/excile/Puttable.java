@@ -17,41 +17,33 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.vertx.core.buffer;
-
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.BytePuttable;
-import io.vertx.core.buffer.Buffer;
-import lombok.AllArgsConstructor;
+package com.yelstream.topp.furnace.vertx.core.buffer.excile;
 
 /**
  * Exposes the content of a byte buffer for writing.
  * <p>
  *   This is a lower performant interface.
+ *   However, the signatures of the absolute,
+ *   indexed {@code put} methods are inspired by the method signatures found within {@link java.nio.ByteBuffer}.
  * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-09-11
  */
-@AllArgsConstructor
-public class BufferBytePuttable implements BytePuttable {
-    /**
-     * Vert.x buffer.
-     */
-    private final Buffer buffer;  //TO-DO: Consider bufferReference=new AtomicReference<Buffer>(buffer)! For expansion, possibly slicing!
+public interface Puttable {
 
-    @Override
-    public int length() {
-        return buffer.length();
+    int length();
+
+    default void put(byte[] src) {
+        put(0,src);
     }
 
-    @Override
-    public void put(int index, byte b) {
-        buffer.setByte(index,b);
+    void put(int index, byte b);
+
+    default void put(int index, byte[] src) {
+        put(index,src,0,src.length);
     }
 
-    @Override
-    public void put(int index, byte[] src, int offset, int length) {  //TO-DO: Consider making this auto-expandable!
-        buffer.setBytes(index,src,offset,length);
-    }
+    void put(int index, byte[] src, int offset, int length);
 }

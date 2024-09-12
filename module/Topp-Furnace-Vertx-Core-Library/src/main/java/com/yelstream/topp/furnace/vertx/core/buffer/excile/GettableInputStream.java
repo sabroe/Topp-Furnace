@@ -19,61 +19,62 @@
 
 package com.yelstream.topp.furnace.vertx.core.buffer.excile;
 
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.BytePuttable;
-
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 
 /**
- * Stream writing to an exposed byte buffer.
+ * Stream reading from an exposed byte buffer.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-09-11
  */
-public class BytePuttableOutputStream extends OutputStream {
+public class GettableInputStream extends InputStream {
 
-    private final BytePuttable puttable;
+    private final Gettable gettable;
 
-    private int currentPosition;
+    private int currentPosition = 0;
 
     private int markPosition = -1;
 
-    public BytePuttableOutputStream(BytePuttable puttable, int startPosition) {
-        this.puttable=puttable;
-        this.currentPosition=startPosition;
+    public GettableInputStream(Gettable gettable,
+                               int currentPosition) {
+        this.gettable=gettable;
+        this.currentPosition=currentPosition;
     }
 
-    public BytePuttableOutputStream(BytePuttable puttable) {
-        this(puttable,0);
+    public GettableInputStream(Gettable gettable) {
+        this(gettable,0);
     }
 
     @Override
-    public void write(int b) throws IOException {
-        if (currentPosition >= puttable.length()) {
-            puttable.put(currentPosition,(byte)b);  //TO-DO: Consider this; allow auto-expansion?
-        } else {
-            puttable.put(currentPosition,(byte)b);
+    public int read() throws IOException {
+        if (currentPosition >= gettable.length()) {
+            return -1;
         }
+        byte value = gettable.get(currentPosition);
         currentPosition++;
+        return value & 0xFF;
     }
 
     @Override
-    public void write(byte[] b, int off, int len) throws IOException {
-        if (currentPosition+len>puttable.length()) {
-            puttable.put(currentPosition, b, off, len);  //TO-DO: Consider this; allow auto-expansion?
-        } else {
-            puttable.put(currentPosition, b, off, len);
+    public int read(byte[] b, int off, int len) throws IOException {
+        if (currentPosition >= gettable.length()) {
+            return -1;
         }
-        currentPosition+=len;
+        int remaining = gettable.length() - currentPosition;
+        int toRead = Math.min(len, remaining);
+        gettable.get(currentPosition, b, off, toRead);
+        currentPosition += toRead;
+        return toRead;
     }
 
-    //    @Override
+    @Override
     public void mark(int readlimit) {
         markPosition = currentPosition;
     }
 
-    //    @Override
+    @Override
     public void reset() throws IOException {
         if (markPosition < 0) {
             throw new IOException("Mark not set");
@@ -81,12 +82,8 @@ public class BytePuttableOutputStream extends OutputStream {
         currentPosition = markPosition;
     }
 
-    //    @Override
+    @Override
     public boolean markSupported() {
         return true;
-    }
-
-    public int getCurrentPosition() {
-        return currentPosition;
     }
 }

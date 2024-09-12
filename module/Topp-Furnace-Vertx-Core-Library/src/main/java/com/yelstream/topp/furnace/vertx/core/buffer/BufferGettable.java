@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.furnace.vertx.core.buffer;
 
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.ByteGettable;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.Gettable;
 import io.vertx.core.buffer.Buffer;
 import lombok.AllArgsConstructor;
 
@@ -31,7 +31,7 @@ import lombok.AllArgsConstructor;
  * @since 2024-09-11
  */
 @AllArgsConstructor
-public class BufferByteGettable implements ByteGettable {
+public class BufferGettable implements Gettable {
     /**
      * Vert.x buffer.
      */
