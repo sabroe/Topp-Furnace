@@ -27,12 +27,12 @@ public abstract class RegularCursorRead<C extends AbstractCursor<C,R,W>, R exten
     /**
      *
      */
-    private final C cursor;
+    protected final C cursor;
 
     /**
      *
      */
-    private final Gettable gettable;
+    protected final Gettable gettable;
 
     /**
      *

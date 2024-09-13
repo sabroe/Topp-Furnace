@@ -22,12 +22,12 @@ public abstract class RegularCursorWrite<C extends AbstractCursor<C,R,W>, R exte
     /**
      *
      */
-    private final C cursor;
+    protected final C cursor;
 
     /**
      *
      */
-    private final Puttable puttable;
+    protected final Puttable puttable;
 
     /**
      *

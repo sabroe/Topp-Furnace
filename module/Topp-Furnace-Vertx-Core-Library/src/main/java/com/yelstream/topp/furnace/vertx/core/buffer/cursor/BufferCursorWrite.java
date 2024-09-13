@@ -6,7 +6,7 @@ import io.vertx.core.buffer.Buffer;
 
 import java.nio.ByteBuffer;
 
-public class BufferCursorWrite extends RegularCursorWrite<BufferCursor, BufferCursorRead, BufferCursorWrite> {
+public final class BufferCursorWrite extends RegularCursorWrite<BufferCursor,BufferCursorRead,BufferCursorWrite> {
     public BufferCursorWrite(BufferCursor cursor, Puttable puttable) {
         super(cursor, puttable);
     }
@@ -17,7 +17,8 @@ public class BufferCursorWrite extends RegularCursorWrite<BufferCursor, BufferCu
     }
 
     public BufferCursorWrite appendBuffer(Buffer buff) {
-
+        this.cursor.getBuffer().appendBuffer(buff);
+        //TO-DO: Update index!
         return this;
     }
 
