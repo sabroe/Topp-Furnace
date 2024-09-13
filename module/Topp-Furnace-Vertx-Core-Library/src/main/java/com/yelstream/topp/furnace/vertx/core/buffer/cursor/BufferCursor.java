@@ -17,12 +17,18 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.vertx.core.buffer;
+package com.yelstream.topp.furnace.vertx.core.buffer.cursor;
 
 import com.google.common.io.CountingInputStream;
 import com.google.common.io.CountingOutputStream;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.GettableInputStream;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.PuttableOutputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.Buffers;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.AbstractCursor;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.GettableInputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.PuttableOutputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Puttable;
+import com.yelstream.topp.furnace.vertx.core.buffer.io.BufferGettable;
+import com.yelstream.topp.furnace.vertx.core.buffer.io.BufferPuttable;
 import com.yelstream.topp.standard.util.function.ex.ConsumerWithException;
 import io.vertx.core.buffer.Buffer;
 import lombok.AllArgsConstructor;
@@ -42,6 +48,7 @@ import java.util.Scanner;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.LongSupplier;
+import java.util.function.Supplier;
 
 /**
  *
@@ -51,9 +58,9 @@ import java.util.function.LongSupplier;
  * @since 2024-09-10
  */
 @Getter
-@AllArgsConstructor(staticName="of")
-@lombok.Builder(builderClassName="Builder")
-public class BufferCursor {
+//@AllArgsConstructor(staticName="of")
+//@lombok.Builder(builderClassName="Builder")
+public class BufferCursor extends AbstractCursor<BufferCursor,BufferCursorRead,BufferCursorWrite> {
     /**
      * Vert.x buffer.
      */
@@ -62,13 +69,28 @@ public class BufferCursor {
     /**
      * Character set to use, if doing textual parsing.
      */
-    @lombok.Builder.Default
+//    @lombok.Builder.Default
     private final Charset charset=StandardCharsets.UTF_8;
 
     /**
      * Current index into the Vert.x buffer.
      */
     private int index;
+
+    @Override
+    protected BufferCursor getCursor() {
+        return this;
+    }
+
+
+    public BufferCursor(Buffer buffer) {
+        super(cursor->new BufferGettable(cursor.buffer),
+              cursor->new BufferPuttable(cursor.buffer),
+              BufferCursorRead::new,
+              BufferCursorWrite::new,
+              0);
+        this.buffer=buffer;
+    }
 
 //TO-DO: Supplier<Locale>, for Scanner!
 //TO-DO: Supplier<ByteOrder>, for ByteBuffer!

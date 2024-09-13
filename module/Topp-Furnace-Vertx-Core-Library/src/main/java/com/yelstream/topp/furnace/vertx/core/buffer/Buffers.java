@@ -20,10 +20,12 @@
 package com.yelstream.topp.furnace.vertx.core.buffer;
 
 import com.google.common.primitives.Bytes;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.Gettable;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.GettableInputStream;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.Puttable;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.PuttableOutputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.GettableInputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Puttable;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.PuttableOutputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.io.BufferGettable;
+import com.yelstream.topp.furnace.vertx.core.buffer.io.BufferPuttable;
 import lombok.experimental.UtilityClass;
 
 import io.vertx.core.buffer.Buffer;

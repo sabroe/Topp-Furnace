@@ -17,24 +17,21 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.vertx.core.buffer;
+package com.yelstream.topp.furnace.vertx.core.buffer.io;
 
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.Puttable;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
 import io.vertx.core.buffer.Buffer;
 import lombok.AllArgsConstructor;
 
 /**
- * Exposes the content of a byte buffer for writing.
- * <p>
- *   This is a lower performant interface.
- * </p>
+ * Exposes the content of a Vert.x buffer for reading.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-09-11
  */
 @AllArgsConstructor
-public class BufferPuttable implements Puttable {
+public class BufferGettable implements Gettable {
     /**
      * Vert.x buffer.
      */
@@ -46,12 +43,12 @@ public class BufferPuttable implements Puttable {
     }
 
     @Override
-    public void put(int index, byte b) {
-        buffer.setByte(index,b);
+    public byte get(int index) {
+        return buffer.getByte(index);
     }
 
     @Override
-    public void put(int index, byte[] src, int offset, int length) {  //TO-DO: Consider making this auto-expandable!
-        buffer.setBytes(index,src,offset,length);
+    public void get(int index, byte[] dst, int offset, int length) {
+        buffer.getBytes(index,index+length,dst,offset);
     }
 }

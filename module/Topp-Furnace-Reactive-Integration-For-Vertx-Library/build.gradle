@@ -34,9 +34,9 @@ dependencies {
 
     api project(':module:Topp-Furnace-Execution-Library')
     api project(':module:Topp-Furnace-Reactive-Integration-Library')
-    api 'io.vertx:vertx-core:4.5.9'
-    api 'io.vertx:vertx-rx-java3:4.5.9'
-    api 'io.vertx:vertx-rx-java3-gen:4.5.9'
+    api 'io.vertx:vertx-core:4.5.10'
+    api 'io.vertx:vertx-rx-java3:4.5.10'
+    api 'io.vertx:vertx-rx-java3-gen:4.5.10'
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.16'
 }
