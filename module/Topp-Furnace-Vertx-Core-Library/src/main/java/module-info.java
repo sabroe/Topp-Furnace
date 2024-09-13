@@ -35,7 +35,6 @@ module com.yelstream.topp.furnace.vertx.core {
     exports com.yelstream.topp.furnace.vertx.core.buffer;
     exports com.yelstream.topp.furnace.vertx.core.eventbus;
     exports com.yelstream.topp.furnace.vertx.core.function;
-    exports com.yelstream.topp.furnace.vertx.core.buffer.excile;
     exports com.yelstream.topp.furnace.vertx.core.buffer.excile.io;
     exports com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor;
     exports com.yelstream.topp.furnace.vertx.core.buffer.cursor;
