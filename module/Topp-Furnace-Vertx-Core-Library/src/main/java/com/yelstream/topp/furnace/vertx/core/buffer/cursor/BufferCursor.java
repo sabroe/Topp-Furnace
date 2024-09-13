@@ -20,27 +20,20 @@
 package com.yelstream.topp.furnace.vertx.core.buffer.cursor;
 
 import com.google.common.io.CountingInputStream;
-import com.google.common.io.CountingOutputStream;
 import com.yelstream.topp.furnace.vertx.core.buffer.Buffers;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.AbstractCursor;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.GettableInputStream;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.PuttableOutputStream;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Puttable;
 import com.yelstream.topp.furnace.vertx.core.buffer.io.BufferGettable;
 import com.yelstream.topp.furnace.vertx.core.buffer.io.BufferPuttable;
-import com.yelstream.topp.standard.util.function.ex.ConsumerWithException;
 import io.vertx.core.buffer.Buffer;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -54,17 +47,12 @@ import java.util.function.LongSupplier;
  * @since 2024-09-10
  */
 @Getter
-//@AllArgsConstructor(staticName="of")
-//@lombok.Builder(builderClassName="Builder")
+@AllArgsConstructor(staticName="of")
 public class BufferCursor extends AbstractCursor<BufferCursor,BufferCursorRead,BufferCursorWrite> {
     /**
      * Vert.x buffer.
      */
     private final Buffer buffer;  //TO-DO: Consider bufferReference=new AtomicReference<Buffer>(buffer)! For expansion, possibly slicing!
-
-    public BufferCursor(Buffer buffer) {
-        this.buffer=buffer;
-    }
 
     @Override
     public BufferCursorRead read() {
@@ -89,25 +77,19 @@ public class BufferCursor extends AbstractCursor<BufferCursor,BufferCursorRead,B
 //TO-DO: Supplier<Locale>, for Scanner!
 //TO-DO: Supplier<ByteOrder>, for ByteBuffer!
 
-    // --- Data Manipulation Methods ---
 
-    // Write a string to the buffer at the current index
     public void writeString(String data) {
         byte[] bytes = data.getBytes(charset);
         buffer.setBytes(index, bytes);
         index += bytes.length;
     }
 
-    // Read a string from the buffer from the current index
     public String readString(int length) {
         String data = buffer.getString(index, index + length, charset.name());
         index += length;
         return data;
     }
 
-    // --- Look-ahead Token Parsing ---
-
-    // Look ahead to check if the next token matches and consume it if true
     public boolean matchAndConsume(String token) {
         int tokenLength = token.length();
         if (index + tokenLength <= buffer.length()) {
@@ -120,112 +102,12 @@ public class BufferCursor extends AbstractCursor<BufferCursor,BufferCursorRead,B
         return false;
     }
 
-    // --- Utility Methods ---
-
-    // Check if at the end of the buffer
     public boolean isAtEnd() {
         return index >= buffer.length();
     }
 
-
-    /**
-     * Uses a StringBuilder to build a string by applying the provided Consumer function.
-     * The content of the StringBuilder is then written back to the buffer, and the cursor index is updated.
-     *
-     * @param stringBuilderConsumer A Consumer function that receives the StringBuilder for building the string.
-     * @return The BufferCursor instance, with the index updated to the end of the newly written content.
-     */
-    public BufferCursor stringBuilder(Consumer<StringBuilder> stringBuilderConsumer) {
-        StringBuilder sb=new StringBuilder();
-        stringBuilderConsumer.accept(sb);
-        String builtString=sb.toString();
-        byte[] bytes=builtString.getBytes(charset);
-        buffer.setBytes(index,bytes);
-        index+=bytes.length;
-        return this;
-    }
-
-    /**
-     * Uses a Scanner to parse the buffer contents as text starting from the current index,
-     * applying the provided Consumer function to it. The Scanner will use the charset defined
-     * for the BufferCursor.
-     *
-     * @param scannerConsumer A Consumer function that receives the Scanner for processing the buffer's text.
-     * @return The BufferCursor instance, with the index updated to the end of the processed content.
-     */
-    public BufferCursor scanner(BiConsumer<Lookahead,Scanner> scannerConsumer) {
-        try (InputStream inputStream=new GettableInputStream(Buffers.createByteGettable(buffer),index);
-             CountingInputStream countingInputStream=new CountingInputStream(inputStream);
-             Scanner scanner=new Scanner(countingInputStream,charset)) {
-
-            SimpleLookahead lookahead=new SimpleLookahead(countingInputStream::getCount);
-            scannerConsumer.accept(lookahead,scanner);
-            if (!lookahead.isReset()) {
-                index+=countingInputStream.getCount();
-            }
-        } catch (IOException ex) {
-            throw new IllegalStateException((ex));
-        }
-        return this;
-    }
-
-    public interface Lookahead {
-        long getCount();
-        void reset();
-    }
-
-    @RequiredArgsConstructor
-    private static class SimpleLookahead implements Lookahead {
-        private final LongSupplier countSupplier;
-
-        @Getter
-        private boolean reset;
-
-        public long getCount() {
-            return countSupplier.getAsLong();
-        }
-
-        public void reset() {
-            reset=true;
-        }
-    }
-
-/*
-    public BufferCursor dataInput(ConsumerWithException<DataInput,IOException> consumer) {
-        try (InputStream inputStream=new GettableInputStream(Buffers.createByteGettable(buffer),index);
-             CountingInputStream countingInputStream=new CountingInputStream(inputStream);
-             DataInputStream dataInputStream=new DataInputStream(countingInputStream)) {
-            consumer.accept(dataInputStream);
-             index+=countingInputStream.getCount();
-        } catch (IOException ex) {
-            throw new IllegalStateException((ex));
-        }
-        return this;
-    }
-*/
-
-    public BufferCursor dataOutput(ConsumerWithException<DataOutput,IOException> consumer) {
-        try (OutputStream outputStream=new PuttableOutputStream(Buffers.createBytePuttable(buffer),index);
-             CountingOutputStream countingOutputStream=new CountingOutputStream(outputStream);
-             DataOutputStream dataOutputStream=new DataOutputStream(countingOutputStream)) {
-            consumer.accept(dataOutputStream);
-            index+=countingOutputStream.getCount();
-        } catch (IOException ex) {
-            throw new IllegalStateException((ex));
-        }
-        return this;
-    }
-
-    //TODO: InputStream getInputStream()
-    //TODO: OutputStream getOutputStream()
-    //TODO: Reader getReader()
-    //TODO: Writer getWriter()
     //TODO: ByteCursor formatter(Consumer<Formatter> formatterConsumer)  ??
-    //TODO: ByteCursor dataInput(Consumer<DataInput>)
-    //TODO: ByteCursor dataOutput(Consumer<DataOutput>)
 
     //TODO: ByteBuffer!
     //TODO: CharBuffer!
-
-    //TODO: Consumer -> ConsumerWithException<IOException>
 }
