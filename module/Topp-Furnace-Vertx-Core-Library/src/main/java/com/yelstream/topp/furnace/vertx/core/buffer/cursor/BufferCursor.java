@@ -31,7 +31,6 @@ import com.yelstream.topp.furnace.vertx.core.buffer.io.BufferGettable;
 import com.yelstream.topp.furnace.vertx.core.buffer.io.BufferPuttable;
 import com.yelstream.topp.standard.util.function.ex.ConsumerWithException;
 import io.vertx.core.buffer.Buffer;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -42,13 +41,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.LongSupplier;
-import java.util.function.Supplier;
 
 /**
  *
@@ -66,31 +62,29 @@ public class BufferCursor extends AbstractCursor<BufferCursor,BufferCursorRead,B
      */
     private final Buffer buffer;  //TO-DO: Consider bufferReference=new AtomicReference<Buffer>(buffer)! For expansion, possibly slicing!
 
-    /**
-     * Character set to use, if doing textual parsing.
-     */
-//    @lombok.Builder.Default
-    private final Charset charset=StandardCharsets.UTF_8;
-
-    /**
-     * Current index into the Vert.x buffer.
-     */
-    private int index;
+    public BufferCursor(Buffer buffer) {
+        this.buffer=buffer;
+    }
 
     @Override
-    protected BufferCursor getCursor() {
+    public BufferCursorRead read() {
+        Gettable gettable=new BufferGettable(buffer);
+        return new BufferCursorRead(this,gettable);
+    }
+
+    @Override
+    public BufferCursorWrite write() {
+        Puttable puttable=new BufferPuttable(buffer);
+        return new BufferCursorWrite(this,puttable);
+    }
+
+    @Override
+    public BufferCursor end() {
         return this;
     }
 
 
-    public BufferCursor(Buffer buffer) {
-        super(cursor->new BufferGettable(cursor.buffer),
-              cursor->new BufferPuttable(cursor.buffer),
-              BufferCursorRead::new,
-              BufferCursorWrite::new,
-              0);
-        this.buffer=buffer;
-    }
+
 
 //TO-DO: Supplier<Locale>, for Scanner!
 //TO-DO: Supplier<ByteOrder>, for ByteBuffer!
@@ -196,6 +190,7 @@ public class BufferCursor extends AbstractCursor<BufferCursor,BufferCursorRead,B
         }
     }
 
+/*
     public BufferCursor dataInput(ConsumerWithException<DataInput,IOException> consumer) {
         try (InputStream inputStream=new GettableInputStream(Buffers.createByteGettable(buffer),index);
              CountingInputStream countingInputStream=new CountingInputStream(inputStream);
@@ -207,6 +202,7 @@ public class BufferCursor extends AbstractCursor<BufferCursor,BufferCursorRead,B
         }
         return this;
     }
+*/
 
     public BufferCursor dataOutput(ConsumerWithException<DataOutput,IOException> consumer) {
         try (OutputStream outputStream=new PuttableOutputStream(Buffers.createBytePuttable(buffer),index);
