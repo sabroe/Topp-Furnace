@@ -14,20 +14,26 @@ import java.io.PrintStream;
 import java.io.Writer;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
 
 @AllArgsConstructor
-public abstract class RegularCursorWrite<C extends AbstractCursor<C,R,W>, R extends CursorRead<C,R,W>, W extends CursorWrite<C,R,W>> implements CursorWrite<C,R,W> {
-//TO-DO: Consider making this abstract!
+public abstract class AbstractCursorWrite<C extends AbstractCursor<C,R,W>, R extends CursorRead<C,R,W>, W extends CursorWrite<C,R,W>> implements CursorWrite<C,R,W> {
     /**
      *
      */
-    protected final C cursor;
+    private final C cursor;
 
     /**
      *
      */
     protected final Puttable puttable;
+
+    /**
+     *
+     */
+    protected final CursorState state;
 
     /**
      *
@@ -66,22 +72,25 @@ public abstract class RegularCursorWrite<C extends AbstractCursor<C,R,W>, R exte
 
     @Override
     public W stringBuilder(Consumer<StringBuilder> consumer) {
+        int index=state.getIndex();
+        Charset charset=state.getCharset();
         StringBuilder sb=new StringBuilder();
         consumer.accept(sb);
         String builtString=sb.toString();
-        byte[] bytes=builtString.getBytes(cursor.charset);
-        puttable.put(cursor.index,bytes);
-        cursor.index+=bytes.length;
+        byte[] bytes=builtString.getBytes(charset==null?StandardCharsets.UTF_8:charset);
+        puttable.put(index,bytes);
+        state.setIndex(index+bytes.length);
         return getThis();
     }
 
     @Override
     public W dataOutput(ConsumerWithException<DataOutput,IOException> consumer) {
-        try (OutputStream outputStream=new PuttableOutputStream(puttable,cursor.index);
+        int index=state.getIndex();
+        try (OutputStream outputStream=new PuttableOutputStream(puttable,index);
              CountingOutputStream countingOutputStream=new CountingOutputStream(outputStream);
              DataOutputStream dataOutputStream=new DataOutputStream(countingOutputStream)) {
             consumer.accept(dataOutputStream);
-            cursor.index+=countingOutputStream.getCount();
+            state.setIndex(index+(int)countingOutputStream.getCount());
         } catch (IOException ex) {
             throw new IllegalStateException((ex));
         }

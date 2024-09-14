@@ -1,11 +1,24 @@
-package com.yelstream.topp.furnace.vertx.core.buffer.cursor;
+package com.yelstream.topp.furnace.vertx.core.buffer.cursor.read;
 
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.RegularCursorRead;
+import com.yelstream.topp.furnace.vertx.core.buffer.cursor.BufferCursor;
+import com.yelstream.topp.furnace.vertx.core.buffer.cursor.write.BufferCursorWrite;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.AbstractCursorRead;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorState;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
+import io.vertx.core.buffer.Buffer;
 
-public final  class BufferCursorRead extends RegularCursorRead<BufferCursor,BufferCursorRead,BufferCursorWrite> {
-    public BufferCursorRead(BufferCursor cursor, Gettable gettable) {
-        super(cursor, gettable);
+public final class BufferCursorRead extends AbstractCursorRead<BufferCursor,BufferCursorRead,BufferCursorWrite> {
+    /**
+     * Vert.x buffer.
+     */
+    private final Buffer buffer;  //TO-DO: Consider bufferReference=new AtomicReference<Buffer>(buffer)! For expansion, possibly slicing!
+
+    public BufferCursorRead(BufferCursor cursor,
+                            Buffer buffer,
+                            Gettable gettable,
+                            CursorState state) {
+        super(cursor,gettable,state);
+        this.buffer=buffer;
     }
 
     @Override

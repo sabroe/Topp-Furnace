@@ -1,7 +1,7 @@
 package com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor;
 
 import com.google.common.io.CountingInputStream;
-import com.yelstream.topp.furnace.vertx.core.buffer.Buffers;
+import com.yelstream.topp.furnace.vertx.core.buffer.cursor.BufferCursor;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.GettableInputStream;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
 import com.yelstream.topp.standard.util.function.ex.ConsumerWithException;
@@ -16,23 +16,28 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.LongSupplier;
 
 @AllArgsConstructor
-public abstract class RegularCursorRead<C extends AbstractCursor<C,R,W>, R extends CursorRead<C,R,W>, W extends CursorWrite<C,R,W>> implements CursorRead<C,R,W> {
-//TO-DO: Consider making this abstract!
+public abstract class AbstractCursorRead<C extends AbstractCursor<C,R,W>, R extends CursorRead<C,R,W>, W extends CursorWrite<C,R,W>> implements CursorRead<C,R,W> {
     /**
      *
      */
-    protected final C cursor;
+    private final C cursor;
 
     /**
      *
      */
     protected final Gettable gettable;
+
+    /**
+     *
+     */
+    protected final CursorState state;
 
     /**
      *
@@ -65,11 +70,12 @@ public abstract class RegularCursorRead<C extends AbstractCursor<C,R,W>, R exten
 
     @Override
     public R dataInput(ConsumerWithException<DataInput,IOException> consumer) {
-        try (InputStream inputStream=new GettableInputStream(gettable,cursor.index);
+        int index=state.getIndex();
+        try (InputStream inputStream=new GettableInputStream(gettable,index);
              CountingInputStream countingInputStream=new CountingInputStream(inputStream);
              DataInputStream dataInputStream=new DataInputStream(countingInputStream)) {
             consumer.accept(dataInputStream);
-            cursor.index+=countingInputStream.getCount();
+            state.setIndex(index+(int)countingInputStream.getCount());
         } catch (IOException ex) {
             throw new IllegalStateException((ex));
         }
@@ -94,14 +100,16 @@ public abstract class RegularCursorRead<C extends AbstractCursor<C,R,W>, R exten
 
     @Override
     public R scanner(BiConsumer<Lookahead,Scanner> scannerConsumer) {
-        try (InputStream inputStream=new GettableInputStream(gettable,cursor.index);
+        int index=state.getIndex();
+        Charset charset=state.getCharset();
+        try (InputStream inputStream=new GettableInputStream(gettable,index);
              CountingInputStream countingInputStream=new CountingInputStream(inputStream);
-             Scanner scanner=new Scanner(countingInputStream,cursor.charset)) {
+             Scanner scanner=(charset==null?new Scanner(countingInputStream):new Scanner(countingInputStream,charset))) {
 
             SimpleLookahead lookahead=new SimpleLookahead(countingInputStream::getCount);
             scannerConsumer.accept(lookahead,scanner);
             if (!lookahead.isReset()) {
-                cursor.index+=countingInputStream.getCount();
+                state.setIndex(index+(int)countingInputStream.getCount());
             }
         } catch (IOException ex) {
             throw new IllegalStateException((ex));
