@@ -30,6 +30,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.IntConsumer;
 
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-09-10
+ */
 @AllArgsConstructor(access= AccessLevel.PACKAGE)
 public final class BufferCursorSet {
     /**

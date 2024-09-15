@@ -25,6 +25,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.function.Supplier;
 
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-09-10
+ */
 @NoArgsConstructor
 public abstract class AbstractCursor<C extends Cursor<C,R,W>, R extends CursorRead<C,R,W>, W extends CursorWrite<C,R,W>> implements Cursor<C,R,W> {
     /**

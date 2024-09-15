@@ -19,5 +19,9 @@
 
 /**
  *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-09-10
  */
 package com.yelstream.topp.furnace.vertx.core.buffer.io;

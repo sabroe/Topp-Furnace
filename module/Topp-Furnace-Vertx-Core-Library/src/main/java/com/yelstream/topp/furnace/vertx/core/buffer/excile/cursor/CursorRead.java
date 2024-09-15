@@ -31,6 +31,13 @@ import java.util.Scanner;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-09-10
+ */
 public interface CursorRead<C extends Cursor<C,R,W>, R extends CursorRead<C,R,W>, W extends CursorWrite<C,R,W>> {
 
     R inputStream(ConsumerWithException<InputStream,IOException> consumer);

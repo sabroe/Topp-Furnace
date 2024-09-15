@@ -17,8 +17,6 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor;
-
 /**
  *
  *
@@ -26,11 +24,4 @@ package com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor;
  * @version 1.0
  * @since 2024-09-10
  */
-public interface Cursor<C extends Cursor<C,R,W>, R extends CursorRead<C,R,W>, W extends CursorWrite<C,R,W>> {
-
-    R read();
-
-    W write();
-
-    C end();
-}
+package com.yelstream.topp.furnace.vertx.core.buffer.cursor;

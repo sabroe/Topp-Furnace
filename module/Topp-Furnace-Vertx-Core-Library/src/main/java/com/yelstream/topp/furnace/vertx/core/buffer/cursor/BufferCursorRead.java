@@ -24,16 +24,23 @@ import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorState;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
 import io.vertx.core.buffer.Buffer;
 
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-09-10
+ */
 public final class BufferCursorRead extends AbstractCursorRead<BufferCursor,BufferCursorRead,BufferCursorWrite> {
     /**
      * Vert.x buffer.
      */
     private final Buffer buffer;  //TO-DO: Consider bufferReference=new AtomicReference<Buffer>(buffer)! For expansion, possibly slicing!
 
-    public BufferCursorRead(BufferCursor cursor,
-                            Buffer buffer,
-                            Gettable gettable,
-                            CursorState state) {
+    BufferCursorRead(BufferCursor cursor,
+                     Buffer buffer,
+                     Gettable gettable,
+                     CursorState state) {
         super(cursor,gettable,state);
         this.buffer=buffer;
     }

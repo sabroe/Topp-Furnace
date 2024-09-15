@@ -40,6 +40,4 @@ module com.yelstream.topp.furnace.vertx.core {
     exports com.yelstream.topp.furnace.vertx.core.buffer.cursor;
     exports com.yelstream.topp.furnace.vertx.core.buffer.io;
     exports com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer;
-    exports com.yelstream.topp.furnace.vertx.core.buffer.cursor.read;
-    exports com.yelstream.topp.furnace.vertx.core.buffer.cursor.write;
 }

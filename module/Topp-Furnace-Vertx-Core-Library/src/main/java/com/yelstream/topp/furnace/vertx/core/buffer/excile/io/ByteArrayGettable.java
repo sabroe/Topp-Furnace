@@ -19,5 +19,12 @@
 
 package com.yelstream.topp.furnace.vertx.core.buffer.excile.io;
 
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-09-10
+ */
 public class ByteArrayGettable {
 }
