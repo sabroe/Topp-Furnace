@@ -21,6 +21,8 @@ package com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor;
 
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Puttable;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.function.Supplier;
@@ -37,7 +39,8 @@ public abstract class AbstractCursor<C extends Cursor<C,R,W>, R extends CursorRe
     /**
      *
      */
-    protected CursorState state;
+    @Getter(AccessLevel.PROTECTED)
+    private CursorState state;
 
     protected AbstractCursor(CursorState state) {
         this.state=state;

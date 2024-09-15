@@ -20,6 +20,7 @@
 package com.yelstream.topp.furnace.vertx.core.buffer.cursor;
 
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.AbstractCursor;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorState;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Puttable;
 import com.yelstream.topp.furnace.vertx.core.buffer.io.BufferGettable;
@@ -36,7 +37,7 @@ import lombok.Getter;
  */
 @Getter
 //@AllArgsConstructor(staticName="of")
-public class BufferCursor extends AbstractCursor<BufferCursor, BufferCursorRead, BufferCursorWrite> {
+public final class BufferCursor extends AbstractCursor<BufferCursor,BufferCursorRead,BufferCursorWrite> {
     /**
      * Vert.x buffer.
      */
@@ -49,12 +50,14 @@ public class BufferCursor extends AbstractCursor<BufferCursor, BufferCursorRead,
 
     @Override
     public BufferCursorRead read() {
+        CursorState state=getState();
         Gettable gettable=state.getGettableSupplier().get();
         return new BufferCursorRead(this,buffer,gettable,state);
     }
 
     @Override
     public BufferCursorWrite write() {
+        CursorState state=getState();
         Puttable puttable=state.getPuttableSupplier().get();
         return new BufferCursorWrite(this,buffer,puttable,state);
     }
@@ -63,40 +66,4 @@ public class BufferCursor extends AbstractCursor<BufferCursor, BufferCursorRead,
     public BufferCursor end() {
         return this;
     }
-
-/*
-    public void writeString(String data) {
-        byte[] bytes = data.getBytes(charset);
-        buffer.setBytes(index, bytes);
-        index += bytes.length;
-    }
-*/
-
-/*
-    public String readString(int length) {
-        String data = buffer.getString(index, index + length, charset.name());
-        index += length;
-        return data;
-    }
-*/
-
-/*
-    public boolean matchAndConsume(String token) {
-        int tokenLength = token.length();
-        if (index + tokenLength <= buffer.length()) {
-            String nextToken = buffer.getString(index, index + tokenLength, charset.name());
-            if (token.equals(nextToken)) {
-                index += tokenLength;  // Consume the token by moving the index forward
-                return true;
-            }
-        }
-        return false;
-    }
-*/
-
-/*
-    public boolean isAtEnd() {
-        return index >= buffer.length();
-    }
-*/
 }

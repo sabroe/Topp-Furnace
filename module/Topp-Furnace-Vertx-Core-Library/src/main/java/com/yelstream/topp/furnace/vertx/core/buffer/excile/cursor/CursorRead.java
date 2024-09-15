@@ -50,7 +50,10 @@ public interface CursorRead<C extends Cursor<C,R,W>, R extends CursorRead<C,R,W>
 
     R charBuffer(Consumer<CharBuffer> consumer);
 
+    R string(int length, Consumer<String> consumer);
 
+//    R matchAndConsume(String token, BooleanConsumer consumer);
+    R matchAndConsume(String token, Consumer<Boolean> consumer);
 
 
 
@@ -70,4 +73,26 @@ public interface CursorRead<C extends Cursor<C,R,W>, R extends CursorRead<C,R,W>
     R scanner(BiConsumer<Lookahead, Scanner> scannerConsumer);
 
     C end();
+
+/*
+    public String readString(int length) {
+        String data = buffer.getString(index, index + length, charset.name());
+        index += length;
+        return data;
+    }
+*/
+
+/*
+    public boolean matchAndConsume(String token) {
+        int tokenLength = token.length();
+        if (index + tokenLength <= buffer.length()) {
+            String nextToken = buffer.getString(index, index + tokenLength, charset.name());
+            if (token.equals(nextToken)) {
+                index += tokenLength;  // Consume the token by moving the index forward
+                return true;
+            }
+        }
+        return false;
+    }
+*/
 }

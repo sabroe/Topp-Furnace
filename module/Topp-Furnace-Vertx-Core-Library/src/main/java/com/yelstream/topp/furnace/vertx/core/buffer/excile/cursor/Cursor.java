@@ -33,4 +33,20 @@ public interface Cursor<C extends Cursor<C,R,W>, R extends CursorRead<C,R,W>, W 
     W write();
 
     C end();
+
+    /*
+       TODO: Consider adding buffer-control!
+           -- getLength()
+           -- getIndex()
+           -- setIndex()
+           -- Slice-functionality!
+     */
+
+/*
+    public boolean isAtEndOfBuffer() {
+        int index=state.getIndex();
+        state.
+        return index>=buffer.length();
+    }
+*/
 }

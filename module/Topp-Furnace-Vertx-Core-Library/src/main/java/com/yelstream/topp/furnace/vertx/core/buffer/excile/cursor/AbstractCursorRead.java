@@ -20,7 +20,6 @@
 package com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor;
 
 import com.google.common.io.CountingInputStream;
-import com.yelstream.topp.furnace.vertx.core.buffer.cursor.BufferCursor;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.GettableInputStream;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
 import com.yelstream.topp.standard.util.function.ex.ConsumerWithException;
