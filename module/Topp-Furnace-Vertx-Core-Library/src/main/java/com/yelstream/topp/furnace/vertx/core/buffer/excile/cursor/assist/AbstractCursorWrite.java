@@ -17,13 +17,18 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor;
+package com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.assist;
 
 import com.google.common.io.CountingOutputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorRead;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorWrite;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.PuttableOutputStream;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Puttable;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Slide;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Space;
 import com.yelstream.topp.standard.util.function.ex.ConsumerWithException;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.io.DataOutput;
 import java.io.DataOutputStream;
@@ -52,14 +57,14 @@ public abstract class AbstractCursorWrite<C extends AbstractCursor<C,R,W>, R ext
     private final C cursor;
 
     /**
-     *
+     * Buffer access.
      */
-    protected final Puttable puttable;
+    protected final Space space;
 
     /**
-     *
+     * Settings for indexing into buffer.
      */
-    protected final CursorState state;
+    protected final Slide slide;
 
     /**
      *
@@ -98,25 +103,25 @@ public abstract class AbstractCursorWrite<C extends AbstractCursor<C,R,W>, R ext
 
     @Override
     public W stringBuilder(Consumer<StringBuilder> consumer) {
-        int index=state.getIndex();
-        Charset charset=state.getCharset();
+        int index=slide.getIndex();
+        Charset charset=slide.getCharset();
         StringBuilder sb=new StringBuilder();
         consumer.accept(sb);
         String builtString=sb.toString();
         byte[] bytes=builtString.getBytes(charset==null?StandardCharsets.UTF_8:charset);
-        puttable.put(index,bytes);
-        state.setIndex(index+bytes.length);
+        space.getPuttable().put(index,bytes);
+        slide.setIndex(index+bytes.length);
         return getThis();
     }
 
     @Override
     public W dataOutput(ConsumerWithException<DataOutput,IOException> consumer) {
-        int index=state.getIndex();
-        try (OutputStream outputStream=new PuttableOutputStream(puttable,index);
+        int index=slide.getIndex();
+        try (OutputStream outputStream=new PuttableOutputStream(space.getPuttable(),index);
              CountingOutputStream countingOutputStream=new CountingOutputStream(outputStream);
              DataOutputStream dataOutputStream=new DataOutputStream(countingOutputStream)) {
             consumer.accept(dataOutputStream);
-            state.setIndex(index+(int)countingOutputStream.getCount());
+            slide.setIndex(index+(int)countingOutputStream.getCount());
         } catch (IOException ex) {
             throw new IllegalStateException((ex));
         }

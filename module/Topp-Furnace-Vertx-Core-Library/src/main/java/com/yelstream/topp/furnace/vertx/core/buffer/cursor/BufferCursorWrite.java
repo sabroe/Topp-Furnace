@@ -19,9 +19,9 @@
 
 package com.yelstream.topp.furnace.vertx.core.buffer.cursor;
 
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.AbstractCursorWrite;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorState;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Puttable;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.assist.AbstractCursorWrite;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Slide;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Space;
 import io.vertx.core.buffer.Buffer;
 
 /**
@@ -39,9 +39,9 @@ public final class BufferCursorWrite extends AbstractCursorWrite<BufferCursor,Bu
 
     BufferCursorWrite(BufferCursor cursor,
                       Buffer buffer,
-                      Puttable puttable,
-                      CursorState state) {
-        super(cursor,puttable,state);
+                      Space space,
+                      Slide slide) {
+        super(cursor,space,slide);
         this.buffer=buffer;
     }
 
@@ -51,10 +51,10 @@ public final class BufferCursorWrite extends AbstractCursorWrite<BufferCursor,Bu
     }
 
     public BufferCursorAppend append() {
-        return new BufferCursorAppend(this,buffer,state);
+        return new BufferCursorAppend(this,buffer,space,slide);
     }
 
     public BufferCursorSet set() {
-        return new BufferCursorSet(this,buffer,state);
+        return new BufferCursorSet(this,buffer,space,slide);
     }
 }

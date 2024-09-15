@@ -19,10 +19,8 @@
 
 package com.yelstream.topp.furnace.vertx.core.buffer.cursor;
 
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.AbstractCursor;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorState;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Puttable;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.assist.AbstractCursor;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.DefaultSpace;
 import com.yelstream.topp.furnace.vertx.core.buffer.io.BufferGettable;
 import com.yelstream.topp.furnace.vertx.core.buffer.io.BufferPuttable;
 import io.vertx.core.buffer.Buffer;
@@ -44,22 +42,18 @@ public final class BufferCursor extends AbstractCursor<BufferCursor,BufferCursor
     private final Buffer buffer;  //TO-DO: Consider bufferReference=new AtomicReference<Buffer>(buffer)! For expansion, possibly slicing!
 
     public BufferCursor(Buffer buffer) {
-        super(()->new BufferGettable(buffer),()->new BufferPuttable(buffer));
+        super(new DefaultSpace(buffer::length,()->new BufferGettable(buffer),()->new BufferPuttable(buffer)));
         this.buffer=buffer;
     }
 
     @Override
     public BufferCursorRead read() {
-        CursorState state=getState();
-        Gettable gettable=state.getGettableSupplier().get();
-        return new BufferCursorRead(this,buffer,gettable,state);
+        return new BufferCursorRead(this,buffer,space,slide);
     }
 
     @Override
     public BufferCursorWrite write() {
-        CursorState state=getState();
-        Puttable puttable=state.getPuttableSupplier().get();
-        return new BufferCursorWrite(this,buffer,puttable,state);
+        return new BufferCursorWrite(this,buffer,space,slide);
     }
 
     @Override

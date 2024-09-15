@@ -17,15 +17,14 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor;
+package com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.assist;
 
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Puttable;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.util.function.Supplier;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.Cursor;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorRead;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorWrite;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Slide;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Space;
+import lombok.AllArgsConstructor;
 
 /**
  *
@@ -34,20 +33,20 @@ import java.util.function.Supplier;
  * @version 1.0
  * @since 2024-09-10
  */
-@NoArgsConstructor
+@AllArgsConstructor
 public abstract class AbstractCursor<C extends Cursor<C,R,W>, R extends CursorRead<C,R,W>, W extends CursorWrite<C,R,W>> implements Cursor<C,R,W> {
     /**
-     *
+     * Buffer access.
      */
-    @Getter(AccessLevel.PROTECTED)
-    private CursorState state;
+    protected final Space space;
 
-    protected AbstractCursor(CursorState state) {
-        this.state=state;
-    }
+    /**
+     * Settings for indexing into buffer.
+     */
+    protected final Slide slide;
 
-    protected AbstractCursor(Supplier<Gettable> gettableSupplier,
-                             Supplier<Puttable> puttableSupplier) {
-        this.state=CursorState.builder().gettableSupplier(gettableSupplier).puttableSupplier(puttableSupplier).build();
+    protected AbstractCursor(Space space) {
+        this.space=space;
+        this.slide=Slide.builder().build();
     }
 }

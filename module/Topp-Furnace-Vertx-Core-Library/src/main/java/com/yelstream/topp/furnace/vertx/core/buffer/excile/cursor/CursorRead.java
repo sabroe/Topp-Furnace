@@ -50,10 +50,10 @@ public interface CursorRead<C extends Cursor<C,R,W>, R extends CursorRead<C,R,W>
 
     R charBuffer(Consumer<CharBuffer> consumer);
 
-    R string(int length, Consumer<String> consumer);
+//    R string(int length, Consumer<String> consumer);
 
 //    R matchAndConsume(String token, BooleanConsumer consumer);
-    R matchAndConsume(String token, Consumer<Boolean> consumer);
+//    R matchAndConsume(String token, Consumer<Boolean> consumer);
 
 
 

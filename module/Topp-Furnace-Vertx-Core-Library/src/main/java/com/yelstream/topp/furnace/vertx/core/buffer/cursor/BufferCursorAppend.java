@@ -19,10 +19,12 @@
 
 package com.yelstream.topp.furnace.vertx.core.buffer.cursor;
 
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorState;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Slide;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Space;
 import io.vertx.core.buffer.Buffer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.function.UnaryOperator;
 
@@ -46,9 +48,14 @@ public final class BufferCursorAppend {
     private final Buffer buffer;
 
     /**
-     *
+     * Buffer access.
      */
-    private final CursorState state;
+    private final Space space;
+
+    /**
+     * Settings for indexing into buffer.
+     */
+    private final Slide slide;
 
     public BufferCursorWrite end() {
         return cursorWrite;

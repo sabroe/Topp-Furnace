@@ -20,30 +20,11 @@
 package com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer;
 
 /**
- * Exposes the content of a byte buffer for writing.
- * <p>
- *   This is a lower performant interface.
- *   However, the signatures of the absolute,
- *   indexed {@code put} methods are inspired by the method signatures found within {@link java.nio.ByteBuffer}.
- * </p>
+ *
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-09-11
+ * @since 2024-09-10
  */
-public interface Puttable {
-
-    int length();  //TO-DO: Consider removing this!
-
-    default void put(byte[] src) {
-        put(0,src);
-    }
-
-    void put(int index, byte b);
-
-    default void put(int index, byte[] src) {
-        put(index,src,0,src.length);
-    }
-
-    void put(int index, byte[] src, int offset, int length);
+public class ByteArrayPuttable {
 }

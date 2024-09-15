@@ -19,7 +19,8 @@
 
 package com.yelstream.topp.furnace.vertx.core.buffer.cursor;
 
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorState;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Slide;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Space;
 import io.vertx.core.buffer.Buffer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -49,10 +50,16 @@ public final class BufferCursorSet {
      */
     private final Buffer buffer;
 
+
     /**
-     *
+     * Buffer access.
      */
-    private final CursorState state;
+    private final Space space;
+
+    /**
+     * Settings for indexing into buffer.
+     */
+    private final Slide slide;
 
     public BufferCursorWrite end() {
         return cursorWrite;
@@ -64,11 +71,11 @@ public final class BufferCursorSet {
 
     private BufferCursorSet op(Operation operation) {
         Buffer buffer=this.buffer;
-        int index=state.getIndex();
+        int index=slide.getIndex();
         AtomicInteger count=new AtomicInteger();
         IntConsumer countConsumer=c->count.set(c);
         buffer=operation.apply(buffer,index,countConsumer);  //TO-DO: Consider if the buffer reference changed or not!
-        state.setIndex(index+count.get());
+        slide.setIndex(index+count.get());
         return this;
     }
 

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.vertx.core.buffer.excile.io;
+package com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer;
 
 /**
  *
@@ -26,5 +26,5 @@ package com.yelstream.topp.furnace.vertx.core.buffer.excile.io;
  * @version 1.0
  * @since 2024-09-10
  */
-public class ByteArrayPuttable {
+public class ByteArrayGettable {
 }

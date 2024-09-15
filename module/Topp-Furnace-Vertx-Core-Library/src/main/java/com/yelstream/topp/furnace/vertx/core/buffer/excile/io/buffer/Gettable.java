@@ -33,7 +33,7 @@ package com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer;
  */
 public interface Gettable {
 
-    int length();
+    int length();  //TO-DO: Consider removing this!
 
     default byte[] get() {
         byte[] dst=new byte[length()];

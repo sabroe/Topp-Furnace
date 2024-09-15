@@ -17,12 +17,16 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor;
+package com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.assist;
 
 import com.google.common.io.CountingInputStream;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorRead;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.cursor.CursorWrite;
 import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.GettableInputStream;
-import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Gettable;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Slide;
+import com.yelstream.topp.furnace.vertx.core.buffer.excile.io.buffer.Space;
 import com.yelstream.topp.standard.util.function.ex.ConsumerWithException;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -55,14 +59,14 @@ public abstract class AbstractCursorRead<C extends AbstractCursor<C,R,W>, R exte
     private final C cursor;
 
     /**
-     *
+     * Buffer access.
      */
-    protected final Gettable gettable;
+    protected Space space;
 
     /**
-     *
+     * Settings for indexing into buffer.
      */
-    protected final CursorState state;
+    protected Slide slide;
 
     /**
      *
@@ -95,12 +99,12 @@ public abstract class AbstractCursorRead<C extends AbstractCursor<C,R,W>, R exte
 
     @Override
     public R dataInput(ConsumerWithException<DataInput,IOException> consumer) {
-        int index=state.getIndex();
-        try (InputStream inputStream=new GettableInputStream(gettable,index);
+        int index=slide.getIndex();
+        try (InputStream inputStream=new GettableInputStream(space.getGettable(),index);
              CountingInputStream countingInputStream=new CountingInputStream(inputStream);
              DataInputStream dataInputStream=new DataInputStream(countingInputStream)) {
             consumer.accept(dataInputStream);
-            state.setIndex(index+(int)countingInputStream.getCount());
+            slide.setIndex(index+(int)countingInputStream.getCount());
         } catch (IOException ex) {
             throw new IllegalStateException((ex));
         }
@@ -125,16 +129,16 @@ public abstract class AbstractCursorRead<C extends AbstractCursor<C,R,W>, R exte
 
     @Override
     public R scanner(BiConsumer<Lookahead,Scanner> scannerConsumer) {
-        int index=state.getIndex();
-        Charset charset=state.getCharset();
-        try (InputStream inputStream=new GettableInputStream(gettable,index);
+        int index=slide.getIndex();
+        Charset charset=slide.getCharset();
+        try (InputStream inputStream=new GettableInputStream(space.getGettable(),index);
              CountingInputStream countingInputStream=new CountingInputStream(inputStream);
              Scanner scanner=(charset==null?new Scanner(countingInputStream):new Scanner(countingInputStream,charset))) {
 
             SimpleLookahead lookahead=new SimpleLookahead(countingInputStream::getCount);
             scannerConsumer.accept(lookahead,scanner);
             if (!lookahead.isReset()) {
-                state.setIndex(index+(int)countingInputStream.getCount());
+                slide.setIndex(index+(int)countingInputStream.getCount());
             }
         } catch (IOException ex) {
             throw new IllegalStateException((ex));
