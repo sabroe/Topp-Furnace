@@ -69,36 +69,36 @@ public abstract class AbstractCursorWrite<C extends AbstractCursor<C,R,W>, R ext
     /**
      *
      */
-    protected abstract W getThis();
+    protected abstract W self();
 
     @Override
     public W outputStream(ConsumerWithException<OutputStream,IOException> consumer) {
         //TO-DO: Fix!
-        return getThis();
+        return self();
     }
 
     @Override
     public W writer(ConsumerWithException<Writer,IOException> consumer) {
         //TO-DO: Fix!
-        return getThis();
+        return self();
     }
 
     @Override
     public W printStream(Consumer<PrintStream> consumer) {
         //TO-DO: Fix!
-        return getThis();
+        return self();
     }
 
     @Override
     public W byteBuffer(Consumer<ByteBuffer> consumer) {
         //TO-DO: Fix!
-        return getThis();
+        return self();
     }
 
     @Override
     public W charBuffer(Consumer<CharBuffer> consumer) {
         //TO-DO: Fix!
-        return getThis();
+        return self();
     }
 
     @Override
@@ -111,7 +111,7 @@ public abstract class AbstractCursorWrite<C extends AbstractCursor<C,R,W>, R ext
         byte[] bytes=builtString.getBytes(charset==null?StandardCharsets.UTF_8:charset);
         space.getPuttable().put(index,bytes);
         slide.setIndex(index+bytes.length);
-        return getThis();
+        return self();
     }
 
     @Override
@@ -125,7 +125,7 @@ public abstract class AbstractCursorWrite<C extends AbstractCursor<C,R,W>, R ext
         } catch (IOException ex) {
             throw new IllegalStateException((ex));
         }
-        return getThis();
+        return self();
     }
 
     @Override

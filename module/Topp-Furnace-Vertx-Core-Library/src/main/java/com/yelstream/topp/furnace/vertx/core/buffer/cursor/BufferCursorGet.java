@@ -30,7 +30,7 @@ public final class BufferCursorGet {
      *
      */
     private final Buffer buffer;
-    
+
     /**
      * Buffer access.
      */

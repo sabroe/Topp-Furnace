@@ -46,7 +46,7 @@ public final class BufferCursorWrite extends AbstractCursorWrite<BufferCursor,Bu
     }
 
     @Override
-    protected BufferCursorWrite getThis() {
+    protected BufferCursorWrite self() {
         return this;
     }
 

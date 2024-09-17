@@ -50,7 +50,7 @@ public final class BufferCursorRead extends AbstractCursorRead<BufferCursor,Buff
     }
 
     @Override
-    protected BufferCursorRead getThis() {
+    protected BufferCursorRead self() {
         return this;
     }
 }

@@ -71,30 +71,30 @@ public abstract class AbstractCursorRead<C extends AbstractCursor<C,R,W>, R exte
     /**
      *
      */
-    protected abstract R getThis();
+    protected abstract R self();
 
     @Override
     public R inputStream(ConsumerWithException<InputStream,IOException> consumer) {
         //TO-DO: Fix!
-        return getThis();
+        return self();
     }
 
     @Override
     public R reader(ConsumerWithException<Reader,IOException> consumer) {
         //TO-DO: Fix!
-        return getThis();
+        return self();
     }
 
     @Override
     public R byteBuffer(Consumer<ByteBuffer> consumer) {
         //TO-DO: Fix!
-        return getThis();
+        return self();
     }
 
     @Override
     public R charBuffer(Consumer<CharBuffer> consumer) {
         //TO-DO: Fix!
-        return getThis();
+        return self();
     }
 
     @Override
@@ -108,7 +108,7 @@ public abstract class AbstractCursorRead<C extends AbstractCursor<C,R,W>, R exte
         } catch (IOException ex) {
             throw new IllegalStateException((ex));
         }
-        return getThis();
+        return self();
     }
 
     @RequiredArgsConstructor
@@ -143,7 +143,7 @@ public abstract class AbstractCursorRead<C extends AbstractCursor<C,R,W>, R exte
         } catch (IOException ex) {
             throw new IllegalStateException((ex));
         }
-        return getThis();
+        return self();
     }
 
     @Override
